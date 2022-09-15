@@ -1,7 +1,11 @@
 export default function Home() {
   return (
     <div>
-      <h1>Welcome to React Playground</h1>
+      <ol>
+        <a href='/react-playground/220915-checkbox'>
+          <li>체크박스 놀이터</li>
+        </a>
+      </ol>
     </div>
   );
 }
