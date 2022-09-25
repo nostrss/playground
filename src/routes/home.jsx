@@ -1,10 +1,11 @@
+import { Link } from 'react-router-dom';
 export default function Home() {
   return (
     <div>
       <ol>
-        <a href='/react-playground/220915-checkbox'>
+        <Link to={{ pathname: '/220915/checkbox' }}>
           <li>체크박스 놀이터</li>
-        </a>
+        </Link>
       </ol>
     </div>
   );

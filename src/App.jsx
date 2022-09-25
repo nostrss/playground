@@ -9,7 +9,7 @@ function App() {
       <Routes>
         <Route>
           <Route path='/' element={<Home />} />
-          <Route path='/220915-checkbox' element={<CheckBox />} />
+          <Route path='/220915/checkbox' element={<CheckBox />} />
         </Route>
       </Routes>
     </BrowserRouter>
