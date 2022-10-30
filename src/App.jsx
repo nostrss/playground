@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from '../src/routes/home';
 import CheckBox from './routes/checkbox';
+import CssPlayGround from './routes/css';
 import FieldSet from './routes/fieldset';
 
 function App() {
@@ -9,9 +10,10 @@ function App() {
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route>
-          <Route path='/' element={<Home />} />
+          <Route path='/css' element={<CssPlayGround />} />
           <Route path='/fieldset' element={<FieldSet />} />
           <Route path='/checkbox' element={<CheckBox />} />
+          <Route path='/' element={<Home />} />
         </Route>
       </Routes>
     </BrowserRouter>
