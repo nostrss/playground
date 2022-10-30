@@ -1,6 +1,6 @@
 export default function CheckBox() {
   const onChangeCheck = (event) => {
-    alert(event.target.value);
+    console.log(event.target.value);
   };
 
   return (
@@ -9,6 +9,7 @@ export default function CheckBox() {
         <legend>Welcome to CheckBox Playground</legend>
         <div>
           <input
+            id='first'
             type='checkbox'
             name='first'
             onChange={onChangeCheck}
@@ -17,7 +18,13 @@ export default function CheckBox() {
           <label htmlFor='first'>first</label>
         </div>
         <div>
-          <input type='checkbox' name='second' />
+          <input
+            id='second'
+            type='checkbox'
+            name='second'
+            onChange={onChangeCheck}
+            value={'second'}
+          />
           <label htmlFor='second'>second</label>
         </div>
       </fieldset>
