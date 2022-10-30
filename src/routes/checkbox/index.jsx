@@ -1,3 +1,5 @@
+import { CheckBoxCustom } from './checkbox.styles';
+
 export default function CheckBox() {
   const onChangeCheck = (event) => {
     console.log(event.target.value);
@@ -27,6 +29,29 @@ export default function CheckBox() {
           />
           <label htmlFor='second'>second</label>
         </div>
+      </fieldset>
+      <fieldset>
+        <legend>CheckBox Customize use styled-components</legend>
+        <CheckBoxCustom>
+          <input
+            id='custom_first'
+            type='checkbox'
+            name='custom_first'
+            onChange={onChangeCheck}
+            value={'custom first'}
+          />
+          <label htmlFor='custom_first'>first custom</label>
+        </CheckBoxCustom>
+        <CheckBoxCustom>
+          <input
+            id='custom_second'
+            type='checkbox'
+            name='custom_second'
+            onChange={onChangeCheck}
+            value={'custom second'}
+          />
+          <label htmlFor='custom_second'>second custom</label>
+        </CheckBoxCustom>
       </fieldset>
     </div>
   );
