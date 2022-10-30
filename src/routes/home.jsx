@@ -3,8 +3,11 @@ export default function Home() {
   return (
     <div>
       <ol>
-        <Link to={{ pathname: '/220915/checkbox' }}>
-          <li>체크박스 놀이터</li>
+        <Link to={{ pathname: '/fieldset' }}>
+          <li>field set 놀이터</li>
+        </Link>
+        <Link to={{ pathname: '/checkbox' }}>
+          <li>check box 놀이터</li>
         </Link>
       </ol>
     </div>

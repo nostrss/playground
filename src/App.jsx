@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from '../src/routes/home';
-import CheckBox from './routes/CheckBox';
+import CheckBox from './routes/checkbox';
+import FieldSet from './routes/fieldset';
 
 function App() {
   console.log(process.env.PUBLIC_URL);
@@ -9,7 +10,8 @@ function App() {
       <Routes>
         <Route>
           <Route path='/' element={<Home />} />
-          <Route path='/220915/checkbox' element={<CheckBox />} />
+          <Route path='/fieldset' element={<FieldSet />} />
+          <Route path='/checkbox' element={<CheckBox />} />
         </Route>
       </Routes>
     </BrowserRouter>
