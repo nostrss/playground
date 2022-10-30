@@ -12,6 +12,9 @@ export default function Home() {
           <Link to={{ pathname: '/checkbox' }}>
             <li>check box 놀이터</li>
           </Link>
+          <Link to={{ pathname: '/css' }}>
+            <li>css 놀이터</li>
+          </Link>
         </ol>
       </div>
     </>
