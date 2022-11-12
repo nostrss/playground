@@ -6,6 +6,9 @@ export default function Home() {
       <GlobalStyle />
       <div>
         <ol>
+          <Link to={{ pathname: '/class' }}>
+            <li>class 놀이터</li>
+          </Link>
           <Link to={{ pathname: '/fieldset' }}>
             <li>field set 놀이터</li>
           </Link>
