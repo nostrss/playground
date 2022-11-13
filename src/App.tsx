@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from '../src/routes/home';
+import Home from './routes/home';
 import CheckBox from './routes/checkbox';
 import ClassPlayground from './routes/class';
 import CssPlayGround from './routes/css';

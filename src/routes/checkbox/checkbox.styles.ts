@@ -4,7 +4,7 @@ import styled from 'styled-components';
  * https://codepen.io/nikkz/pen/BzVBJo
  */
 
-export const CheckBoxCustom = styled.div`
+const CheckBoxCustom = styled.div`
   display: block;
   margin-bottom: 15px;
 
@@ -50,3 +50,5 @@ export const CheckBoxCustom = styled.div`
     transform: rotate(45deg);
   }
 `;
+
+export default CheckBoxCustom;
