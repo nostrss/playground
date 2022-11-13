@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import GlobalStyle from '../GlobalStyle';
+
 export default function Home() {
   return (
     <>
