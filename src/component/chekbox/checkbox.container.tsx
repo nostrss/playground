@@ -1,6 +1,7 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import CheckBoxCustom from './checkbox.styles';
 
-export default function CheckBox() {
+export default function CheckBoxContainer() {
   const onChangeCheck = (event: { target: { value: any } }) => {
     console.log(event.target.value);
   };
@@ -37,28 +38,24 @@ export default function CheckBox() {
       <fieldset>
         <legend>CheckBox Customize use styled-components</legend>
         <CheckBoxCustom>
-          <label htmlFor='custom_first'>
-            first custom
-            <input
-              id='custom_first'
-              type='checkbox'
-              name='custom_first'
-              onChange={onChangeCheck}
-              value='custom first'
-            />
-          </label>
+          <input
+            id='custom_first'
+            type='checkbox'
+            name='custom_first'
+            onChange={onChangeCheck}
+            value='custom first'
+          />
+          <label htmlFor='custom_first'>first custom </label>
         </CheckBoxCustom>
         <CheckBoxCustom>
-          <label htmlFor='custom_second'>
-            second custom
-            <input
-              id='custom_second'
-              type='checkbox'
-              name='custom_second'
-              onChange={onChangeCheck}
-              value='custom second'
-            />
-          </label>
+          <input
+            id='custom_second'
+            type='checkbox'
+            name='custom_second'
+            onChange={onChangeCheck}
+            value='custom second'
+          />
+          <label htmlFor='custom_second'>second custom</label>
         </CheckBoxCustom>
       </fieldset>
     </div>
