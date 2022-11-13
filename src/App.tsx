@@ -1,16 +1,23 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './routes/home';
-import CheckBox from './routes/checkbox';
-import ClassPlayground from './routes/class';
-import CssPlayGround from './routes/css';
-import FieldSet from './routes/fieldset';
+import DataStructurePage from 'pages/data-structure';
+import LinkedListPage from 'pages/data-structure/linked-list';
+import Home from './pages/home';
+import CheckBox from './pages/checkbox';
+import ClassPlayground from './pages/class';
+import CssPlayGround from './pages/css';
+import FieldSet from './pages/fieldset';
 
 function App() {
-  console.log(process.env.PUBLIC_URL);
+  // console.log(process.env.PUBLIC_URL);
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route>
+          <Route
+            path='/data-structure/linked-list'
+            element={<LinkedListPage />}
+          />
+          <Route path='/data-structure' element={<DataStructurePage />} />
           <Route path='/class' element={<ClassPlayground />} />
           <Route path='/css' element={<CssPlayGround />} />
           <Route path='/fieldset' element={<FieldSet />} />

@@ -19,6 +19,9 @@ export default function Home() {
           <Link to={{ pathname: '/css' }}>
             <li>css 놀이터</li>
           </Link>
+          <Link to={{ pathname: '/data-structure' }}>
+            <li>Data Structure 놀이터</li>
+          </Link>
         </ol>
       </div>
     </>
