@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import DataStructurePage from 'pages/data-structure';
 import LinkedListPage from 'pages/data-structure/linked-list';
+import ImagePage from 'pages/img';
 import Home from './pages/home';
 import CheckBox from './pages/checkbox';
 import ClassPlayground from './pages/class';
@@ -18,6 +19,7 @@ function App() {
             element={<LinkedListPage />}
           />
           <Route path='/data-structure' element={<DataStructurePage />} />
+          <Route path='/image' element={<ImagePage />} />
           <Route path='/class' element={<ClassPlayground />} />
           <Route path='/css' element={<CssPlayGround />} />
           <Route path='/fieldset' element={<FieldSet />} />

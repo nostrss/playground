@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import LinkedList from './linked-list';
 import LinkedListUI from './linked-list.presenter';
+import Node from './node';
 
 export default function LinkedListContainer() {
   const [isValue, setIsValue] = useState(0);
@@ -15,7 +16,7 @@ export default function LinkedListContainer() {
     setIsValue(0);
   };
 
-  const renderLinkedList = (NODE: any, length: number) => {
+  const renderLinkedList = (NODE: Node, length: number) => {
     if (length === 0) return false;
     const nextNode = NODE.next;
 
@@ -26,6 +27,8 @@ export default function LinkedListContainer() {
       </div>
     );
   };
+
+  console.log(linkedList);
 
   return (
     <LinkedListUI
