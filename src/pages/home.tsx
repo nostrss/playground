@@ -22,6 +22,12 @@ export default function Home() {
           <Link to={{ pathname: '/data-structure' }}>
             <li>Data Structure 놀이터</li>
           </Link>
+          <Link to={{ pathname: '/image' }}>
+            <li>image 놀이터</li>
+          </Link>
+          <Link to={{ pathname: '/kakao_share' }}>
+            <li>카카오 공유하기</li>
+          </Link>
         </ol>
       </div>
     </>
