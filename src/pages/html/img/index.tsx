@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-export default function ImageContainer() {
+export default function ImagePage() {
   const [dogImg, setDogImg] = useState('');
 
   const getImage = () => {
@@ -16,7 +16,7 @@ export default function ImageContainer() {
   }, []);
 
   const handleImgError = (e: any) => {
-    e.target.src = 'images/no-pictures.png';
+    e.target.src = `${process.env.PUBLIC_URL}/images/no-pictures.png`;
   };
 
   return (
