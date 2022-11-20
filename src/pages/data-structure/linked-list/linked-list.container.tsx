@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import LinkedList from './linked-list';
 import LinkedListUI from './linked-list.presenter';
+import LinkedList from './linked-list';
 import Node from './node';
 
 export default function LinkedListContainer() {
@@ -27,8 +27,6 @@ export default function LinkedListContainer() {
       </div>
     );
   };
-
-  console.log(linkedList);
 
   return (
     <LinkedListUI

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import CheckBoxCustom from './checkbox.styles';
 
-export default function CheckBoxContainer() {
+export default function CheckBoxPage() {
   const onChangeCheck = (event: { target: { value: any } }) => {
     console.log(event.target.value);
   };

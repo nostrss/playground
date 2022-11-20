@@ -4,7 +4,7 @@ declare const window: typeof globalThis & {
   Kakao: any;
 };
 
-export default function KakaoShare() {
+export default function KakaoSharePage() {
   const url = window.location.href;
 
   useEffect(() => {

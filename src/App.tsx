@@ -1,13 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import DataStructurePage from 'pages/data-structure';
-import LinkedListPage from 'pages/data-structure/linked-list';
-import ImagePage from 'pages/img';
-import KakaoSharePage from 'pages/kakao_share';
+import ImagePage from 'pages/html/img';
+import KakaoSharePage from 'pages/react/kakao_share';
+import LinkedListContainer from 'pages/data-structure/linked-list/linked-list.container';
 import Home from './pages/home';
-import CheckBox from './pages/checkbox';
-import ClassPlayground from './pages/class';
-import CssPlayGround from './pages/css';
-import FieldSet from './pages/fieldset';
+import ClassPlayground from './pages/javascript/class';
+import FieldSet from './pages/html/fieldset';
+import CheckBoxPage from './pages/css/checkbox';
 
 function App() {
   // console.log(process.env.PUBLIC_URL);
@@ -15,17 +13,24 @@ function App() {
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route>
-          <Route path='/kakao_share' element={<KakaoSharePage />} />
+          {/* Data Structures */}
           <Route
             path='/data-structure/linked-list'
-            element={<LinkedListPage />}
+            element={<LinkedListContainer />}
           />
-          <Route path='/data-structure' element={<DataStructurePage />} />
-          <Route path='/image' element={<ImagePage />} />
-          <Route path='/class' element={<ClassPlayground />} />
-          <Route path='/css' element={<CssPlayGround />} />
-          <Route path='/fieldset' element={<FieldSet />} />
-          <Route path='/checkbox' element={<CheckBox />} />
+
+          {/* React  */}
+          <Route path='/react/kakao_share' element={<KakaoSharePage />} />
+
+          {/* javascipt  */}
+          <Route path='/javascript/class' element={<ClassPlayground />} />
+
+          {/* CSS  */}
+          <Route path='/css/checkbox' element={<CheckBoxPage />} />
+
+          {/* Html */}
+          <Route path='/html/image' element={<ImagePage />} />
+          <Route path='/html/fieldset' element={<FieldSet />} />
           <Route path='/' element={<Home />} />
         </Route>
       </Routes>

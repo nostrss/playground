@@ -6,29 +6,41 @@ export default function Home() {
     <>
       <GlobalStyle />
       <div>
-        <ol>
-          <Link to={{ pathname: '/class' }}>
-            <li>class 놀이터</li>
-          </Link>
-          <Link to={{ pathname: '/fieldset' }}>
-            <li>field set 놀이터</li>
-          </Link>
-          <Link to={{ pathname: '/checkbox' }}>
-            <li>check box 놀이터</li>
-          </Link>
-          <Link to={{ pathname: '/css' }}>
-            <li>css 놀이터</li>
-          </Link>
-          <Link to={{ pathname: '/data-structure' }}>
-            <li>Data Structure 놀이터</li>
-          </Link>
-          <Link to={{ pathname: '/image' }}>
-            <li>image 놀이터</li>
-          </Link>
-          <Link to={{ pathname: '/kakao_share' }}>
-            <li>카카오 공유하기</li>
-          </Link>
-        </ol>
+        <ul>
+          <li>HTML</li>
+          <ol>
+            <Link to={{ pathname: '/html/fieldset' }}>
+              <li>field set </li>
+            </Link>
+            <Link to={{ pathname: '/html/image' }}>
+              <li>image </li>
+            </Link>
+          </ol>
+          <li>CSS</li>
+          <ol>
+            <Link to={{ pathname: '/css/checkbox' }}>
+              <li>check box </li>
+            </Link>
+          </ol>
+          <li>Javascript</li>
+          <ol>
+            <Link to={{ pathname: '/javascript/class' }}>
+              <li>class </li>
+            </Link>
+          </ol>
+          <li>React</li>
+          <ol>
+            <Link to={{ pathname: '/react/kakao_share' }}>
+              <li>카카오 공유하기</li>
+            </Link>
+          </ol>
+          <li>Data Structures</li>
+          <ol>
+            <Link to={{ pathname: '/data-structure/linked-list' }}>
+              <li>linked-list</li>
+            </Link>
+          </ol>
+        </ul>
       </div>
     </>
   );
