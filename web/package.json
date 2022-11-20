@@ -1,8 +1,8 @@
 {
-  "name": "react-playgroud",
+  "name": "playgroud",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://nostrss.github.io/react-playground",
+  "homepage": "http://nostrss.github.io/playground",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
