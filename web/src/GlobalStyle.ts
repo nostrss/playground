@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 
-const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
     box-sizing: border-box;
   }
@@ -18,6 +18,37 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@media(prefers-color-scheme:light) {
+  body{
+    background-color: #fff;
+    color : black
+  }
+}
+
+@media(prefers-color-scheme:dark) {
+  body{
+    background-color: black;
+    color : #fff
+  }
+
+  a {
+    color: #fff;
+  }
+
+  a:link {
+  /* href 속성이 명시된 상태 */
+  color: #61dafb
+}
+
+a:visited {
+  /* 링크를 클릭해본 상태 */
+  color: #016480
+}
+
+}
+
+
 `;
 
 export default GlobalStyle;
