@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ImagePage from 'pages/html/img';
 import KakaoSharePage from 'pages/react/kakao_share';
 import LinkedListContainer from 'pages/data-structure/linked-list/linked-list.container';
+import IntlPage from 'pages/javascript/intl';
 import Home from './pages/home';
 import ClassPlayground from './pages/javascript/class';
 import FieldSet from './pages/html/fieldset';
@@ -23,6 +24,7 @@ function App() {
           <Route path='/react/kakao_share' element={<KakaoSharePage />} />
 
           {/* javascipt  */}
+          <Route path='/javascript/intl' element={<IntlPage />} />
           <Route path='/javascript/class' element={<ClassPlayground />} />
 
           {/* CSS  */}

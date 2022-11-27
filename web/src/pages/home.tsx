@@ -27,6 +27,9 @@ export default function Home() {
             <Link to={{ pathname: '/javascript/class' }}>
               <li>class </li>
             </Link>
+            <Link to={{ pathname: '/javascript/intl' }}>
+              <li>Intl </li>
+            </Link>
           </ol>
           <li>React</li>
           <ol>
