@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -6,18 +7,17 @@ export default function IntlPage() {
 
   const date = new Date();
   const options: any = [
-    { weekday: ['', 'narrow', 'short', 'long'] },
-    { era: ['', 'narrow', 'short', 'long'] },
-    { year: ['', '2-digit', 'numeric'] },
-    { month: ['', '2-digit', 'numeric', 'narrow', 'short', 'long'] },
-    { day: ['', '2-digit', 'numeric'] },
-    { dayPeriod: ['', 'narrow', 'short', 'long'] },
-    { hour: ['', '2-digit', 'numeric'] },
-    { minute: ['', '2-digit', 'numeric'] },
-    { second: ['', '2-digit', 'numeric'] },
+    { weekday: ['narrow', 'short', 'long'] },
+    { era: ['narrow', 'short', 'long'] },
+    { year: ['2-digit', 'numeric'] },
+    { month: ['2-digit', 'numeric', 'narrow', 'short', 'long'] },
+    { day: ['2-digit', 'numeric'] },
+    { dayPeriod: ['narrow', 'short', 'long'] },
+    { hour: ['2-digit', 'numeric'] },
+    { minute: ['2-digit', 'numeric'] },
+    { second: ['2-digit', 'numeric'] },
     {
       timeZoneName: [
-        '',
         'short',
         'long',
         'shortOffset',
@@ -47,7 +47,11 @@ export default function IntlPage() {
                 id={Object.keys(option)[0]}
                 onChange={onChanegeSelect}
                 value={selectOption[Object.keys(option)[0]]}
+                defaultValue='select'
               >
+                <option value='select' disabled>
+                  select
+                </option>
                 {option[Object.keys(option)[0]].map((item: any) => (
                   <option value={item} key={uuidv4()}>
                     {item}
