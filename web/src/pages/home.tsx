@@ -30,11 +30,17 @@ export default function Home() {
             <Link to={{ pathname: '/javascript/intl' }}>
               <li>Intl </li>
             </Link>
+            <Link to={{ pathname: '/javascript/api' }}>
+              <li>api </li>
+            </Link>
           </ol>
           <li>React</li>
           <ol>
             <Link to={{ pathname: '/react/kakao_share' }}>
               <li>카카오 공유하기</li>
+            </Link>
+            <Link to={{ pathname: '/react/drag_drop' }}>
+              <li>Drag & Drop</li>
             </Link>
           </ol>
           <li>Data Structures</li>

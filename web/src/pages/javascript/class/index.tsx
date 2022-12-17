@@ -39,8 +39,6 @@ export default function ClassPlayground() {
     setUserAge(event.target.value);
   };
 
-  console.log(userList);
-
   return (
     <>
       <form action='' onSubmit={onSubmitAddUser}>
