@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://github.com/nostrss</id>
     <title>Nostrss's Dev Blog</title>
-    <updated>2023-09-23T06:42:54.403Z</updated>
+    <updated>2024-05-25T15:24:41.019Z</updated>
     <generator>generate-rss</generator>
     <author>
         <name>Nostrss</name>
@@ -14,9 +14,3016 @@
     <subtitle>Nostrss Blog Post List</subtitle>
     <category term="Technologies"/>
     <entry>
+        <title type="html"><![CDATA[프론트엔드가 로딩을 최적화 하는 방법]]></title>
+        <id>203-front-loading-optimization</id>
+        <link href="https://nostrss.me/blog/203-front-loading-optimization"/>
+        <updated>2024-03-16T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[압축, 캐싱 등을 이용해 최적화를 하는 방법에 대해서 알아보자]]></summary>
+        <content type="html"><![CDATA[<p>어떤 웹페이지의 로딩 속도를 빠르게 하는 방법엔 어떤 것들이 있을까?</p>
+<p>프론트 입장에서 고려해 볼 수 있는 방법들에 대해서 정리해봤다.</p>
+<h2>압축</h2>
+<h3>Gzip</h3>
+<ul>
+<li>서버에서 html, javascript, css 등을 압축해서 리소스를 받는 방법</li>
+<li>단, 압축효과가 적은 이미지 컨텐츠나, 크기가 작은 컨덴츠는 encoding/decoding 부하가 더 걸리수 있으므로 주의가 필요하다.</li>
+</ul>
+<h3>이미지, 동영상 압축</h3>
+<ul>
+<li>리소스의 용량을 줄여 로딩시간을 단축</li>
+<li>WebP 또는 프로그레시브 JPEG과 같이 더 작은 파일의 크기로 더 높은 품질을 제공하는 형식 사용</li>
+</ul>
+<h2>캐싱</h2>
+<h3>CDN</h3>
+<ul>
+<li>정적파일을 여러 위치에 분산하여 둠으로서, 물리적으로 사용자에게 가까운 거리에서 빠른 속도로 컨텐츠를 전송할 수 있다.</li>
+</ul>
+<h3>브라우저 캐싱</h3>
+<ul>
+<li>자주 액세스하는 리소스를 사용자 브라우저 로컬에 만료날짜를 지정하여 저장</li>
+<li>만료날짜 이전에 재접속하는 경우, 브라우저 캐쉬에 남아있는 리소스를 사용</li>
+</ul>
+<h3>Preload</h3>
+<ul>
+<li>tab, Carousel 메뉴 등의 경우 리소스를 미리 pre-load하여 브라우저 캐쉬에 저장</li>
+</ul>
+<h2>최적화</h2>
+<h3>이미지 최적화</h3>
+<ul>
+<li>화면 size에 적절한 크기의 이미지 사용
+<ul>
+<li>srcset과 size 속성을 함께 사용</li>
+</ul>
+</li>
+<li>CSS Image Sprites
+<ul>
+<li>여러개의 이미지를 하나의 이미지로 합쳐서 관리하는 방법</li>
+<li>서버에 대한 이미지 요청 회수를 줄일 수 있다.</li>
+</ul>
+</li>
+<li>이미지 품질(quality) 조정하기</li>
+</ul>
+<h3>Minify</h3>
+<ul>
+<li>Javascript와 CSS의 불필요한 공백과 줄바꿈(white space)을 제거</li>
+<li>변수와 함수명 압축</li>
+</ul>
+<h3>HTTP 요청 최소화</h3>
+<ul>
+<li>여러 CSS파일을 병합</li>
+<li>Overfetching과 Underfetching 되지 않도록 backend와 협의</li>
+</ul>
+<h3>ATF(Above-The-Fold)와 lazyloading</h3>
+<ul>
+<li>스크롤 없이 볼수 있는 영역을 먼저 렌더링 되도록 우선순위 설정</li>
+</ul>
+<h3>과도한 애니메이션 자제</h3>
+<ul>
+<li>CSS 애니메이션이 Javascript 애니메이션 보다 빠른 경우가 많다</li>
+<li>reflow가 발생하는 애니메이션이 repaint 보다 부하가 많이 발생</li>
+</ul>
+<h3>Font 최적화</h3>
+<ul>
+<li>font 렌더링 최적화
+<ul>
+<li>font의 렌더링 과정
+<ul>
+<li>브라우저가 HTML을 요청, 응답받은 HTML로 DOM 생성</li>
+<li>브라우저가 CSS를 요청, 응답받은 CSS로 CSSOM 생성</li>
+<li>브라우저는 CSS 응답 이후 Font요청</li>
+<li>브라우저는 Font의 응답을 기다리지 않고 렌더링 시작
+<ul>
+<li>이때 Font가 준비되지 않을 경우 대체 font로 렌더링하거나 렌더링하지 않음</li>
+<li>FOIT(Flash Of Invisible Text), FOUT(Flash Of Unstyled Text)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>html파일의 link태그에 Preload 속성을 부여하여 리소스 대기열 우선순위를 높인다.
+<ul>
+<li>css 파일 요청과 동시에 font 요청이 이루어진다.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Font 용량 최적화
+<ul>
+<li>WOFF2 폰트 우선 사용
+<ul>
+<li>기존 WOFF보다 용량이 적으나 호환성이 낮음</li>
+</ul>
+</li>
+<li>사용하지 않은 폰트 삭제</li>
+<li>서브셋 폰트 사용</li>
+</ul>
+</li>
+</ul>
+<h2>그외</h2>
+<ul>
+<li>불필요한 라이브러리 삭제, 외부 스크립트 최소화</li>
+<li>정적페이지의 경우 빌드 시 SSG 또는 ISR 활용</li>
+</ul>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="loading"/>
+        <category label="optimization"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Semantic Version(유의적 표현)이란?]]></title>
+        <id>202-semantic-version-package</id>
+        <link href="https://nostrss.me/blog/202-semantic-version-package"/>
+        <updated>2024-03-10T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[버저닝 관리와 package.json]]></summary>
+        <content type="html"><![CDATA[<h2>Semver란?</h2>
+<p>Semantic Version의 줄임말이다. 소프트웨어의 버전 형식에 의미를 부여하여, 체계적인 버저닝 관리가 되도록 하기 위한 제안이다.</p>
+<p>package.json이나 App을 보다 보면, <code>1.0.1</code>, <code>2.8.2와</code> 같은 형식의 버전을 종종 볼 수가 있다.</p>
+<p>이렇게 버전을 표기할 때 보는 사람으로 하여금 버전의 변화만을 보고도 대략적으로 어떤 업데이트인지 알 수 있도록 규칙을 정리한 것이라고 할 수 있다.</p>
+<blockquote>
+<p>즉, 버전이 변화할 때마다 올바른 의미를 버전에 부여하도록 하는 체계라고 볼 수 있다.</p>
+</blockquote>
+<h2>Semver의 구조</h2>
+<p>Semver에서 버저닝 표기 형식은 아래와 같이 3개의 구조를 가지고 있다.</p>
+<blockquote>
+<p>[Major].[Minor].[Patch]</p>
+</blockquote>
+<p>그리고 각 특징을 정리하면 아래와 같다.</p>
+<h3>Major</h3>
+<ul>
+<li>0일 경우 초기 개발 중인 상태를 말한다.</li>
+<li>1부터 공개 버전으로 정의합니다.</li>
+<li>기존과 호환되지 않는 변화가 있을 때는 반드시 major 버전을 올려야 한다.</li>
+<li>major 버전이 증가하면 <code>minor</code>, <code>patch</code>는 <code>0으로 초기화한다.</code></li>
+</ul>
+<h3>Minor</h3>
+<ul>
+<li>이전 버전과 호환되는 <code>기능</code>을 추가했을 때 올린다.</li>
+<li>공개 API의 일부를 앞으로 <code>제거(deprecate)</code>로 표시한 경우에도 올린다</li>
+<li>major 버전이 올라가는 경우 patch는 반드시 <code>0으로 초기화한다.</code></li>
+</ul>
+<h3>Patch</h3>
+<ul>
+<li>이전 버전과 호환되는 버그를 수정한 경우에만 올린다.</li>
+</ul>
+<h2>Semver 구조의 확장</h2>
+<blockquote>
+<p>[Major].[Minor].[Patch]-[Pre-release]+[Build Metadata]</p>
+</blockquote>
+<p>위의 3개의 구조에 <code>Pre-release</code>,<code>Build Metadata</code>를 함께 표기 할 수 도 있다.</p>
+<h3>Pre-release 버전</h3>
+<ul>
+<li>patch 바로 뒤에 ‘-’를 붙이고 마침표(.)로 구분된 식별자를 더하여 표기 할 수 있다.</li>
+<li>식별자는 반드시 아스키문자, 숫자, 붙임표로만 구성한다.</li>
+</ul>
+<h3>Build Metadata</h3>
+<ul>
+<li>patch 또는 pre-release 버전 뒤에 더하기(+) 기호를 붙여 표현할 수 있다.</li>
+<li>식별자는 반드시 아스키문자, 숫자, 붙임표로만 구성한다.</li>
+</ul>
+<p>여기까지 정리된 표기법을 예시로 정리하면 아래와 같다.</p>
+<blockquote>
+<p>1.0.0-alpha+001
+1.0.0+20130313144700
+1.0.0-beta+exp.sha.5114f85</p>
+</blockquote>
+<h2>버전의 우선순위</h2>
+<p>Semver에서 우선 순위는 버전의 순서를 정렬할 때 서로를 어떻게 비교할 지를 나타낸다.</p>
+<ul>
+<li>major > minor > patch 순으로 비교한다.</li>
+<li>만약 major, minor, patch가 동일하고 pre-release 버전이 있는 경우와 없는 경우가 있다면  pre-release 버전이 있는 버전이 우선순위가 더 낮다.</li>
+<li>pre-relase간의 비교
+<ul>
+<li>마침표(.)로 구분된 식별자를 차례로 비교한다.</li>
+<li>숫자로만 구성된 경우
+<ul>
+<li>수의 크기로 비교한다.</li>
+</ul>
+</li>
+<li>알파벳이나 붙임표가 포함된 경우
+<ul>
+<li>아스키 문자열 정렬을 한다.</li>
+</ul>
+</li>
+<li>숫자로만 구성된 경우는 알파벳이나 붙임표가 포함된 경우보다 무조건 우선순위가 낮다.</li>
+</ul>
+</li>
+<li>build metadata는 우선순위에 영향을 주지 않는다.</li>
+</ul>
+<p>위의 규칙대로 우선순위를 정리한 예시는 아래와 같다.</p>
+<blockquote>
+<p>1.0.0
+1.0.0-rc.1
+1.0.0-beta.11
+1.0.0-beta.2
+1.0.0-beta
+1.0.0-alpha.beta
+1.0.0-alpha.1
+1.0.0-alpha</p>
+</blockquote>
+<h2>package.json에서 Semver</h2>
+<p>그동안 package.json 파일을 보다 보면 버전 앞에 아래와 같이 <code>^</code>, <code>~</code> 표기가 되어 있던 것을 볼 수 있었다.
+이 기호들의 의미는 무엇일까?</p>
+<pre><code class="language-json">	"react-icons": "^4.10.1",
+    "react-markdown": "^8.0.7",
+    "react-syntax-highlighter": "^15.5.0",
+</code></pre>
+<h3>캐럿(^)</h3>
+<ul>
+<li>x.y.z 중 x 이하 하위 호환성이 보장되는 범위내에서 버전 업데이트</li>
+<li>같은 major 버전만 npm update 허용</li>
+<li>단 공개버전이 아닌 경우(0.x)에는 patch만 증가</li>
+</ul>
+<h3>틸드(~)</h3>
+<ul>
+<li>x.y.z 중  x.y 이하 버전만 하위 호환성 보장</li>
+<li>major, minor 버전은 고정되고 patch 버전이 달라진 경우 업데이트 허용</li>
+</ul>
+<p>위의 규칙은 프로젝트의 패키지들을 관리하거나 업데이트할 때 중요하기 때문에 잘 알아둬야 할 것 같다.</p>
+<p>모든 규칙을 다 외워둘 수는 없으니, 이러한 내용이 있다는 것을 알아두고 필요할 때 마다 챙겨 보면 좋을 듯 하다.</p>
+<h2>Reference</h2>
+<p><a href="https://semver.org/lang/ko/">https://semver.org/lang/ko/</a><br>
+<a href="https://semver.npmjs.com/">https://semver.npmjs.com/</a></p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="semantic-version"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[웹서버와 WAS]]></title>
+        <id>201-webserver-was</id>
+        <link href="https://nostrss.me/blog/201-webserver-was"/>
+        <updated>2024-02-17T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[웹서버와 WAS에 대해서 알아보고 비교해보자]]></summary>
+        <content type="html"><![CDATA[<h2>웹서버(Web Server)와 WAS(Web Application Server)</h2>
+<h3>웹서버</h3>
+<ul>
+<li>클라이언트의 요청에 대해 정적인 컨텐츠를 제공하는 서버</li>
+<li>정적인 컨텐츠: 이미지, HTML, CSS, JS 등</li>
+</ul>
+<h3>WAS(Web Application Server)</h3>
+<ul>
+<li>클라이언트의 요청에 대해 비즈니스 로직을 수행하고 동적인 컨텐츠를 제공하는 서버</li>
+<li>동적인 컨텐츠: 데이터베이스 조회, 계산 등</li>
+</ul>
+<h3>웹서버와 WAS의 차이점</h3>
+<p>| 특징     | 웹 서버                     | WAS                                            |
+| -------- | --------------------------- | ---------------------------------------------- |
+| 기능     | 정적 콘텐츠 제공            | 동적 콘텐츠 처리 및 비즈니스 로직 실행         |
+| 프로토콜 | HTTP, HTTPS                 | HTTP, HTTPS, TCP/IP 등                         |
+| 확장성   | 일반적으로 단일 기능에 특화 | 다양한 비즈니스 요구 사항을 처리하는 기능 제공 |</p>
+<h2>웹서버와 WAS의 관계</h2>
+<ul>
+<li>일반적으로 웹서버와 WAS는 분리되어 있다. 클라이언트 - 웹서버 - WAS - 데이터베이스의 구조로 되어 있다.</li>
+<li>이렇게 웹서버와 WAS를 분리하는 이유는 각각의 역할에 맞게 서버를 구성하여 성능을 향상시키기 위함이다.</li>
+</ul>
+<h2>웹서버와 WAS 분리의 장점</h2>
+<h3>보안</h3>
+<p>두 개의 서버가 물리적으로 분리되어 있기 때문에 보안이 강화된다. 또한 두개의 서버사이에 방화벽을 설치하여 보안을 더 강화할 수 있다.</p>
+<h3>WAS 서버의 부하 분산</h3>
+<p>웹서버와 WAS가 분리되어 있기 때문에 WAS 서버의 부하를 분산시킬 수 있다.</p>
+<p>WAS 서버의 경우 동적인 컨텐츠를 처리하기 때문에 부하가 많이 걸릴 수 있다. 만약 웹서버와 WAS가 분리되어 있지 않아서, 정적 컨텐츠를 함께 처리하게 되면 WAS 서버의 부하가 더욱 심해질 수 있다.</p>
+<h3>무중단 서비스</h3>
+<p>웹서버와 WAS가 분리되어 있기 때문에 웹서버의 장애가 발생하더라도 WAS 서버는 정상적으로 동작할 수 있다.</p>
+<p>또한 배포 시에도 웹서버와 WAS 서버를 분리하여 무중단 배포를 할 수 있다.</p>
+<h3>리버스 프록시 캐싱</h3>
+<p>웹서버와 WAS가 분리되어 있기 때문에 리버스 프록시 서버를 사용하여 캐싱을 할 수 있다.</p>
+<p>웹서버에서 클라이언트의 요청을 받아 WAS로 전달하기 전에 캐싱을 하여 WAS 서버의 부하를 줄일 수 있다.</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="web-server"/>
+        <category label="web-application-server"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[Next] Image 컴포넌트를 이용한 반응형 이미지 만들기]]></title>
+        <id>200-next-responsive-image</id>
+        <link href="https://nostrss.me/blog/200-next-responsive-image"/>
+        <updated>2024-01-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[layout props를 사용하지 않고 Image 컴포넌트를 이용하여 반응형 이미지를 만들어보자]]></summary>
+        <content type="html"><![CDATA[<p>Next.js에서는 Image 컴포넌트를 제공한다.</p>
+<p>Image 컴포넌트는 일반적으로 쓰는 img 태그와 다르게 몇가지 장점이 있지만 사용하기에 어려움도 있다.</p>
+<p>예전에는 layout props를 사용해 반응형 이미지 구현이 가능했었다.</p>
+<p>그런데 얼마전에 변경된 내용을 모르고 layout props를 사용해 반응형 이미지를 구현하려고 하니 브라우저 콘솔에 경고가 떴다.</p>
+<p>경고의 링크를 확인해 보니 layout props가 13버전에서 deprecated 되었다고 한다.</p>
+<p><a href="https://nextjs.org/docs/messages/next-image-upgrade-to-13">📌 next/image changed in version 13📌</a></p>
+<p>그래서 변경된 방법으로 이미지를 반응형으로 보여주는 방법을 알아보았다.</p>
+<h2>정적 이미지를 import 해서 사용하는 경우</h2>
+<p>public 폴더에 이미지를 넣고 import 해서 사용하는 경우가 되겠다.</p>
+<p>이 경우에는 아래와 같이 이미지를 import 해서 사용하면 되는데 이때, Image 컴포넌트에 width와 height를 지정해주지 않아도 된다.</p>
+<p><a href="https://nextjs.org/docs/app/api-reference/components/image#responsive-images">📌 next/image response images 📌</a></p>
+<pre><code class="language-tsx">import Image from 'next/image';
+import onerror from '../../../public/onerror.png'; // 정적 이미지를 import 해서 사용하는 경우
+
+export default function Test() {
+  return (
+    &#x3C;Image
+      src={onerror}
+      alt='Picture of the author'
+      sizes='100vw'
+      style={{
+        width: '100%',
+        height: 'auto',
+      }}
+    />
+  );
+}
+</code></pre>
+<h2>이미지가 동적이거나 외부에서 가져오는 경우</h2>
+<p>이런 경우가 대부분일 것 같다. 이 경우에는 위와는 조금 사용방법이 달라진다.</p>
+<p><a href="https://nextjs.org/docs/app/api-reference/components/image#responsive-image-with-aspect-ratio">📌 Responsive image with aspect ratio 📌</a></p>
+<pre><code class="language-tsx">import Image from 'next/image';
+
+export default function Test() {
+  return (
+    &#x3C;Image
+      src='https://picsum.photos/id/28/4928/3264'
+      alt='Picture of the author'
+      sizes='100vw'
+      style={{
+        width: '100%',
+        height: 'auto',
+      }}
+      width={500}
+      height={300}
+    />
+  );
+}
+</code></pre>
+<p>위와 같이 작성하게 되면 외부에서 가져온 이미지를 반응형으로 보여줄 수 있다.</p>
+<p>다만 width와 height를 지정해주어야 한다.</p>
+<h3>만약 width와 height를 모른다면?</h3>
+<p>위와 같이 500, 300 으로 width와 height를 지정해주었는데 만약 이미지의 크기가 거꾸로 300, 500 이라면 어떻게 될까?</p>
+<p>그래도 정상적으로 이미지를 보여지게 된다.</p>
+<p>하지만 조금더 자세히 살펴보면</p>
+<p>최초에 이미지 영역을 500, 300 으로 잡고 이미지를 로딩하고 나서 이미지의 크기에 맞게 이미지 영역을 조정하는 것을 볼 수 있다.</p>
+<p>그래서 이미지의 용량이 크거나, Next 이미지의 placeholder에 blur를 지정해두었다면, 최초에는 설정한 width와 height에 맞게 placeholder가 보여지다가 이미지가 로딩되면서 이미지 영역이 조정되는 것을 볼 수 있다.</p>
+<h2>이미지의 크기를 모르는 경우 fill을 사용해보자</h2>
+<p>Next 공식문서에서는 이미지의 크기를 모르는 경우 fill을 사용하라고 한다.</p>
+<p><a href="https://nextjs.org/docs/app/api-reference/components/image#responsive-image-with-fill">📌 next/image fill 📌</a></p>
+<p>fill을 사용한 경우의 코드는 아래와 같다.</p>
+<pre><code class="language-tsx">import Image from 'next/image';
+
+export default function Test() {
+  return (
+    &#x3C;div style={{ position: 'relative', width: '500px', height: '300px' }}>
+      &#x3C;Image
+        src='https://picsum.photos/id/28/2000/3264'
+        alt='Picture of the author'
+        sizes='100px'
+        fill
+        style={{
+          objectFit: 'contain', // 또는 objectFit: 'cover'
+        }}
+      />
+    &#x3C;/div>
+  );
+}
+</code></pre>
+<p>주의 할 점은 fill을 사용할 경우 Image 태그에 position : absolute 속성이 자동으로 추가된다는 것이다.</p>
+<p>그래서 Image 태그를 감싸고 있는 부모 태그에 relative 속성을 추가해주어야 한다.</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="next"/>
+        <category label="react"/>
+        <category label="image"/>
+        <category label="responsive"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[Turborepo] 모노레포에 Next.js에 테스트 환경 추가하기]]></title>
+        <id>199-monorepo-jest-testing</id>
+        <link href="https://nostrss.me/blog/199-monorepo-jest-testing"/>
+        <updated>2024-01-11T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[모노레포에 Jest를 이용한 테스팅 환경을 만들어보자]]></summary>
+        <content type="html"><![CDATA[<p>이제 모노레포에 testing 환경을 구축해보려고 한다.</p>
+<h2>구축 실패 사례</h2>
+<p>처음에는 packages에 jest를 비롯한 테스트 환경을 구축하고, 각 프로젝트에서 의존성을 추가하여 진행하려고 했다.</p>
+<p>그러나 테스트를 실행하면 test 파일을 찾지 못한다는 오류가 발생했다.</p>
+<p>tsconfig와 설정을 여러가지 변경해보았지만 해결되지 않았다.</p>
+<p>환경 구축에 너무 시간이 오래 걸리는 것 같아서 일단 각 Next.js 프로젝트 별로 테스트 환경을 구축하기로 했다.</p>
+<h2>jest 설치하기</h2>
+<p>아래의 문서를 참고하여 진행하였다.</p>
+<p><a href="https://nextjs.org/docs/app/building-your-application/testing/jest">📌 Setting up Jest with Next.js 📌</a></p>
+<pre><code class="language-bash">cd front-admin
+yarn add -D jest jest-environment-jsdom @testing-library/react @testing-library/jest-dom
+
+</code></pre>
+<p>위의 명령어로 필요한 패키지를 설치해줬다. 뒤에 테스트 과정에서 몇몇 패키지가 추가로 필요할 수 있다.</p>
+<h3>jest.config.ts 생성하기</h3>
+<pre><code class="language-ts">import type { Config } from 'jest';
+import nextJest from 'next/jest.js';
+
+const createJestConfig = nextJest({
+  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
+  dir: './',
+});
+
+// Add any custom config to be passed to Jest
+const config: Config = {
+  coverageProvider: 'v8',
+  testEnvironment: 'jsdom',
+  // Add more setup options before each test is run
+  // setupFilesAfterEnv: ['&#x3C;rootDir>/jest.setup.ts'],
+};
+
+// createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
+export default createJestConfig(config);
+</code></pre>
+<h3>package.json 수정하기</h3>
+<pre><code class="language-json">// apps/front-admin/package.json
+{
+  "scripts": {
+    "test": "jest", // 추가
+    "test:watch": "jest --watch" // 추가
+    // ...
+  }
+}
+</code></pre>
+<h3>root package.json 수정하기</h3>
+<pre><code class="language-json">//package.json
+{
+  "scripts": {
+    "test": "turbo test", // 추가
+    "test:watch": "turbo test:watch" // 추가
+    // ...
+  }
+}
+</code></pre>
+<h3>turbo.json 수정하기</h3>
+<pre><code class="language-json">{
+  "pipeline": {
+    // 추가
+    "test": {
+      "cache": false
+    },
+    "test:watch": {
+      "cache": false
+    }
+    // ...
+  }
+}
+</code></pre>
+<h2>test 해보기</h2>
+<pre><code class="language-js">// apps/front-admin/src/__test__/Text.test.js
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import Home from '@/app/page';
+import '@testing-library/jest-dom';
+
+describe('HomePage 컴포넌트', () => {
+  it('"환영합니다!" 텍스트가 포함되어 있는지 확인한다', () => {
+    render(&#x3C;Home />);
+    const linkElement = screen.getByText(/테스트/i);
+    expect(linkElement).toBeInTheDocument();
+  });
+});
+</code></pre>
+<p>테스트가 정상적으로 실행되는 것을 확인할 수 있다.</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="turborepo"/>
+        <category label="monorepo"/>
+        <category label=""/>
+        <category label="next"/>
+        <category label="jest"/>
+        <category label="testing"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[Turborepo] 모노레포에 스토리북 추가하기]]></title>
+        <id>198-monorepo-storybook</id>
+        <link href="https://nostrss.me/blog/198-monorepo-storybook"/>
+        <updated>2024-01-10T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[모노레포에 내가 원하는 디자인 시스템을 세팅해보자]]></summary>
+        <content type="html"><![CDATA[<p>이제 모노레포에 내가 원하는 디자인 시스템, Storybook을 추가해보자.</p>
+<h2>Storybook 설치하기</h2>
+<p>아래의 공식문서를 참고해 진행했다.</p>
+<p><a href="https://turbo.build/repo/docs/handbook/tools/storybook">📌 Using Storybook with Turborepo 📌</a></p>
+<p>크게 어려움은 없었으나, 나 같은 경우 yarn 으로 설치시 오류가 발생하여 npm으로 설치를 진행했던 기억이 난다.</p>
+<p>공식문서에서 vite를 사용하도록 되어 있어서 한번 살펴보았다.</p>
+<h2>Vite란?</h2>
+<p><a href="https://ko.vitejs.dev/guide/why.html">📌 Vite 공식문서 📌</a></p>
+<p>공식문서를 읽어보니 vite는 Webpack과 같은 번들링을 하는 도구인 것 같다.</p>
+<p>기존의 번들러보다 서버구동이 빠르고 여러가지 이점이 있다고 한다.</p>
+<p>일단 현재는 스토리북을 설치하기 위함이니 가볍고 읽고 넘어갔다.</p>
+<blockquote>
+<p>참고로 Vite는 node.js 18 또는 20 이상의 버전을 요구한다.
+나 같은 경우 현재 18+ 버전을 사용하고 있어서 문제는 없었다.</p>
+</blockquote>
+<h3>package.json 수정하기</h3>
+<p>이번에도 turbo repo 환경에 맞게 package.json 을 일부 수정해주었다.</p>
+<ul>
+<li>turbo build 명령어 실행 시 스토리북도 빌드가 되게 하기 위해 build 명령어에 스토리북 빌드 명령어를 추가해줬다.</li>
+<li>React 컴포넌트를 공통으로 사용하기 위해 <code>의존성</code>을 추가해줬다.</li>
+</ul>
+<pre><code class="language-json">//apps/storybook/package.json
+{
+  "scripts": {
+    "build": "storybook build" // 스토리북 빌드 명령어 수정
+    // ...
+  },
+  "dependencies": {
+    "@repo/ui": "*" // packages/ui를 추가
+    // ...
+  }
+}
+</code></pre>
+<h3>turbo.json 수정</h3>
+<p><code>turbo.json</code>의 pipeline에 스토리북의 빌드 경로를 추가해줬다.</p>
+<pre><code class="language-json">{
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "dist/**",
+        "storybook-static/**" // 스토리북 빌드 경로 추가
+      ]
+    }
+    // ...
+  }
+}
+</code></pre>
+<h2>스토리북 테스트 해보기</h2>
+<p>이제 잘 작동하는지 아래와 같이 코드를 작성해 보았다.</p>
+<pre><code class="language-ts">//apps/storybook/src/stories/Button.stories.ts
+import type { Meta, StoryObj } from '@storybook/react';
+import { Button } from '@repo/ui/button';
+
+const meta = {
+  title: 'Example/Button',
+  component: Button,
+  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
+  tags: ['autodocs'],
+  parameters: {
+    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
+    layout: 'fullscreen',
+  },
+} satisfies Meta&#x3C;typeof Button>;
+
+export default meta;
+type Story = StoryObj&#x3C;typeof meta>;
+
+export const DefaultButton: Story = {
+  args: {
+    children: 'Button',
+    appName: 'Default',
+  },
+};
+</code></pre>
+<p>정상적으로 스토리북이 작동하는 것을 확인할 수 있었다.</p>
+<p>컴포넌트를 만들때마다 스토리북을 통해 확인하면서 개발하면 좋을 것 같다.</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="turborepo"/>
+        <category label="monorepo"/>
+        <category label="storybook"/>
+        <category label="vercel"/>
+        <category label="deploy"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[Turborepo] 모노레포에 새로운 Next.js 프로젝트 추가하기]]></title>
+        <id>197-monorepo-new-nextjs</id>
+        <link href="https://nostrss.me/blog/197-monorepo-new-nextjs"/>
+        <updated>2024-01-10T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[모노레포에 내가 원하는 환경을 세팅해보자]]></summary>
+        <content type="html"><![CDATA[<h2>Monorepo 생성하기</h2>
+<p>이전 글과 동일하게 Turborepo를 사용해서 모노레포를 생성해주었다.</p>
+<pre><code class="language-bash">npx create-turbo@latest
+</code></pre>
+<p>위와 같이 모노레포를 생성하면 <code>apps</code> 워크스페이스에 <code>web</code>과 <code>docs</code>라는 next.js 프로젝트가 생성된다.</p>
+<h2>Apps 워크스페이스에 Next.js 프로젝트 추가하기</h2>
+<p>신규 프로젝트를 추가한다고 가정하고 새로운 next.js 프로젝트를 <code>apps</code>워크스페이스에 추가해보자.</p>
+<pre><code class="language-bash">cd apps
+npx create-next-app@latest front-admin
+</code></pre>
+<p>정상적으로 프로젝트가 생성되었다면 <code>apps</code> 워크스페이스에 <code>front-admin</code>이라는 디렉토리가 생성되었을 것이다.</p>
+<p>그리고 몇가지 설정을 수정해주어야 한다.</p>
+<h3>package.json 수정하기</h3>
+<ul>
+<li><code>turbo dev</code> 명령어 실행 시 <code>port</code>가 겹치지 않도록 <code>dev</code> 명령어에 포트를 추가해줬다.</li>
+<li><code>packages/ui</code>에 공통으로 사용할 React 컴포넌트가 있다. 이를 사용하기 위해 <code>의존성</code>을 추가해줬다.</li>
+<li><code>eslint</code>와 <code>typescript</code> 설정을 공통으로 사용하기 위해 <code>dev 의존성</code>을 추가해줬다.</li>
+</ul>
+<pre><code class="language-json">// apps/front-admin/package.json
+
+{
+  "scripts": {
+    "dev": "next dev --port 3004" // 포트 추가
+    // ...
+  },
+  "dependencies": {
+    "@repo/ui": "*" // packages/ui를 추가
+    // ...
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "*", // packages/eslint-config를 추가
+    "@repo/typescript-config": "*" // packages/typescript-config를 추가
+    // ...
+  }
+}
+</code></pre>
+<h3>tsconfig.json 수정하기</h3>
+<p>typescript 설정을 공통으로 사용하기 위해 <code>tsconfig.json</code>을 아래와 같이 수정해줬다.</p>
+<pre><code class="language-json">//apps/backend/tsconfig.json
+
+{
+  "extends": "@repo/typescript-config/nextjs.json", // 공통 설정 추가
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    ".next/types/**/*.ts",
+    ".env"
+  ],
+  "exclude": ["node_modules"]
+}
+</code></pre>
+<h3>.eslintrc.js 수정하기</h3>
+<p>eslint 설정을 공통으로 사용하기 위해 <code>.eslintrc.js</code>를 아래와 같이 수정해줬다.</p>
+<pre><code class="language-js">//apps/front-admin/.eslintrc.js
+
+/** @type {import("eslint").Linter.Config} */
+module.exports = {
+  root: true,
+  extends: ['@repo/eslint-config/next.js'],
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: true,
+  },
+  ignorePatterns: ['**/*.test.js', '**/__tests__/**'],
+};
+</code></pre>
+<h2>실행하기</h2>
+<p>root 경로에서 <code>turbo dev</code> 명령어를 실행했을 때, 기존에 있던 web과 docs 프로젝트와 함께 front-admin 프로젝트도 정상적으로 실행되는 것을 확인할 수 있었다.</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="nextjs"/>
+        <category label="turborepo"/>
+        <category label="monorepo"/>
+        <category label="vercel"/>
+        <category label="deploy"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[Turborepo] 모노레포에 있는 2개의 Next.js 프로젝트를 Vercel에 각각 배포하기]]></title>
+        <id>196-monorepo-vercel-deploy</id>
+        <link href="https://nostrss.me/blog/196-monorepo-vercel-deploy"/>
+        <updated>2024-01-05T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Turborepo를 이용해 Monorepo를 생성하고 Vercel로 배포해보자]]></summary>
+        <content type="html"><![CDATA[<p>최근 프론트엔드에서 monorepo 구조를 많이 도입하는 것 같다.</p>
+<p>예전에 멀티레포 형태로 서비스를 유지/보수 했던 경험이 있었는데,</p>
+<p>그때 여러가지 문제점을 겪었었다. 그때 느낀 점은 아래와 같다.</p>
+<ul>
+<li>공통으로 사용하는 컴포넌트를 공유하기 어려웠다. 그래서 각 프로젝트마다 중복되는 컴포넌트를 만들어야 했다.</li>
+<li>패키지 버전 관리가 어려웠다. 각 프로젝트마다 패키지 버전이 달라지면서 다양한 오류가 발생하고, 버전에 따라 달라진 문법을 사용해야 하는 경우가 생겼다. 특히 react의 버전이 달라지면서 발생하는 문제가 많았다.</li>
+<li>서비스의 기능이 추가 될 경우 Repo의 개수가 많아지게 된다. 그러다 보니 어느 순간 repo의 개수가 16개가 넘어가는 경우가 생겼고 이를 관리하기가 어려웠다.</li>
+</ul>
+<p>최근 포트폴리오용 서비스가 하나 생각나서 개발 환경을 구축중 이었다.</p>
+<p>예전에는 로컬 터미널에서 내가 직접 빌드하고 배포하는 명령어를 실행해줘야 했었는데,</p>
+<p>이런 멀티레포의 단점을 극복하기 위해 최근에 사용하는 아키텍쳐가 <code>monorepo</code>이다.</p>
+<h2>모노레포란?</h2>
+<p>모노레포에 대한 개념은 인터넷에 좋은 글들이 있어서 링크로 대신하였다.</p>
+<p><a href="https://d2.naver.com/helloworld/0923884">📌 Naver D2 : 모던 프론트엔드 프로젝트 구성 기법 - 모노레포 개념 편 📌</a></p>
+<p><a href="https://blog.hwahae.co.kr/all/tech/11962">📌 화해 : 모노레포 적용부터 yarn berry까지 📌</a></p>
+<p><a href="https://green-labs.github.io/monorepo-microfrontend">📌 그린랩스 : 모노레포 - 마이크로 아키텍처를 지향하며 📌</a></p>
+<h2>Turborepo</h2>
+<p>모노레포를 구축하기 위해 여러가지 방법이 있었는데, 나는 <code>turborepo</code>를 사용했다.</p>
+<p><a href="https://turbo.build/repo">📌 Turborepo 홈페이지 바로가기📌</a></p>
+<p>터보레포를 선택한 이유는 Vercel에서 인수하고 직접 개발 중인 서비스라 Next.js와 Vercel과 잘 호환될 것 같아서 선택했다.</p>
+<h2>새로운 프로젝트 생성</h2>
+<p><a href="https://turbo.build/repo/docs/getting-started/create-new">📌 Turborepo를 이용해 모노레포 생성하기📌</a></p>
+<pre><code class="language-bash">npx create-turbo@latest
+</code></pre>
+<p>위의 명령어를 실행하고 원하는 설정을 선택하면 모노레포가 생성된다.</p>
+<p>생성된 모노레포의 구조를 살펴보면 아래와 같다.</p>
+<ul>
+<li><code>apps</code>와 <code>packages</code>라는 2개의 워크스페이스를 가지고 있다.</li>
+<li><code>apps</code> 워크스페이스에는 <code>web</code>,<code>docs</code>라는 이름의 2개의 <code>nextjs</code> 프로젝트가 생성되어 있다</li>
+</ul>
+<h2>Vercel로 배포하기</h2>
+<p>이제 생성된 모노레포를 <code>Vercel</code>로 배포해보자.</p>
+<p>그냥 무작정 배포하기 보다는 회사를 다닌다면 모노레포를 어떻게 사용하고 배포할지 생각해봤다.</p>
+<p>예를 들면 docs는 회사의 기술 문서를 작성하는 곳이고, web은 회사의 서비스 프로젝트라고 생각을 해보자.</p>
+<p>그렇다면 아마 docs는 <code>docs.도메인.com</code>, web은 <code>web.도메인.com</code>으로 배포를 할 것이다.</p>
+<p>이렇게 배포를 하고 싶었다.</p>
+<p>그래서 Vercel에 깃허브 repo를 등록하였다.</p>
+<p>Vercel을 사용해본 사람은 알겠지만 위의 사진처럼 등록하면 나머지 과정은 거의 자동으로 진행되어 배포가 진행된다.</p>
+<h3>문제점 발견</h3>
+<p>배포가 완료되고 확인을 해봤는데, 문제가 발견되었다.</p>
+<p><code>docs</code>는 정상적으로 배포가 되었지만, <code>web</code>은 배포가 되지 않았다.</p>
+<p>Vercel에서 모노레포를 인식하고 2개의 Next.js 프로젝트를 인식하지 못한 것 같다.</p>
+<p>그래서 setting에서 추가 설정을 해줘야 하는지 찾아보았다.</p>
+<p>그런데 Root Directory가 <code>apps/docs</code>로 설정되어 있었다.</p>
+<p>그렇다면 Vercel에 Root Directory가 <code>apps/web</code>로 설정된 배포단을 하나 더 만들면 되지 않을까? 라는 생각이 들었다.</p>
+<h2>Vercel에 배포단 추가하기(Web)</h2>
+<p>새로운 프로젝트를 추가하여 위에서 등록한 동일한 github repo를 등록하였다.</p>
+<p>그리고 그 과정에서 Root Directory를 <code>apps/web</code>로 설정하였다.</p>
+<p>그리고 배포가 완료하니 아래와 같이 2개의 배포단이 생성되었다.</p>
+<p>이제 각각의 배포단위에 도메인 설정을 해준다면</p>
+<p>최초에 의도한대로 <code>docs.도메인.com</code>, <code>web.도메인.com</code>으로 배포가 가능할 것이다.</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="nextjs"/>
+        <category label="turborepo"/>
+        <category label="monorepo"/>
+        <category label="vercel"/>
+        <category label="deploy"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Storybook 빌드 파일 Github Actions으로 자동 배포하기]]></title>
+        <id>195-storybook-github-actions</id>
+        <link href="https://nostrss.me/blog/195-storybook-github-actions"/>
+        <updated>2023-11-30T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[github에 push만 하면 storybook이 자동으로 똭!!]]></summary>
+        <content type="html"><![CDATA[<p>최근 포트폴리오용 서비스가 하나 생각나서 개발 환경을 구축중 이었다.</p>
+<p>예전에는 로컬 터미널에서 내가 직접 빌드하고 배포하는 명령어를 실행해줘야 했었는데,</p>
+<p>이번에는 <code>github actions</code>을 이용해서 자동으로 빌드하고 배포되는 환경을 구축해보았다.</p>
+<h2>준비</h2>
+<h3>storybook-deployer 설치</h3>
+<p>먼저 아래 패키지를 설치해준다.</p>
+<p><a href="https://www.npmjs.com/package/@storybook/storybook-deployer">📌 npm @storybook/storybook-deployer 보러가기 📌</a></p>
+<h3>package.json 스크립트 추가</h3>
+<p>그리고 package.json에 아래와 같이 스크립트를 추가해준다.</p>
+<pre><code class="language-json">{
+  "scripts": {
+    "deploy-storybook": "storybook-to-ghpages"
+  }
+}
+</code></pre>
+<h3>github personal access token 발급</h3>
+<p><a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">📌 github personal access token 발급 보러가기 📌</a></p>
+<p>github actions에서 github에 접근하기 위해서는 <code>token</code>이 필요하다.</p>
+<p><code>github developer setting</code>에서 발급 받을 수 있다.</p>
+<h3>Secrets and variables에 token 추가</h3>
+<p>그리고 해당 프로젝트 <code>repository</code>의 <code>Settings</code> -> <code>Secrets and variables</code> 에서 발급 받은 token을 추가해준다.</p>
+<h3>github actions workflow 파일 추가</h3>
+<p>나는 아래와 같이 작성을 했다.</p>
+<p>처음에는 몇번 build, deploy에서 실패했었으나</p>
+<p>log를 확인해보면서 진행하니 성공적으로 빌드, 배포가 되었다.</p>
+<pre><code class="language-yml">name: Build and Deploy Storybook
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  storybook-build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build-deploy Storybook
+        run: npm run deploy-storybook -- --ci
+        env:
+          GH_TOKEN: ${{ github.actor }}:${{ secrets.ACCESS_TOKEN }}
+</code></pre>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="nextjs"/>
+        <category label="storybook"/>
+        <category label="github-actions"/>
+        <category label="build"/>
+        <category label="deploy"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[코딩테스트와 코딩과제가 이런 것이구나..]]></title>
+        <id>194-review-coding-test</id>
+        <link href="https://nostrss.me/blog/194-review-coding-test"/>
+        <updated>2023-11-25T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[시험을 보면서도 배우는 것이 많았던 것 같다.]]></summary>
+        <content type="html"><![CDATA[<p>최근 총 3곳에서 <code>코딩테스트</code>와 <code>과제</code>를 진행했다.</p>
+<p>물론 입사를 위해 어쩔수 없이 치르게 된 것이지만, 그 과정중에서 배운 것도 있고 느낀 것도 있어서 정리해보려고 한다.</p>
+<h2>A사 코딩 과제</h2>
+<p>A사는 스타트업이었고, 서류 통과자에게 코딩 과제를 부여 하였는데, 상당히 인상적인 과제였다.</p>
+<p>과제는 총 <code>3개</code>의 문제로 구성되어 있었고, 문제는 다음과 같았다.</p>
+<ol>
+<li><code>Next.js</code>를 이용한 간단한 웹 페이지 만들기</li>
+<li><code>Bun</code>을 이용한 파일 입출력 프로그램 만들기</li>
+<li><code>Python</code>을 이용한 간단한 api 서버 만들기</li>
+</ol>
+<p>프론트엔드를 지원했기 때문에, 1번 문제는 당연하다고 생각을 했지만, 2,3번 문제는 상당히 의외였다. 다만, 과제를 제시한 취지를 제시해주고 있었는데, 새로운 기술을 학습하고 적용하는 능력을 보려는 것이었다.</p>
+<p>덕분에 <code>Bun</code>, <code>Python</code>도 처음 사용해보는 좋은 기회가 되었다.</p>
+<p>다만, 1~3번 문제의 기술적인 난이도는 높지 않아서, 금방 제출 할 수 있었고 통과하여 면접까지 진행하였다.</p>
+<h2>B사 코딩 테스트</h2>
+<p>B사는 나름 인지도가 있는 기업이었고, 대기업? 최소 중견기업 정도 규모의 회사였다.</p>
+<p>처음 보는 기업 코딩테스트이기에, 어떤 문제가 나올지 예상이 되지 않았다.</p>
+<p>프로그래머스에서 자료구조, 알고리즘 관련 문제를 찾아서 풀면서 준비했다.</p>
+<p><a href="https://school.programmers.co.kr/learn/challenges?tab=algorithm_practice_kit">📌 프로그래머스 코딩테스트 고득점 문제 Kit 문제 보러가기 📌</a></p>
+<p>시험 당일 <code>2문제</code>, <code>5시간</code> 제한으로 진행되었고, 프로그래머스에서 진행되었다.</p>
+<p>1문제는 풀었고, 다른 1문제는 뒤늦게 방법을 찾았는데.. 시간이 부족해서 풀지 못했다.</p>
+<p>지금 돌이켜 보니 이런 코딩테스트를 준비하려면 몇가지 준비를 해야 할 것 같다.</p>
+<ol>
+<li>최적화</li>
+</ol>
+<ul>
+<li>500,000만 길이의 배열, 1,000,000만 길이의 문자열 등등.. 이런 데이터를 <code>효율성</code> 높게 처리해야 하기 때문에, <code>시간복잡도</code>를 고려해야한다. 이때, <code>자료구조</code>, <code>알고리즘</code> 이론이 필요하다. DFS, BFS, DP, Greedy 등등.. 이런 것들을 잘 알고 있어야 풀 수 있을 것 같다.</li>
+</ul>
+<ol start="2">
+<li>경험</li>
+</ol>
+<ul>
+<li>알고리즘을 알고 있더라도 문제에 적용하는 방법을 알아야 한다. 근의 공식을 알고 있다해도 문제에 적용하지 못하면 못풀듯이 말이다. 이런 <code>경험</code>을 위해서는 많은 문제를 풀어봐야 할 것 같다.</li>
+</ul>
+<h2>C사 코딩 테스트</h2>
+<p>C사는 대기업이었고, 개인적으로 욕심이 많아서 꼭 들어가고 싶은 회사였다.</p>
+<p>총 <code>4문제</code>, 최대 <code>8시간</code>까지의 시간이 부여 되었다. 다만, 문제별로 부여되는 시간이 달랐다.</p>
+<p>완전 오픈 북이었으면, 구글, ChatGpt등을 사용할 수 있었고 개인 IDE를 사용할 수 있었다.</p>
+<ol>
+<li>Typescript 관련 문제</li>
+<li>Typescript 관련 문제</li>
+<li>Javascript 관련 문제</li>
+<li>Javascript 관련 문제</li>
+</ol>
+<p>시험은 <code>testdome</code>이라는 해외 사이트에서 진행되었고 상당히 생소한 환경이었다.</p>
+<p>결과적으로 제대로 문제를 풀지 못했다. 아쉬웠던 건 3문제는 풀긴 했는데, 테스트를 통과하지 못했다는 것이다. 다만, <code>testdome</code> 문제가 설명히 좀 부족하고, 테스트 케이스가 부족한 것 같았다.</p>
+<p>문제를 분석해보면, <code>비동기</code> 처리를 중요시 하는 것 같았다. <code>비동기</code>를 완벽하게 처리 할 줄 알아야만 풀 수 있는 문제들이 많았다.</p>
+<p>그리고 <code>처음</code> 보는 객체를 다루는 문제가 나왔을 때, 이를 검색 등을 통해 해결하는 능력을 보려고 하는 것 같았다.</p>
+<blockquote>
+<p>아쉬움이 많이 남는 시험들 이었지만, 이 경험을 통해 내가 부족한 점도 알게 되고 배우는 것도 많았던 것 같다. 시험에서 도출된 나의 부족한 점을 잘 채워나가야 할 것 같다.</p>
+</blockquote>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="coding-test"/>
+        <category label="review"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[testdome] Two Sum 문제]]></title>
+        <id>193-testdome-56606</id>
+        <link href="https://nostrss.me/blog/193-testdome-56606"/>
+        <updated>2023-11-19T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[이제는 해외 사이트 알고리즘 문제다..]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://www.testdome.com/questions/javascript/two-sum/56606">📌 Two Sum 문제 보러가기 📌</a></p>
+<h2>나의 풀이</h2>
+<p>일단 해외 사이트라서 그런지 먼가 익숙치 않다.</p>
+<p>예시도 자세히 알려주지 않고, 문제도 간단하게만 나와있다.</p>
+<pre><code class="language-js">function findTwoSum(numbers, sum) {
+  // Your code goes here
+  for (let i = 0; i &#x3C; numbers.length - 1; i++) {
+    for (let j = i + 1; j &#x3C; numbers.length; j++) {
+      if (numbers[i] + numbers[j] === sum) return [i, j];
+    }
+  }
+  return null;
+}
+
+const indices = findTwoSum([3, 1, 5, 7, 5, 9], 10);
+console.log(indices);
+</code></pre>
+<p>위와 같이 풀었는데 다수의 숫자 배열을 이용하면 효율적이지 않다며 테스트 케이스가 통과하지 못하고
+75점을 맞았다..</p>
+<h2>나의 풀이 2</h2>
+<p>100점을 맞기 위해 검색을 하다 해시맵을 사용하는 경우를 발견해서 수정했다.</p>
+<p>수정한 코드는 아래와 같다.</p>
+<pre><code class="language-js">function findTwoSum(numbers, sum) {
+  const numMap = {};
+
+  for (let i = 0; i &#x3C; numbers.length; i++) {
+    const complement = sum - numbers[i];
+    if (numMap.hasOwnProperty(complement)) {
+      return [numMap[complement], i];
+    }
+    numMap[numbers[i]] = i;
+  }
+  return null;
+}
+
+const indices = findTwoSum([3, 1, 5, 7, 5, 9], 10);
+console.log(indices);
+</code></pre>
+<p>이렇게 할 경우 numMap에는 이렇게 데이터가 저장된다.</p>
+<pre><code>{}
+{ '3': 0 }
+{ '1': 1, '3': 0 }
+{ '1': 1, '3': 0, '5': 2 }
+</code></pre>
+<p>10의 보수를 키값으으로 하고 인덱스를 값으로 저장하면서, 10의 보수가 있는지 확인하면 된다.</p>
+<p>이렇게 하니 100점으로 통과가 되었다.</p>
+<p>해시테이블.. 알아두면 좋은 방법 같다..</p>
+<p>그런데 이거랑 DP랑 뭐가 다른거지..?</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="testdome,"/>
+        <category label="algorithm,"/>
+        <category label="javascript,"/>
+        <category label="hash"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[프로그래머스] 완전탐색 - 최소직사각형]]></title>
+        <id>189-programmers-86491</id>
+        <link href="https://nostrss.me/blog/189-programmers-86491"/>
+        <updated>2023-11-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[내 코드가 허접하게 보이는 다른 사람의 풀이]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://school.programmers.co.kr/learn/courses/30/lessons/86491">📌 완전탐색 - 최소직사각형 보러가기 📌</a></p>
+<h2>나의 풀이</h2>
+<pre><code class="language-js">function solution(sizes) {
+  var answer = 0;
+  const wallet = {
+    width: 0,
+    height: 0,
+  };
+
+  const isWalletFit = (size) => {
+    if (wallet.width >= size[0] &#x26;&#x26; wallet.height >= size[1]) return true;
+    else if (wallet.width >= size[1] &#x26;&#x26; wallet.height >= size[0]) return true;
+    else return false;
+  };
+
+  const returnWalletSize = (size) => {
+    return {
+      normalSize:
+        Math.max(wallet.width, size[0]) * Math.max(wallet.height, size[1]),
+      rotationSize:
+        Math.max(wallet.width, size[1]) * Math.max(wallet.height, size[0]),
+    };
+  };
+
+  const compareWallet = (size) => {
+    const { normalSize, rotationSize } = returnWalletSize(size);
+    if (normalSize >= rotationSize) {
+      wallet.width = Math.max(wallet.width, size[1]);
+      wallet.height = Math.max(wallet.height, size[0]);
+    } else {
+      wallet.width = Math.max(wallet.width, size[0]);
+      wallet.height = Math.max(wallet.height, size[1]);
+    }
+  };
+
+  sizes.forEach((size) => {
+    if (!isWalletFit(size)) {
+      compareWallet(size);
+    }
+  });
+
+  return (answer = wallet.width * wallet.height);
+}
+</code></pre>
+<h2>풀이 설명</h2>
+<p>사실 문제는 어렵지 않았다.</p>
+<p>금방 풀었는데, 다른 사람의 풀이를 보고 깜짝 놀랐다.</p>
+<pre><code class="language-js">function solution(sizes) {
+  const [hor, ver] = sizes.reduce(
+    ([h, v], [a, b]) => [
+      Math.max(h, Math.max(a, b)),
+      Math.max(v, Math.min(a, b)),
+    ],
+    [0, 0]
+  );
+  return hor * ver;
+}
+</code></pre>
+<p>이렇게 간단히 푸신 분이 계셨는데.. 정말이지 나의 30줄을 10줄도 안되게 간단하게 풀어버리셨다.</p>
+<p><code>reduce</code>와 <code>구조분해할당</code>을 이용해서 이렇게 풀다니..</p>
+<p>아직 갈길이 멀다..</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="programmers,"/>
+        <category label="algorithm,"/>
+        <category label="javascript,"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[프로그래머스] 동적계획법(Dynamic Programming) - 정수 삼각형]]></title>
+        <id>192-programmers-43105</id>
+        <link href="https://nostrss.me/blog/192-programmers-43105"/>
+        <updated>2023-11-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[DP 문제.. 드디어 풀었다..!]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://school.programmers.co.kr/learn/courses/30/lessons/43105">📌 동적계획법(Dynamic Programming) - 정수 삼각형 보러가기 📌</a></p>
+<h2>나의 풀이</h2>
+<pre><code class="language-js">function solution(triangle) {
+  var answer = 0;
+  const height = triangle.length;
+
+  for (i = height - 1; i > 0; i--) {
+    for (j = 0; j &#x3C; triangle[i - 1].length; j++) {
+      const left = triangle[i][j] + triangle[i - 1][j];
+      const right = triangle[i][j + 1] + triangle[i - 1][j];
+      triangle[i - 1][j] = Math.max(left, right);
+    }
+  }
+
+  return (answer = triangle[0][0]);
+}
+</code></pre>
+<h2>풀이 설명</h2>
+<p>일단.. 삼각형을 위에서 아래로 내려오면서, 각각의 위치에서 최대값을 구현하려고 했다.</p>
+<p>그런데 구현이 좀 어려워서 막혔다가, 삼각형을 <code>거꾸로</code> 돌려서 생각해봤다.</p>
+<p>내가 생각한 방식을 그림으로 표현하면 이렇다.</p>
+<pre><code>4 5 2 6 5
+ 2 7 4 4
+  8 1 0
+   3 8
+    7
+</code></pre>
+<p>위에서 밑으로 내려오면서 겹치는 구간이 있는데, 이땐 더 큰수를 선택하면 된다.</p>
+<p>그리고 별도의 dp 배열은 만들지 않고 triangle 배열에 바로 값을 넣어주었다.</p>
+<p>triangle 베열의 값은 아래와 같이 시간이 지날수록 갱신되어 최종적으로는 최대값만 남게된다.</p>
+<pre><code>[
+  [ 7 ],
+  [ 3, 8 ],
+  [ 20, 13, 0 ],
+  [ 7, 12, 10, 10 ],
+  [ 4, 5, 2, 6, 5 ]
+]
+[
+  [ 7 ],
+  [ 3, 8 ],
+  [ 20, 13, 10 ],
+  [ 7, 12, 10, 10 ],
+  [ 4, 5, 2, 6, 5 ]
+]
+[
+  [ 7 ],
+  [ 23, 8 ],
+  [ 20, 13, 10 ],
+  [ 7, 12, 10, 10 ],
+  [ 4, 5, 2, 6, 5 ]
+]
+[
+  [ 7 ],
+  [ 23, 21 ],
+  [ 20, 13, 10 ],
+  [ 7, 12, 10, 10 ],
+  [ 4, 5, 2, 6, 5 ]
+]
+[
+  [ 30 ],
+  [ 23, 21 ],
+  [ 20, 13, 10 ],
+  [ 7, 12, 10, 10 ],
+  [ 4, 5, 2, 6, 5 ]
+]
+</code></pre>
+<p>DP 문제에 대해 조금은 감을 잡은 듯한데.. 실전에서 잘 풀수 있을려나..?</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="programmers,"/>
+        <category label="algorithm,"/>
+        <category label="javascript,"/>
+        <category label="dynamic,"/>
+        <category label="dp"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[프로그래머스] 깊이/너비 우선 탐색(DFS/BFS) - 타겟 넘버]]></title>
+        <id>190-programmers-43165</id>
+        <link href="https://nostrss.me/blog/190-programmers-43165"/>
+        <updated>2023-11-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[처음 풀어본 DFS 문제, 재귀는 어렵다..]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://school.programmers.co.kr/learn/courses/30/lessons/43165">📌 깊이/너비 우선 탐색(DFS/BFS) - 타겟 넘버 보러가기 📌</a></p>
+<h2>나의 풀이</h2>
+<pre><code class="language-js">function solution(numbers, target) {
+  var answer = 0;
+
+  const dfs = (arr, index, sum) => {
+    if (index === arr.length - 1) {
+      if (target === sum + arr[index]) answer = answer + 1;
+      if (target === sum - arr[index]) answer = answer + 1;
+      return;
+    }
+
+    dfs(arr, index + 1, sum + -1 * arr[index]);
+    dfs(arr, index + 1, sum + arr[index]);
+  };
+
+  dfs(numbers, 0, 0);
+  return answer;
+}
+</code></pre>
+<h2>풀이 설명</h2>
+<p>처음 풀어본 DFS 문제였다.</p>
+<p>풀고나서 이제 보니.. 쉬워보이는데, 처음에는 재귀적으로 푸는 연습을 많이 해보지 않아서</p>
+<p>처음에 시작이 어려웠다..</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="programmers,"/>
+        <category label="algorithm,"/>
+        <category label="javascript,"/>
+        <category label="dfs"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[프로그래머스] 깊이/너비 우선 탐색(DFS/BFS) - 게임 맵 최단거리]]></title>
+        <id>191-programmers-1844</id>
+        <link href="https://nostrss.me/blog/191-programmers-1844"/>
+        <updated>2023-11-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[이번엔 BFS 문제다.. x,y가 너무 헷갈렸다..]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://school.programmers.co.kr/learn/courses/30/lessons/1844">📌 깊이/너비 우선 탐색(DFS/BFS) - 게임 맴 최단거리 📌</a></p>
+<h2>나의 풀이</h2>
+<pre><code class="language-js">function solution(maps) {
+  var answer = -1;
+  let user = [0, 0];
+
+  const n = maps.length;
+  const m = maps[0].length;
+
+  const goal = [n - 1, m - 1];
+  const queue = new Queue();
+
+  const dx = [-1, 1, 0, 0];
+  const dy = [0, 0, 1, -1];
+
+  queue.enq([0, 0, 1]);
+  maps[0][0] = 0;
+  while (queue.length !== 0) {
+    const [deqx, deqy, count] = queue.deq();
+    if (deqx === goal[0] &#x26;&#x26; deqy === goal[1]) return count;
+
+    for (let i = 0; i &#x3C; 4; i++) {
+      const newx = deqx + dx[i];
+      const newy = deqy + dy[i];
+
+      if (newx > -1 &#x26;&#x26; newx &#x3C; n &#x26;&#x26; newy > -1 &#x26;&#x26; newy &#x3C; m) {
+        if (maps[newx][newy] === 1) {
+          queue.enq([newx, newy, count + 1]);
+          maps[newx][newy] = 0;
+        }
+      }
+    }
+  }
+
+  return answer;
+}
+
+class Queue {
+  constructor() {
+    this.items = {};
+    this.headIndex = 0;
+    this.tailIndex = 0;
+    this.length = 0;
+  }
+
+  enq(item) {
+    this.items[this.tailIndex] = item;
+    this.tailIndex++;
+    this.length = this.getLength();
+  }
+
+  deq() {
+    const deqItem = this.items[this.headIndex];
+    this.headIndex++;
+    this.length = this.getLength();
+    return deqItem;
+  }
+
+  getLength() {
+    return this.tailIndex - this.headIndex;
+  }
+}
+</code></pre>
+<h2>풀이 설명</h2>
+<p>x,y가 너무 헷갈렸다.. 한참 헤맸는데.. 생각해보니.. 전혀 필요가 없었던 것 같다..</p>
+<p><code>Queue</code> 같은 경우에는 배열이 아닌 객체를 이용해서 구현했다.</p>
+<p>객체로 구현하는 것이 시간 복잡도에 유리하다고 해서 연습해봤다.</p>
+<p>생각보다 시간이 너무 오래 걸렸다.. ㅠㅠ</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="programmers,"/>
+        <category label="algorithm,"/>
+        <category label="javascript,"/>
+        <category label="dfs,"/>
+        <category label="bfs"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[프로그래머스] 이분탐색(Binary-Search) - 입국심사]]></title>
+        <id>188-programmers-43238</id>
+        <link href="https://nostrss.me/blog/188-programmers-43238"/>
+        <updated>2023-11-17T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Binary Search를 알아도 적용을 못하면 의미가 없다.]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://school.programmers.co.kr/learn/courses/30/lessons/43238">📌 이분탐색(Binary-Search) - 입국심사 보러가기 📌</a></p>
+<h2>나의 풀이</h2>
+<pre><code class="language-js">function solution(n, times) {
+  let low = 1;
+  let high = Math.max(...times) * n; // 가장 오래 걸리는 시간
+
+  while (low &#x3C;= high) {
+    const mid = Math.floor((low + high) / 2);
+    const people = times.reduce((acc, time) => acc + Math.floor(mid / time), 0);
+    if (people &#x3C; n) {
+      low = mid + 1;
+    } else {
+      high = mid - 1;
+    }
+  }
+  return low;
+}
+</code></pre>
+<h2>풀이 설명</h2>
+<p>풀이를 위한 코딩 시간보다.. 풀이방법을 찾아내는데 한참 시간이 걸렸던 문제였다.</p>
+<pre><code>제한사항
+- 입국심사를 기다리는 사람은 1명 이상 1,000,000,000명 이하입니다.
+- 각 심사관이 한 명을 심사하는데 걸리는 시간은 1분 이상 1,000,000,000분 이하입니다.
+- 심사관은 1명 이상 100,000명 이하입니다.
+</code></pre>
+<p>문제의 주제가 <code>이분탐색(binary-search)</code> 이었기 때문에</p>
+<p>위의 주어진 제한 사항을 보고 이분탐색을 심사관 배열에 적용해서 풀어야 겠다는 생각을 해버렸고</p>
+<p>거기에서 한참을 막혀 나오질 못했다.</p>
+<p>그러다 생각한 방법은 거꾸로 생각해보는 것이었다.</p>
+<p><code>이분탐색</code>을 심사관 배열이 아닌 <code>시간</code>에 적용해보자는 생각이었다.</p>
+<p>그래서 <code>시간</code>을 기준으로 <code>이분탐색</code>을 적용했고 그 시간 내에 <code>심사관</code>들이 <code>심사</code>할 수 있는 <code>사람</code>의 수를 구했다.</p>
+<p>어찌보면.. 시간을 대입하여 최소의 시간이 맞나?</p>
+<p>아니면 또 다른 시간을 대입해서 맞나?</p>
+<p>이렇게 문제를 푼 느낌이긴 하다.</p>
+<p>풀고난뒤 다른분들의 풀이를 봐도 비슷한 걸로 봐서는 이 방식이 맞는 것 같다..</p>
+<p>이론을 알아도.. 문제풀이에 적용을 못하면 의미가 없다는.. 느낌이 들었다.</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="programmers,"/>
+        <category label="algorithm,"/>
+        <category label="javascript,"/>
+        <category label="binary-search"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[프로그래머스] 탐욕법(Greedy) - 섬 연결하기]]></title>
+        <id>187-programmers-42861</id>
+        <link href="https://nostrss.me/blog/187-programmers-42861"/>
+        <updated>2023-11-16T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[최소 신장 트리로 섬을 연결하자. (Feet. 크루스칼 알고리즘, Union-Find)]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://school.programmers.co.kr/learn/courses/30/lessons/42861">📌 탐욕법(Greedy) - 섬 연결하기 보러가기 📌</a></p>
+<h2>나의 풀이</h2>
+<pre><code class="language-js">function solution(n, costs) {
+  var answer = 0;
+  let edges = 0;
+
+  costs.sort((a, b) => a[2] - b[2]);
+
+  // n개 만큼 인덱스를 원소로 같은 배열 생성
+  const unionArr = Array.from({ length: n }, (_, i) => i);
+
+  const findParent = (child) => {
+    if (unionArr[child] === child) return child;
+    return (unionArr[child] = findParent(unionArr[child]));
+  };
+
+  const insertParent = (small, bigger) => {
+    unionArr[bigger] = small;
+  };
+
+  for (let i = 0; i &#x3C; costs.length; i++) {
+    const [leftVertex, rightVertex] = costs[i];
+    const minParent = Math.min(findParent(leftVertex), findParent(rightVertex));
+    const maxParent = Math.max(findParent(leftVertex), findParent(rightVertex));
+
+    if (minParent !== maxParent) {
+      insertParent(minParent, maxParent);
+      answer = answer + costs[i][2];
+      edges = edges + 1;
+    }
+    // 선택한 간선의 개수가 n-1일때 종료
+    if (edges === n - 1) break;
+  }
+  return answer;
+}
+</code></pre>
+<h2>풀이 설명</h2>
+<p>먼저 이 문제는 <code>크루스칼</code> 알고리즘으로 풀었다.</p>
+<p><a href="https://ko.wikipedia.org/wiki/%ED%81%AC%EB%9F%AC%EC%8A%A4%EC%BB%AC_%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98">📌 크루스칼(Kruskal) 알고리즘 보러가기 📌</a></p>
+<p><code>크루스칼</code> 알고리즘은 <code>최소 신장 트리</code>를 만드는 알고리즘으로 이 문제를 푸는데 제격이다.</p>
+<p><code>크루스칼</code> 알고리즘의 원리는 이렇다.</p>
+<ul>
+<li><code>간선</code>의 <code>가중치</code>를 기준으로 오름차순 정렬한다.</li>
+<li>가중치가 가장 작은 간선부터 선택한다.</li>
+<li>선택한 간선이 <code>사이클</code>을 만들지 않는다면 선택한다.</li>
+<li>선택한 간선의 개수가 <code>n-1</code>개가 될 때까지 반복한다.</li>
+</ul>
+<p>이렇게 알고리즘을 작성하면 최소 신장 트리가 완성된다.</p>
+<p>이때 사이클을 판별하는 방법은 <code>Union-Find</code> 알고리즘을 사용하는데..</p>
+<p>오히려 이부분에서 시간을 많이 잡아먹었다.</p>
+<p>좋은 글을 하나 찾아서 이 블로그를 참고하여 풀었다.</p>
+<p><a href="https://wikidocs.net/207012">📌 참고링크 📌</a></p>
+<p>이런 문제는 몇 번 더 연습을 해서 숙달해야 할 것 같다.</p>
+<p>면접도 준비해야하는데.. 알고리즘만 풀고 있네..ㅠ</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="programmers,"/>
+        <category label="algorithm,"/>
+        <category label="javascript,"/>
+        <category label="greedy,"/>
+        <category label="mst,"/>
+        <category label="kruskal,"/>
+        <category label="union-find"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[프로그래머스] 탐욕법(Greedy) - 단속카메라]]></title>
+        <id>186-programmers-42884</id>
+        <link href="https://nostrss.me/blog/186-programmers-42884"/>
+        <updated>2023-11-16T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[과속은 탐욕이다. 탐욕법으로 과속차량 단속하기]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://school.programmers.co.kr/learn/courses/30/lessons/42884">📌 탐욕법(Greedy) - 단속카메라 보러가기 📌</a></p>
+<h2>나의 풀이</h2>
+<pre><code class="language-js">function solution(routes) {
+  var answer = 0;
+  // 겹치는 배열원소끼리 묶고 그 묶음의 개수를 구하자
+  // 겹침 판별
+  // [a,b] [c,d] a&#x3C;c&#x3C;b 면 겹친다
+  // 겹침 구간 [c, Min(b,d)]
+
+  routes.sort((a, b) => a[0] - b[0]);
+
+  const isCross = (routeA, routeB) => {
+    if (routeA[0] &#x3C;= routeB[0] &#x26;&#x26; routeB[0] &#x3C;= routeA[1])
+      return {
+        area: [routeB[0], Math.min(routeA[1], routeB[1])],
+        cross: true,
+      };
+    else
+      return {
+        area: [0, 0],
+        cross: false,
+      };
+  };
+  let crossArea = routes[0];
+
+  for (let i = 0; i &#x3C; routes.length - 1; i++) {
+    const result = isCross(crossArea, routes[i + 1]);
+    if (result.cross) {
+      crossArea = result.area;
+    } else {
+      answer += 1;
+      crossArea = routes[i + 1];
+    }
+  }
+  return answer + 1;
+}
+</code></pre>
+<h2>나의 풀이 설명</h2>
+<ol>
+<li>
+<p>예시의 배열을 [[-20,-15], [-14,-5], [-18,-13], [-5,-3]], 오름차순으로 아래와 같이 정렬해주었다.</p>
+</li>
+<li>
+<p>정렬결과 : [[-20,-15], [-18,-13], [-14,-5], [-5,-3]]</p>
+</li>
+<li>
+<p>그리고 아래와 같이 알고리즘을 정리했다.</p>
+</li>
+</ol>
+<ul>
+<li>겹침 판별 : [-20,-15], [-18,-13]의 겹침 구간은 [-18,-15]이다.</li>
+<li>그리고 다음 원소[-14,-5]와 이전 겹침구간[-18,-15]과 다시 겹침 판별했다.</li>
+<li>겹침 판별이 false 일 때까지 이전까지 겹쳤던 원소들은 단속카메라가 필요하기 때문에 answer +1 을 해주고, 겹침구간을 다시 [-14,-5]로 초기화해준다.</li>
+<li>이렇게 반복하면서 answer를 구한다.</li>
+</ul>
+<p>즉, 겹치는 구간이 없을때까지 원소들을 Index 0부터 진행해 나간다.</p>
+<p>그러다 겹치는 구간이 없는 경우가 발생하면 단속카메라를 설치하고, 다시 다음 원소부터 이 방법을 반복하면 문제가 풀렸다.</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="programmers,"/>
+        <category label="algorithm,"/>
+        <category label="javascript,"/>
+        <category label="greedy"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[프로그래머스] 정렬 - 가장 큰 수]]></title>
+        <id>184-programmers-42746</id>
+        <link href="https://nostrss.me/blog/184-programmers-42746"/>
+        <updated>2023-11-15T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[때론 감으로 풀어서 맞는 경우도 있다...]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://school.programmers.co.kr/learn/courses/30/lessons/42746">📌 정렬 - H-Index 보러가기 📌</a></p>
+<h2>나의 풀이</h2>
+<pre><code class="language-js">function solution(numbers) {
+  var answer = '';
+
+  const result = numbers
+    .map((number) => String(number))
+    .sort((a, b) => b + a - (a + b))
+    .join('');
+
+  return result[0] === '0' ? '0' : result;
+}
+</code></pre>
+<p>솔직히 감으로 맞춰서 풀어본 문제이다.</p>
+<p>모든 케이스를 다 테스트 통과할 거라고 생각치는 안았는데..</p>
+<p>['1','2','3','10','11','12'].sort((a,b) => (b+a)-(a+b)) 이렇게 했을 때</p>
+<p>['3','2','12','1','11','10'] 이렇게 나오는 것을 보고 감으로 풀어봤다.</p>
+<p>... 이렇게 풀면 안되는데.. 통과가 되었다....</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="programmers,"/>
+        <category label="algorithm,"/>
+        <category label="javascript,"/>
+        <category label="sort"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[프로그래머스] 정렬 - k번째 수]]></title>
+        <id>183-programmers-42748</id>
+        <link href="https://nostrss.me/blog/183-programmers-42748"/>
+        <updated>2023-11-15T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[원본배열을 변경하는 메소드를 조심하자.]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://school.programmers.co.kr/learn/courses/30/lessons/42748">📌 정렬 - k번째 수 문제 보러가기 📌</a></p>
+<h2>나의 풀이</h2>
+<pre><code class="language-js">function solution(array, commands) {
+  var answer = [];
+
+  answer = commands.map((command) => {
+    const result = array
+      .slice(command[0] - 1, command[1])
+      .sort((a, b) => a - b);
+    return result[command[2] - 1];
+  });
+
+  return answer;
+}
+</code></pre>
+<p>문제는 크게 어렵지 않다.</p>
+<p>다만, <code>sort</code> 메소드의 경우 원본 배열을 수정하기 때문에 주의해야 한다.</p>
+<p>실제 코테시.. 검색을 할 수 없을 경우 원본 데이터를 변경하는 메소드인지 아닌지..</p>
+<p>이런 것들을 기억하고 있어야 할 것 같다.</p>
+<p>매번 MDN을 통해서 확인하면서 개발을 했었는데.. 숙지하고 보지않고 푸는 버릇을 들여야겠다.</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="programmers,"/>
+        <category label="algorithm,"/>
+        <category label="javascript,"/>
+        <category label="sort"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[프로그래머스] 정렬 - H-Index]]></title>
+        <id>185-programmers-42747</id>
+        <link href="https://nostrss.me/blog/185-programmers-42747"/>
+        <updated>2023-11-15T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[때론 무식하게 푸는 것도 방법이다...]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://school.programmers.co.kr/learn/courses/30/lessons/42747">📌 정렬 - H-Index 보러가기 📌</a></p>
+<h2>나의 풀이</h2>
+<pre><code class="language-js">function solution(citations) {
+  const countArr = [];
+
+  for (let i = 0; i &#x3C;= 10000; i++) {
+    if (citations.filter((item) => item >= i).length >= i) countArr.push(i);
+  }
+
+  return countArr.sort((a, b) => b - a)[0];
+}
+</code></pre>
+<p>이렇게 풀어도 되는건지.. 모르겠다..</p>
+<p>푸는 방법이 도대체 떠오르지 않아서.. 무식하게 풀어봤다.</p>
+<p>제한사항</p>
+<ul>
+<li>과학자가 발표한 논문의 수는 1편 이상 1,000편 이하입니다.</li>
+<li>논문별 인용 횟수는 0회 이상 10,000회 이하입니다.</li>
+</ul>
+<p>배열의 길이가 그리 크지 않아서.. 모든 H-Index의 경우의 수를 구해서 가장 큰 H-Index를 구했다.</p>
+<p>이렇게 해도 되는 걸까.. 수학적인 공식이 있을 것 같은데..</p>
+<h2>다른 풀이</h2>
+<p>chat Gpt를 통해서 다른 풀이를 구해보았다.</p>
+<pre><code class="language-js">function solution(citations) {
+  citations.sort((a, b) => b - a);
+  let hIndex = 0;
+
+  for (let i = 0; i &#x3C; citations.length; i++) {
+    if (citations[i] >= i + 1) {
+      hIndex = i + 1;
+    } else {
+      break;
+    }
+  }
+  return hIndex;
+}
+</code></pre>
+<p>생각해보니 굳이 1부터 10,000까지 비교할 필요는 없었다..
+왜 이 생각을 못했을까..</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="programmers,"/>
+        <category label="algorithm,"/>
+        <category label="javascript,"/>
+        <category label="sort"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[프로그래머스] 스택/큐 - 주식거래]]></title>
+        <id>182-programmers-42584</id>
+        <link href="https://nostrss.me/blog/182-programmers-42584"/>
+        <updated>2023-11-14T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[100,000개의 배열문제 효율성 통과하기]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://school.programmers.co.kr/learn/courses/30/lessons/42584">📌 스택/큐 - 주식거래 문제 보러가기 📌</a></p>
+<h2>나의 풀이 1 - 효율성 통과 X</h2>
+<pre><code class="language-js">function solution(prices) {
+  var answer = [];
+
+  answer = prices.map((stock, index) => {
+    const pricesArray = prices.slice(index, prices.length);
+    const findResult = pricesArray.findIndex((items) => items &#x3C; pricesArray[0]);
+    return findResult === -1 ? pricesArray.length - 1 : findResult;
+  });
+
+  return answer;
+}
+</code></pre>
+<p>처음 문제를 보고 쉽게 생각하고 위와 같이 풀었다.</p>
+<p><code>정확성</code> 테스트는 통과했으나.. <code>효율성</code> 테스트를 전부 실패한 것을 볼 수 있다..</p>
+<p>아무래도 <code>map</code>을 사용하고, 그안에서 <code>배열</code>을 또 생성하고, <code>findIndex</code>를 사용하는 것이 문제인 것 같다.</p>
+<p>배열의 <code>최대 크기</code>가 <code>100,000</code> 이기 때문에 문제가 될 것 같아 배열을 생성하지 않고 다시 풀어보았다.</p>
+<h2>나의 풀이 2 - 효율성 통과 O</h2>
+<pre><code class="language-js">function solution(prices) {
+  var answer = [];
+
+  answer = prices.map((stock, index) => {
+    let findResult = 0;
+    for (let i = index + 1; i &#x3C; prices.length; i++) {
+      if (stock > prices[i]) {
+        findResult = i - index;
+        return findResult;
+      }
+      findResult = i - index;
+    }
+    return findResult;
+  });
+  return answer;
+}
+</code></pre>
+<p>배열을 새로 생성하지 않고 for문을 사용해서 불필요한 연산을 줄였더니 <code>효율성</code> 테스트를 통과할 수 있었다.</p>
+<h2>다른 풀이</h2>
+<p>지인이 문제를 보더니 풀어준 답안이다</p>
+<pre><code class="language-js">function solution(prices) {
+  const n = prices.length;
+  const answer = new Array(n).fill(0);
+
+  const stack = [];
+
+  for (let i = 0; i &#x3C; n; i++) {
+    while (stack.length > 0 &#x26;&#x26; prices[i] &#x3C; prices[stack[stack.length - 1]]) {
+      const top = stack.pop();
+      answer[top] = i - top;
+    }
+    stack.push(i);
+  }
+
+  while (stack.length > 0) {
+    const top = stack.pop();
+    answer[top] = n - 1 - top;
+  }
+
+  return answer;
+}
+</code></pre>
+<p>스택을 이용해서 풀었는데, 이렇게 풀어도 효율성 테스트를 통과할 수 있었다.</p>
+<p>풀이방법이 이해하기 조금 난해한데.. 다시 한번 더 공부해봐야겠다.</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="programmers,"/>
+        <category label="algorithm,"/>
+        <category label="javascript,"/>
+        <category label="stack,"/>
+        <category label="queue"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[프로그래머스] 스택/큐 - 프로세스]]></title>
+        <id>181-programmers-42583</id>
+        <link href="https://nostrss.me/blog/181-programmers-42583"/>
+        <updated>2023-11-13T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Queue를 이용해서 프로세스를 구현해보자]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://school.programmers.co.kr/learn/courses/30/lessons/42587">📌 스택/큐 - 프로세스 문제 보러가기 📌</a></p>
+<h2>나의 풀이</h2>
+<pre><code class="language-js">function solution(priorities, location) {
+  var answer = 0;
+  const queue = priorities.map((item, index) => ({ index, item }));
+
+  while (queue.length > 0) {
+    const peek = queue.shift();
+    const isBigNumber = queue.findIndex((queueItem) => {
+      return queueItem.item > peek.item;
+    });
+
+    if (isBigNumber > -1) {
+      queue.push(peek);
+    } else {
+      answer = answer + 1;
+      if (peek.index === location) break;
+    }
+  }
+
+  return answer;
+}
+</code></pre>
+<p>처음에 문제를 보고 우선순위큐를 이용한 문제로 판단해서 <code>우선순위큐</code>를 구현하려고 했다.</p>
+<p>그러나 계속 결과가 틀려서 문제를 다시 읽어보니 굳이 <code>우선순위큐</code>를 사용하지 않아도 되는 문제였다..</p>
+<p>문제를 잘못 읽어서 시간을 많이 낭비했다.</p>
+<h2>문제 이해하기</h2>
+<p>[2, 1, 3, 2] 라는 배열이 있고, location이 2라고 가정하자.</p>
+<p>이 경우 프로세스는 다음과 같이 진행된다.</p>
+<ol>
+<li>2꺼냄, [1,3,2] : 3이라는 숫자가 더 큰 숫자가 있으므로 다시 넣음</li>
+<li>[1,3,2,2]</li>
+<li>1꺼냄 [3,2,2] : 3이라는 숫자가 더 큰 숫자가 있으므로 다시 넣음</li>
+<li>[3,2,2,1]</li>
+<li>3꺼냄 [2,2,1] : 더 큰 숫자가 없고, location이 2에 해당하므로 종료</li>
+<li>3은 더이상 큐에 들어가지 않고 1번째로 실행되므로 1을 리턴</li>
+</ol>
+<p>꺼냈던 priorities 배열의 원소가 다시 큐에 삽입되는 경우가 있는데, 이를 고려해야 했었다.</p>
+<blockquote>
+<p>문제를 끝까지 제대로 이해하고 풀자!</p>
+</blockquote>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="programmers,"/>
+        <category label="algorithm,"/>
+        <category label="javascript,"/>
+        <category label="stack,"/>
+        <category label="queue"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[프로그래머스] 스택/큐 - 다리를 지나는 트럭]]></title>
+        <id>180-programmers-42587</id>
+        <link href="https://nostrss.me/blog/180-programmers-42587"/>
+        <updated>2023-11-13T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Queue와 메소드를 이용해서 풀어보자]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://school.programmers.co.kr/learn/courses/30/lessons/42583">📌 스택/큐 - 다리를 지나는 트럭 보러가기 📌</a></p>
+<h2>나의 풀이</h2>
+<pre><code class="language-js">function solution(bridge_length, weight, truck_weights) {
+  var answer = 0;
+
+  const queue = new Queue(bridge_length);
+  const completeValue = truck_weights.reduce((acc, cur) => acc + cur);
+  let overTruckValue = 0;
+
+  while (overTruckValue &#x3C; completeValue) {
+    // 현재 건너고 있는 트럭의 무게가 weight를 초과하는지 검사
+    if (
+      weight >=
+      queue.weightSum + (truck_weights[0] === undefined ? 0 : truck_weights[0])
+    ) {
+      overTruckValue = overTruckValue + queue.enqueue(truck_weights.shift());
+    } else {
+      if (weight >= queue.sum() - queue.peek() + truck_weights[0]) {
+        overTruckValue = overTruckValue + queue.enqueue(truck_weights.shift());
+      } else {
+        overTruckValue = overTruckValue + queue.enqueue(0);
+      }
+    }
+    answer = answer + 1;
+  }
+
+  return answer;
+}
+
+class Queue {
+  constructor(length) {
+    this.items = new Array(length);
+    this.items.fill(0);
+    this.weightSum = 0;
+  }
+  enqueue(item) {
+    const shiftValue = this.items.shift();
+    this.items.push(item === undefined ? 0 : item);
+    this.weightSum = this.sum();
+    return shiftValue;
+  }
+  sum() {
+    return (this.weightSum = this.items.reduce((acc, cur) => acc + cur));
+  }
+  peek() {
+    return this.items[0];
+  }
+}
+</code></pre>
+<p>스택과 큐를 클래스로 미리 정의를 해두고 푸는 방법에 조금씩 익숙해지는 것 같다.</p>
+<p>메소드도 문제에 필요한데로 정의를 해서 사용하니깐 훨씬 문제 풀기에 용이해 지는 것 같다.</p>
+<p>빨리 코테 감을 잡자 시간이 부족하다!</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="programmers,"/>
+        <category label="algorithm,"/>
+        <category label="javascript,"/>
+        <category label="stack,"/>
+        <category label="queue"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[프로그래머스] 스택/큐 - 올바른 괄호 문제 풀이]]></title>
+        <id>179-programmers-12909</id>
+        <link href="https://nostrss.me/blog/179-programmers-12909"/>
+        <updated>2023-11-05T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[스택을 이용해서 괄호 검사를 해보자]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://school.programmers.co.kr/learn/courses/30/lessons/12909">📌 스택/큐 - 올바른 괄호 문제 보러가기 📌</a></p>
+<h2>나의 풀이</h2>
+<pre><code class="language-js">function solution(s) {
+  const stack = new Stack();
+
+  if (s[0] === ')') {
+    return false;
+  }
+
+  for (let i = 0; i &#x3C; s.length; i++) {
+    if (stack.top() === '(' &#x26;&#x26; s[i] === ')') stack.pop();
+    else stack.push(s[i]);
+  }
+
+  return stack.isEmpty();
+}
+
+class Stack {
+  constructor(stackArr) {
+    this.stackArr = [];
+  }
+
+  push(item) {
+    this.stackArr.push(item);
+  }
+
+  pop(item) {
+    this.stackArr.pop(item);
+  }
+
+  top() {
+    return this.stackArr[this.stackArr.length - 1];
+  }
+
+  isEmpty() {
+    return this.stackArr.length === 0;
+  }
+}
+</code></pre>
+<p>Stack 클래스를 선언하고, push, pop, top, isEmpty 메소드를 구현하여 문제 풀이에 사용하였다.</p>
+<p>이렇게 굳이 안풀어도 방법은 있겠지만, 이 문제의 의도에 맞게 풀려고 Stack 클래스를 구현하였다.</p>
+<h2>개선 및 문제점</h2>
+<p>문제를 풀다보니 <code>효율성</code> 이라는 항목이 있는 걸 발견했다.</p>
+<p>예전엔 이런 항목이 있는지 몰랐는데..</p>
+<p><code>시간복잡도</code>나 <code>공간복잡도</code>를 평가하는 항목인 것 같다.</p>
+<p>앞으로는 이런 부분도 고려해서 문제를 풀어야 고득점을 받을 수 있을 것 같다....</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="programmers,"/>
+        <category label="algorithm,"/>
+        <category label="javascript,"/>
+        <category label="stack,"/>
+        <category label="queue"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[프로그래머스] 스택/큐 - 기능개발 문제 풀이]]></title>
+        <id>178-programmers-42586</id>
+        <link href="https://nostrss.me/blog/178-programmers-42586"/>
+        <updated>2023-11-05T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[스택이나 큐를 사용하여 풀어야 하는데 사용하지 않고 풀었다. 언제 어떻게 사용해야 하는걸까..]]></summary>
+        <content type="html"><![CDATA[<p>코테 준비를 위해 <code>프로그래머스</code> 문제를 풀고 있다.</p>
+<p><code>자료구조</code>의 기본인 <code>스택과큐</code> 관련된 문제를 먼저 풀어보려고 한다.</p>
+<p><a href="https://school.programmers.co.kr/learn/courses/30/lessons/42586">📌 스택/큐 - 기능개발 문제 보러가기 📌</a></p>
+<h2>풀이</h2>
+<p>일단 나의 문제풀이는 이렇다.</p>
+<pre><code class="language-js">function solution(progresses, speeds) {
+  var answer = [];
+
+  let copyProgresses = [...progresses];
+  let copySpeeds = [...speeds];
+
+  const addProgress = () => {
+    const result = copyProgresses.map((progress, index) => {
+      return progress + copySpeeds[index];
+    });
+    copyProgresses = [...result];
+  };
+
+  const countDeploy = () => {
+    const tmpArray = [...copyProgresses];
+    const length = tmpArray.length;
+    let count = 0;
+    for (let i = 0; i &#x3C; length; i++) {
+      if (tmpArray[i] >= 100) {
+        copyProgresses.shift();
+        copySpeeds.shift();
+        count = count + 1;
+      } else break;
+    }
+
+    if (count !== 0) {
+      answer.push(count);
+    }
+  };
+
+  while (copyProgresses.length > 0) {
+    addProgress();
+    countDeploy();
+  }
+
+  return answer;
+}
+</code></pre>
+<p>일단 함수 2개를 선언하였다.</p>
+<ul>
+<li>addProgress : progresses에 speeds를 더해주는 함수</li>
+<li>countDeploy : 100이 넘는 progresses를 제거하고, answer에 넣어주는 함수</li>
+</ul>
+<p>그리고 while문을 통해 progresses의 길이가 0이 될 때까지 반복하도록 하였다.</p>
+<p>이렇게 문제를 풀었더니 일단 모든 테스트와 채점에서 통과하였다.</p>
+<h2>개선 및 문제점</h2>
+<h3>개선할 사항</h3>
+<p>일단, progresses, speeds 파라미터를 받아서 새로운 변수에 할당하는 부분이 있다.</p>
+<p>원본 데이터 정보가 필요할 수도 있을 것 같고, 파라미터를 직접 조작하는 것을 꺼리는 습관 때문에 일단은 이렇게 작업을 했다.</p>
+<h3>스택/큐 문제인데 스택이나 큐를 사용하지 않았다.</h3>
+<p>이 문제는 스택/큐를 사용하여 풀이하라는 문제인데.. 사용하지를 않고 풀었다.
+어떻게 스택과 큐를 적용해야할지 고민해야 할 것 같다.</p>
+<h2>chatgpt 풀이</h2>
+<pre><code class="language-js">function solution(progresses, speeds) {
+  const answer = [];
+
+  while (progresses.length > 0) {
+    // 진행상황 업데이트
+    progresses = progresses.map((progress, index) => progress + speeds[index]);
+
+    // 배포 가능한 작업 수 계산
+    let count = 0;
+    while (progresses.length > 0 &#x26;&#x26; progresses[0] >= 100) {
+      progresses.shift();
+      speeds.shift();
+      count++;
+    }
+
+    if (count > 0) {
+      answer.push(count);
+    }
+  }
+
+  return answer;
+}
+</code></pre>
+<p>비슷한듯 좀 더 간결한데.. 파라미터를 직접 조작하고 있다. while문을 2번 사용하고 있다.</p>
+<p>문제가 배열의 길이가 100개로 제한되어 있어서 그런지 while문을 2번 사용하더라도 효율성 테스트에서 통과하였다.</p>
+<p>일단 풀리긴 해서 기분은 좋은데, 먼가 만족스럽게 풀지 못해서 아쉽다.</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="programmers,"/>
+        <category label="algorithm,"/>
+        <category label="javascript,"/>
+        <category label="stack,"/>
+        <category label="queue"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[JS] Array.from() 사용하기]]></title>
+        <id>177-javascript-array-from</id>
+        <link href="https://nostrss.me/blog/177-javascript-array-from"/>
+        <updated>2023-11-05T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[아직도 모르는 것이 많은 자바스크립트. Array.from() 메소드를 사용해보자.]]></summary>
+        <content type="html"><![CDATA[<p>자바스크립트에서 많이 사용하는 배열(Array)에는 여러 메소드가 있다.</p>
+<p>오늘은 그중 하나인 <code>Array.from(arrayLike, mapFn, thisArg)</code> 메소드를 학습해보려고 한다.</p>
+<h2>Array.from(arrayLike, mapFn, thisArg) 메소드란?</h2>
+<p><a href="https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Array/from">📌 MDN 공식 문서 보러가기 📌</a></p>
+<blockquote>
+<p>Array.from() 정적 메서드는 순회 가능 또는 유사 배열 객체에서 얕게 복사된 새로운 Array 인스턴스를 생성합니다.</p>
+</blockquote>
+<p>직접 사용해보면서 익혀 보자.</p>
+<p>먼저 유사배열 객체가 무엇인지 알아보자.</p>
+<pre><code class="language-js">const arrayLike = {
+  0: 'a',
+  1: 'b',
+  2: 'c',
+  length: 3,
+};
+</code></pre>
+<p>위와 같이 배열은 아니지만 키값이 인덱스로 되어 있고, 길이를 나타내는 length 속성을 가진 객체를 유사배열 객체라고 한다.</p>
+<p>Array.from() 메소드는 배열 뿐만 아니라 이런 유사 배열 객체에도 사용할 수 있다.</p>
+<h2>Array.from() 메소드 사용하기</h2>
+<h3>문자열을 배열로 만들기</h3>
+<pre><code class="language-js">console.log(Array.from('foo')); // ['f', 'o', 'o']
+</code></pre>
+<h3>유사 배열 객체</h3>
+<pre><code class="language-js">const arrayLike = {
+  0: 'a',
+  1: 'b',
+  2: 'c',
+  length: 3,
+};
+
+const array = Array.from(arrayLike);
+console.log(array); // ['a', 'b', 'c']
+</code></pre>
+<h3>Set 객체</h3>
+<pre><code class="language-js">const set = new Set(['foo', 'bar', 'baz', 'foo']);
+console.log(Array.from(set)); // ['foo', 'bar', 'baz']
+</code></pre>
+<h2>mapFn 사용하기</h2>
+<pre><code class="language-js">// 화살표 함수를 map 함수로 사용하여 요소 조작
+Array.from([1, 2, 3], (x) => x + x);
+// [2, 4, 6]
+</code></pre>
+<pre><code class="language-js">// 숫자 시퀀스 생성하기
+// 배열의 각 위치가 `undefined`로 초기화되므로
+// 아래 'v'의 값은 `undefined`가 됩니다.
+Array.from({ length: 5 }, (v, i) => i);
+// [0, 1, 2, 3, 4]
+</code></pre>
+<h3>2차원 배열 초기화 하기</h3>
+<pre><code class="language-js">let arr2 = new Array(3);
+
+for (let i = 0; i &#x3C; arr2.length; i++) {
+  arr2[i] = Array.from({ length: 4 }, (_, j) => i * 4 + j);
+}
+
+console.log(arr2);
+
+//[
+//  [ 0, 1, 2, 3 ],
+//  [ 4, 5, 6, 7 ],
+//  [ 8, 9, 10, 11 ]
+//]
+</code></pre>
+<p>아직 사용법이 익숙하지 않지만 알아두면 코딩테스트에서 배열을 초기화 할때, 또는 객체를 배열로 바꿀때 등에서 유용하게 사용할 수 있을 것 같다.</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="javascript"/>
+        <category label="array"/>
+        <category label="from"/>
+        <category label="method"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[CS] 어떤 코드가 더 성능이 좋은 코드일까?]]></title>
+        <id>176-time-complexity</id>
+        <link href="https://nostrss.me/blog/176-time-complexity"/>
+        <updated>2023-11-01T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[시간 복잡도(time complexity)에 대해서 알아보자.]]></summary>
+        <content type="html"><![CDATA[<p>예전에 학부시절에 배웠던 개념이지만 복습을 위해 정리해보려고 한다.</p>
+<h2>시간 복잡도(time complexity)란?</h2>
+<blockquote>
+<p>시간 복잡도(Time Complexity)는 컴퓨터 과학과 알고리즘 분석에서 사용되는 개념으로, 어떤 알고리즘, 함수 또는 프로그램의 실행 시간이 입력 크기에 대한 함수로 표현됩니다. 시간 복잡도는 일반적으로 "Big O 표기법" 또는 다른 표기법을 사용하여 나타내며, 알고리즘이 입력 데이터 크기에 따라 어떻게 성장하는지를 나타내는 방식입니다.</p>
+</blockquote>
+<p><code>시간 복잡도</code>는 정확한 수치를 계산하는 방식은 아니며, 입력값이 <code>무한</code>하다는 가정하에 가장 낮은 차수의 항을 제외시키고 표현한다.</p>
+<p>즉, 가장 빠르게 증가하는 항만을 고려하는 표기법이다</p>
+<p>예를들면 5n^3 + 3n 이라는 식의 경우 <code>시간복잡도</code>는 <code>O(n^3)</code>이 된다.</p>
+<h2>시간 복잡도의 표</h2>
+<p>| 시간복잡도 | n           | 1   | 2   | 3    | 4   | 8     | 16             | 32              | 64               | 1000              |
+| ---------- | ----------- | --- | --- | ---- | --- | ----- | -------------- | --------------- | ---------------- | ----------------- |
+| 1          | 시간/n      | 1   | 1   | 1    | 1   | 1     | 1              | 1               | 1                | 1                 |
+| log n      | log(n)      | 0   | 1   | 1.58 | 2   | 3     | 4              | 5               | 6                | 9.97              |
+| n          | n           | 1   | 2   | 3    | 4   | 8     | 16             | 32              | 64               | 1000              |
+| n log n    | n * log(n) | 0   | 2   | 4.75 | 8   | 24    | 64             | 160             | 384              | 9966              |
+| n^2        | n^2         | 1   | 4   | 9    | 16  | 64    | 256            | 1024            | 4096             | 1000000           |
+| n^3        | n^3         | 1   | 8   | 27   | 64  | 512   | 4096           | 32768           | 262144           | 1000000000        |
+| 2^n        | 2^n         | 2   | 4   | 8    | 16  | 256   | 65536          | 4294967296      | 약 1.844 x 10^19 | 약 1.07 x 10^301  |
+| n!         | n!          | 1   | 2   | 6    | 24  | 40320 | 20922789888000 | 약 2.63 x 10^35 | 약 1.27 x 10^89  | 약 4.02 x 10^2567 |</p>
+<h2>시간 복잡도의 활용</h2>
+<p>사실 아직 현업에서 개발을 하고 있는 친구들에게 시간 복잡도를 고려하면서 개발을 하는지 물어보면 대부분이 그렇지 않다고 한다.</p>
+<p>실제로 방대한 코드에서의 시간복잡도를 고려하면서 개발을 하는 것은 매우 어려운 일이다.</p>
+<p>하지만 만약 성능을 개선해야하는 경우가 발생한다면, 상대적으로 시간복잡도가 낮은 방향으로 개선을 할 수 있으므로 개념을 잘 알아두면 좋을 것 같다.</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="computer-science"/>
+        <category label="time-complexity"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[아니 벌써 Next.js 14가 나왔다고?]]></title>
+        <id>175-nextjs-14</id>
+        <link href="https://nostrss.me/blog/175-nextjs-14"/>
+        <updated>2023-10-27T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Vercel님들 너무 열심히 하시는 거 아니오? 천천히 좀 합시다.]]></summary>
+        <content type="html"><![CDATA[<p><img src="https://github.com/nostrss/next13-blog/assets/56717167/1574a313-a414-4cba-a34e-469ce0044319" alt="twitter-card"></p>
+<p>Vercel에서 Next.js 14가 나왔다고 한다.</p>
+<p><a href="https://nextjs.org/blog/next-14">📌 Next.js 14 공식 블로그 📌</a>
+<a href="https://nextjs.org/conf">📌 Next.js 14 Conf 보러가기 📌</a></p>
+<p>정말 너무 빠른 속도로 새로운 버전들이 쏟아 지는 것 같다. 이제 13버전이 나온지 얼마 안된 것 같은데 벌써 14버전이 나왔다니...</p>
+<p>어쨌든 <code>Next.js 14</code>는 무엇이 달라졌는지 알아보자.</p>
+<p>위의 블로그를 살펴보면 <code>4가지</code> 주요 업데이트가 있다고 한다.</p>
+<ul>
+<li>Turbopack</li>
+<li>Server Actions</li>
+<li>Partial Prerendering(preview)</li>
+<li>Next.js Learn</li>
+</ul>
+<h2>Turbopack</h2>
+<p><a href="https://nextjs.org/blog/next-14#nextjs-compiler-turbocharged">📌 Next.js 14 Turbopack 공식 문서 보러가기 📌</a></p>
+<p>공식문서를 번역기로 돌려서 확인해봤다.</p>
+<blockquote>
+<p>Next.js 13부터 우리는 페이지와 앱 라우터 모두에서 Next.js의 로컬 개발 성능을 개선하기 위해 노력해 왔습니다.</p>
+</blockquote>
+<blockquote>
+<p>next dev이전에는 이러한 노력을 지원하기 위해 Next.js의 다른 부분을 다시 작성했습니다 . 이후 우리는 접근 방식을 좀 더 점진적으로 변경했습니다. 이는 우리가 먼저 모든 Next.js 기능을 지원하는 데 다시 집중했기 때문에 Rust 기반 컴파일러가 곧 안정성에 도달할 것임을 의미합니다.</p>
+</blockquote>
+<blockquote>
+<p>next dev이제 Turbopack을 통해 5,000개의 통합 테스트를 통과했습니다., 우리의 기본 Rust 엔진입니다. 이 테스트에는 7년간의 버그 수정 및 재현이 포함됩니다.</p>
+</blockquote>
+<blockquote>
+<p>vercel.com대규모 Next.js 애플리케이션을 테스트하는 동안 우리는 다음을 확인했습니다.</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>최대 53.3% 더 빠른 로컬 서버 시작</li>
+<li>빠른 새로 고침으로 최대 94.7% 더 빠른 코드 업데이트</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>이 벤치마크는 대규모 애플리케이션(및 대규모 모듈 그래프)에서 기대할 수 있는 성능 향상의 실제 결과입니다. 현재 테스트의 90%가 next dev통과되었으므로 next dev --turbo.</p>
+</blockquote>
+<blockquote>
+<p>테스트를 100% 통과하면 향후 마이너 릴리스에서 Turbopack을 안정 버전으로 이동할 예정입니다. 또한 사용자 정의 구성 및 생태계 플러그인을 위해 webpack 사용을 계속 지원할 예정입니다.</p>
+</blockquote>
+<h2>Server Actions</h2>
+<p>Next.js 13 에서 소개 된 <code>Server Actions</code> 의 안정화 단계에 들어갔다.</p>
+<p>그리고 14 버전에서는 아래과 같은 변화가 있다.</p>
+<ul>
+<li>통합된 캐싱 및 재검증</li>
+<li>간단한 함수 호출 또는 기본적으로 form에서 작동</li>
+</ul>
+<p>2번째 기능은 새로 추가된 것 같은데 <code>form</code> 태그를 사용할 떄 처리방식에서 변화가 있는 것으로 예상된다.</p>
+<h2>Partial Prerendering(preview)</h2>
+<p><a href="https://nextjs.org/blog/next-14#partial-prerendering-preview">📌 Next.js 14 Partial Prerendering 공식 문서 보러가기 📌</a></p>
+<p>이번에도 번역기로 간단히 살펴보았다.</p>
+<blockquote>
+<p>우리는 Next.js를 위해 작업 중인 부분 사전 렌더링(빠른 초기 정적 응답을 갖춘 동적 콘텐츠에 대한 컴파일러 최적화)의 미리 보기를 공유하고 싶습니다.</p>
+</blockquote>
+<blockquote>
+<p>부분 사전 렌더링은 서버 측 렌더링(SSR), 정적 사이트 생성(SSG) 및 증분 정적 재검증(ISR)에 대한 10년 간의 연구 개발을 기반으로 구축되었습니다.</p>
+</blockquote>
+<blockquote>
+<p>동기 부여
+우리는 귀하의 의견을 들었습니다. 현재 고려해야 할 런타임, 구성 옵션 및 렌더링 방법이 너무 많습니다. 귀하는 정적 속도와 안정성을 원하면서도 완전히 동적이고 개인화된 응답을 지원하기를 원합니다.</p>
+</blockquote>
+<blockquote>
+<p>전 세계적으로 뛰어난 성능 과 개인화 기능을 갖추려면 복잡성이 희생되어서는 안 됩니다.</p>
+</blockquote>
+<blockquote>
+<p>우리의 과제는 개발자가 배울 수 있는 새로운 API를 도입하지 않고 기존 모델을 단순화하여 더 나은 개발자 환경을 만드는 것이었습니다. 서버 측 콘텐츠의 부분 캐싱이 존재했지만 이러한 접근 방식은 여전히 ​​우리가 목표로 하는 개발자 경험과 구성 가능성 목표를 충족해야 합니다.</p>
+</blockquote>
+<blockquote>
+<p>부분 사전 렌더링에는 학습하는 데 새로운 API가 필요하지 않습니다.</p>
+</blockquote>
+<p><code>Partial Prerendering</code>의 경우 <code>React</code> <code>Suspend</code>를 기반으로 구현된 것 같은데 아직은 개발중인 것으로 보여서, 실제로 사용하려면 조금 더 기다려야 할 것 같다.</p>
+<h2>Next.js Learn</h2>
+<p><a href="https://nextjs.org/learn">📌 Next.js learn 페이지 바로가기 📌</a></p>
+<p>공식 홈페이지에 Next.js를 배울 수 있는 페이지가 생겼다.</p>
+<blockquote>
+<p>내가 보기엔 Next 12에서 13으로 넘어갈 때 만큼의 큰 변화는 없는 것 같다. 이번 업데이트는 Next.js를 사용하고 있는 개발자에게 더 좋은 성능과 개발경험을 제공하려는 업데이트 인 것 같다.</p>
+</blockquote>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="nextjs"/>
+        <category label="react"/>
+        <category label="vercel"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[모노레포란 무엇인가?]]></title>
+        <id>173-concept-monorepo</id>
+        <link href="https://nostrss.me/blog/173-concept-monorepo"/>
+        <updated>2023-10-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[여러분은 어떤 구조로 프로젝트를 진행하고 계신가요?]]></summary>
+        <content type="html"><![CDATA[<p>요새 프런트엔드 기술과 공고를 보다 보면 아래와 같은 내용을 자주 볼 수 있었다.</p>
+<blockquote>
+<p>우대사항 : 모노레포 관련 경험 자</p>
+</blockquote>
+<p>면접때도 한번 질문을 받은 경험이 있었는데, 경험해보지 못했다고 말하고 넘어갔었는데 이번에 한번 알아보려고 한다.</p>
+<h2>등장 배경</h2>
+<p><a href="https://d2.naver.com/helloworld/0923884">📌 (참고) 모던 프론트엔드 프로젝트 구성 기법 - 모노레포 개념 편 📌</a></p>
+<p>일단 <code>모노레포</code>가 등장한 배경을 알아보자.</p>
+<p><code>모노레포</code>가 등장하기전 소프트웨어 애플리케이션은 모듈화가 되지 않은 상태로 개발되었다.</p>
+<p>아래의 그림을 살펴보자.</p>
+<p><img src="https://github.com/nostrss/next13-blog/assets/56717167/cb60cd81-a94c-40e2-a469-3f1ad93c3de5" alt="0a710ba9-7e47-1064-817f-86e0ae025d1b"></p>
+<p>위의 구조는 <code>모놀리식</code>이라 불리는 <code>모노레포</code> 이전의 소프트웨어의 모습이다.</p>
+<p>블로그와 같은 작은 프로젝트라면 위의 구조가 괜찮을 수 있지만, 만약 구글, 페이스북, 인스타그램과 같이 거대 프로젝트라면 어떨까?</p>
+<p>내가 생각하기에 일단 아래와 같은 문제가 발생할 것 같다.</p>
+<ul>
+<li>로컬에 소스코드 클론 시 그 용량이 어마 무시 할 것 같다.</li>
+<li>빌드 시간이 오래 걸리고 배포의 단위가 매우 커질 것 같다.</li>
+</ul>
+<p>이런 한계를 극복하기 위한 방법중에 하나로 <code>멀티레포(폴리레포)</code>의 구조도 존재한다.</p>
+<p><img src="https://github.com/nostrss/next13-blog/assets/56717167/5436e609-7090-494e-817d-ad31e310a0cd" alt="0a710ba9-7e47-1064-817f-86e13d875e4e (1)"></p>
+<p>각 기능, 관심사별로 구분된 독자적인 저장소(레포지토리)를 가지고 있는 구조이다.</p>
+<p>그렇기 때문에 각 프로젝트별로 <code>자율성</code>이 매우 높고, <code>독립</code>적인 개발, `빌드`` 등이 가능한 구조이다.</p>
+<p>내가 회사는 일했던 멀티레포를 변형한 구조로 운영이 되었었다.</p>
+<p>개인적으로 느꼈던 멀티레포의 장,단점 아래와 같다.</p>
+<ul>
+<li>
+<p>장점</p>
+<ul>
+<li>각 프로젝트별로 자율성이 높다.</li>
+<li>각 프로젝트별의 규모가 작아진다.</li>
+<li>빌드, 테스트, 배포의 범위가 작아진다.</li>
+</ul>
+</li>
+<li>
+<p>단점</p>
+<ul>
+<li>중복코드가 존재하게 된다.</li>
+<li>관리 포인트가 많아진다.</li>
+<li>일관성 없는 코드 컨벤션이 발생할 수 있다.</li>
+<li>패키지 버전의 일관성이 없을 수 있다.</li>
+</ul>
+</li>
+</ul>
+<p>나는 멀티레포의 <code>단점</code>들이 더 크게 다가왔었는데, 레포의 개수가 10개가 넘어가는 서비스를 혼자 관리하다 보니 어려움이 많았다.</p>
+<p>특히 <code>React</code>의 버전이 15부터 17까지 다양하게 존재해서 hooks를 쓸 수 없는 프로젝트도 있었고, 어떤 프로젝트는 Typescript를 적용한 프로젝트도 있었다.</p>
+<p>거기에 상태관리 라이브러리도 redux, mobx, redux-toolkit등 다양하게 버전별로 존재하다 보니 개발하기 매우 어려웠다.</p>
+<blockquote>
+<p>개인적인 생각이지만 멀티레포의 경우 규모가 큰 회사에서 팀별로 레포를 하나씩 담당할때 적합한 구조인 것 같다.</p>
+</blockquote>
+<h2>모노레포란?</h2>
+<blockquote>
+<p>모노레포(monorepo) 구조는 두 개 이상의 프로젝트가 동일한 저장소에 저장되는 소프트웨어 개발 전략이다. 앞선 예시의 분리된 모듈들은 모노레포에서 여전히 독자 프로젝트로 존재하지만 저장소는 같은 곳을 사용한다.</p>
+</blockquote>
+<p><img src="https://github.com/nostrss/next13-blog/assets/56717167/320c8923-f1fd-44b3-ba16-839d5f55fdc1" alt="0a710ba9-7e47-1064-817f-86e20998613f"></p>
+<p>단순히 개념을 잡아보면 하나의 깃허브 저장소에 로그인 프로젝트, 회원가입 프로젝트, 게시글 프로젝트 등등 여러 프로젝트를 모아놓은 구조이다.</p>
+<p>하지만 여기서 추가적인 모노레포의 특징이 있다. 바로 <code>프로젝트 간의 관계</code>이다.</p>
+<p>흔히 모노레포에서는 프로젝트 사이에 의존성이 존재하거나 같은 제품군이거나 하는 정의된 관계가 존재한다고 한다.</p>
+<p>그리고 관계를 관리할 수 있는 모노레포 관리 도구도 존재하는데 <code>Lerna</code>, <code>Yarn</code>, <code>npm</code>, <code>pnpm</code>, <code>Nx</code>을 많이 사용한다고 한다.</p>
+<p>이런 <code>모노레포</code>는 멀티레포의 문제를 이렇게 해결한다.</p>
+<ul>
+<li>쉬운 프로젝트 생성</li>
+<li>쉬운 의존성 관리</li>
+<li>단일화된 관리 포인트</li>
+<li>일관된 개발자 경험 제공</li>
+<li>테스트 및 빌드 시간 단축</li>
+</ul>
+<p>요즘들어 프론트엔드 개발자가 javascript, react, next를 잘 하는 것도 알아야 하지만</p>
+<p>상황과 인력구조에 따라 개발환경이나 프로제팅 구조를 변경하는 능력도 필요하다고 느껴진다.</p>
+<blockquote>
+<p>알아야 할 게 너무 많다..</p>
+</blockquote>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="monorepo"/>
+        <category label="multi-repo"/>
+        <category label="monolithic"/>
+        <category label="frontend"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Babylon.js를 이용한 3D 페이지 만들어보기]]></title>
+        <id>174-first-babylonjs</id>
+        <link href="https://nostrss.me/blog/174-first-babylonjs"/>
+        <updated>2023-10-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[브라우저에서도 3D를 구현할 수 있다는 것을 알고 계셨나요?]]></summary>
+        <content type="html"><![CDATA[<p>예전에 우연히 정말 <code>아름답다</code>고 생각한 <code>프랑스</code>의 웹페이지를 본적이 있었다.</p>
+<p><a href="https://chartogne-taillet.com/fr">📌 그림과 배경음악이 아름다운 페이지 📌</a></p>
+<blockquote>
+<p>와 이런 페이지는 어떻게 만든걸까? 정말 대단하다.</p>
+</blockquote>
+<p>라는 생각이 절로 들게 했던 웹페이지였다. 그리고 이런 페이지를 만들려면 어떻게 해야할까 라는 생각이 들었었다. <code>3D</code>를 이용한 것 같은데, 구체적으로는 어떤 기술을 사용했을지 감이 잘 오지 않았다.</p>
+<p>마치 마을하나 전체를 렌더링하고 클릭할 경우 그 마을로 이동하는 효과가 아주 압권이었다.</p>
+<p>그런데 위의 웹페이지를 구현할 수 있을 것 같은 기술을 하나 찾은 것 같아 알아 보려고 한다.</p>
+<p>바로 <code>Babylon.js</code>이다. 요새 <code>three.js</code>와 같이 브라우저에서 3D를 구현하는 기술들이 자주 언급이 되고 있는데 그 중에 하나이다.</p>
+<h2>Babylon.js란?</h2>
+<p><a href="https://www.babylonjs.com/">📌 Babylon.js 공식 홈페이지 바로가기 📌</a></p>
+<p><code>Babylon.js</code>는 <code>마이크로소프트</code>에서 개발했고 <code>구글팀</code>도 협력하여 만든 3D 렌더링 엔진이다. 마이크로소프트가 만들었기 때문에 <code>Typescript</code>를 지원하는 장점이 있고 그만큼 <code>신뢰도</code>가 높다고 생각한다.</p>
+<p>하지만 <code>three.js</code> 만큼 아직 커뮤니티가 활성화 되어있지는 않아서 인지 검색 시 예제가 많이 부족한 것 같았다.</p>
+<p>그리고 자세하게는 모르지만 <code>webGPU</code>를 지원하기 때문에 <code>webGL</code>보다 더 빠른 렌더링이 가능하다고 한다.</p>
+<h2>Babylon.js를 이용한 3D 페이지 만들어보기</h2>
+<p>Next.js 프로젝트를 생성하고 <code>Babylon.js</code>를 설치해 줬다.</p>
+<p><a href="https://doc.babylonjs.com/setup/frameworkPackages/es6Support#application-creation-summary">📌 Babylon.js 설치 문서 보기 📌</a></p>
+<p><a href="https://doc.babylonjs.com/communityExtensions/Babylon.js+ExternalLibraries/BabylonJS_and_ReactJS">📌 Babylon.js + React 문서 보기 📌</a></p>
+<p>그리고 react 관련 공식 문서를 참고하여 렌더링 될 컴포넌트를 아래처럼 생성해주었다.</p>
+<pre><code class="language-tsx">import { useEffect, useRef } from 'react';
+import {
+  Engine,
+  FreeCamera,
+  HemisphericLight,
+  MeshBuilder,
+  Scene,
+  Vector3,
+} from '@babylonjs/core';
+
+let box: any;
+let sphere: any;
+
+const SceneComponent = ({
+  antialias,
+  engineOptions,
+  adaptToDeviceRatio,
+  sceneOptions,
+  cameraPosition,
+  ...rest
+}: any) => {
+  // canvas요소를 참조할 ref 생성
+  const reactCanvas = useRef(null);
+
+  // set up basic engine and scene
+  useEffect(() => {
+    const { current: canvas } = reactCanvas;
+
+    // canvas가 없으면 종료
+    if (!canvas) return;
+
+    // Babylon.js engine 생성
+    const engine = new Engine(
+      canvas,
+      antialias,
+      engineOptions,
+      adaptToDeviceRatio
+    );
+
+    const scene = new Scene(engine, sceneOptions);
+
+    // scene.isReady()가 true이면 onSceneReady() 호출
+    if (scene.isReady()) {
+      onSceneReady(scene, cameraPosition);
+    } else {
+      // scene.isReady()가 false이면 scene.onReadyObservable에 onSceneReady()를 추가
+      scene.onReadyObservable.addOnce((scene) =>
+        onSceneReady(scene, cameraPosition)
+      );
+    }
+
+    engine.runRenderLoop(() => {
+      if (typeof onRender === 'function') onRender(scene);
+      scene.render();
+    });
+
+    const resize = () => {
+      scene.getEngine().resize();
+    };
+
+    if (window) {
+      window.addEventListener('resize', resize);
+    }
+
+    return () => {
+      scene.getEngine().dispose();
+
+      if (window) {
+        window.removeEventListener('resize', resize);
+      }
+    };
+  }, [
+    antialias,
+    engineOptions,
+    adaptToDeviceRatio,
+    sceneOptions,
+    cameraPosition,
+  ]);
+
+  return &#x3C;canvas style={{ width: '100%' }} ref={reactCanvas} {...rest} />;
+};
+
+const onSceneReady = (scene: any, cameraPosition: any) => {
+  // This creates and positions a free camera (non-mesh)
+  const camera = new FreeCamera('camera1', cameraPosition, scene);
+
+  // This targets the camera to scene origin
+  camera.setTarget(Vector3.Zero());
+
+  const canvas = scene.getEngine().getRenderingCanvas();
+
+  // This attaches the camera to the canvas
+  camera.attachControl(canvas, true);
+
+  // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
+  const light = new HemisphericLight('light', new Vector3(0, 1, 0), scene);
+
+  // Default intensity is 1. Let's dim the light a small amount
+  light.intensity = 0.7;
+
+  // Our built-in 'box' shape.
+  box = MeshBuilder.CreateBox('box', { size: 2 }, scene);
+  // Move the box upward 1/2 its height
+  box.position.y = 0;
+
+  sphere = MeshBuilder.CreateSphere('sphere', { diameter: 2 }, scene);
+
+  sphere.position.x = 4;
+  sphere.position.y = 2;
+
+  // Our built-in 'ground' shape.
+};
+
+const onRender = (scene: any) => {
+  if (box !== undefined) {
+    const deltaTimeInMillis = scene.getEngine().getDeltaTime();
+
+    const rpm = 10;
+  }
+};
+
+export default SceneComponent;
+</code></pre>
+<p>다음에는 아래와 같이 import 해주어 위에서 생성한 컴포넌트를 사용해주었다.
+그리고 useState 사용하여 버튼을 클릭하면 3D 환경에서의 <code>카메라 뷰</code>의 위치를 변경해도록 수정하였다.</p>
+<pre><code class="language-tsx">import { Vector3 } from '@babylonjs/core';
+import SceneComponent from '@/components/SceneComponents';
+import { useState } from 'react';
+import styled from '@emotion/styled';
+
+export default function Home() {
+  const [cameraPosition, setCameraPosition] = useState(new Vector3(0, 3, -5));
+
+  const boxPosition = new Vector3(0, 3, -3);
+  const spherePosition = new Vector3(7, 4, 0);
+
+  const moveToBox = () => {
+    setCameraPosition(boxPosition);
+  };
+
+  const moveToSpehere = () => {
+    setCameraPosition(spherePosition);
+  };
+
+  return (
+    &#x3C;>
+      &#x3C;main>
+        &#x3C;Button onClick={moveToBox}>Goto Box&#x3C;/Button>
+        &#x3C;Button onClick={moveToSpehere}>Goto Sphere&#x3C;/Button>
+        &#x3C;SceneComponent
+          antialias
+          id='my-canvas'
+          cameraPosition={cameraPosition}
+        />
+      &#x3C;/main>
+    &#x3C;/>
+  );
+}
+
+const Button = styled.button`
+  padding: 5px;
+  background-color: hotpink;
+  font-size: 24px;
+  border-radius: 4px;
+  color: black;
+  font-weight: bold;
+  &#x26;:hover {
+    color: white;
+  }
+`;
+</code></pre>
+<h2>결과</h2>
+<p><a href="https://babylon-sample.vercel.app/">📌 결과보기 📌</a></p>
+<h3>초기화면</h3>
+<h3>Box 클릭 시</h3>
+<h3>Sphere 클릭 시</h3>
+<p>처음에 본 웹페이지처럼 아직 아름답지는 않지만 박스와 구가 마을이라고 가정하면 마을을 이동하는 원리는 구현된 것 같은 느낌이다.</p>
+<blockquote>
+<p>3D 재밌는데?</p>
+</blockquote>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="babylonjs"/>
+        <category label="3d"/>
+        <category label="nextjs"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[서버(Nest.js)와 Front(Next)가 Type을 공유하는 방법(openapi-tools).]]></title>
+        <id>172-nestjs-openapi-codegen</id>
+        <link href="https://nostrss.me/blog/172-nestjs-openapi-codegen"/>
+        <updated>2023-10-04T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[이제 Front에서 type을 서버에서 다운받아 사용하자.]]></summary>
+        <content type="html"><![CDATA[<p>Front에서 작업을 하다보면 Type을 지정하는 일이 제법 손이 많이 간다.</p>
+<p>특히 data의 내용이 큰 경우에는 더더욱 그렇다.</p>
+<p>그러다가 예전에 <code>codegen</code>을 사용했던 기억이 났다. 그때는 <code>graphql</code>을 사용했었고, 서버에서 <code>type</code>을 받아 프론트에서 생성해서 사용할 수 있었다.</p>
+<p><code>rest api</code>에서도 사용할 수 있지 않을까 해서 찾아보았다.</p>
+<h2>Nest.js Server</h2>
+<p>먼저 Nest.js에 <code>nestjs-openapi-tools</code>를 설치해주자.</p>
+<p><a href="https://www.npmjs.com/package/nest-openapi-tools/v/4.0.0">📌 nest-openapi-tools npm 페이지 바로가기 📌</a></p>
+<p>그리고 <code>main.ts</code>에 아래와 같이 추가해주자.</p>
+<pre><code class="language-ts">import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { DocumentBuilder } from '@nestjs/swagger';
+import { HttpExceptionFilter } from './exceptions/http.exceoptions';
+import { OpenApiNestFactory } from 'nest-openapi-tools';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+
+  app.useGlobalFilters(new HttpExceptionFilter());
+
+  await OpenApiNestFactory.configure(
+    app,
+    new DocumentBuilder()
+      .setTitle('My API')
+      .setDescription('An API to do awesome things')
+      .addBearerAuth(),
+    {
+      webServerOptions: {
+        enabled: true,
+        path: 'api-docs',
+      },
+      fileGeneratorOptions: {
+        enabled: true,
+        outputFilePath: './openapi.yaml',
+      },
+      clientGeneratorOptions: {
+        enabled: true,
+        type: 'typescript-axios',
+        outputFolderPath: '../typescript-api-client/src',
+        additionalProperties:
+          'apiPackage=clients,modelPackage=models,withoutPrefixEnums=true,withSeparateModelsAndApi=true',
+        openApiFilePath: './openapi.yaml',
+        skipValidation: true,
+      },
+    },
+    {
+      operationIdFactory: (c: string, method: string) => method,
+    }
+  );
+
+  await app.listen(3000);
+}
+bootstrap();
+</code></pre>
+<p>그리고 nest 서버를 실행시켜보자.</p>
+<pre><code class="language-bash">yarn start:dev
+</code></pre>
+<p>그러면 <code>openapi.yaml</code>과 <code>openapitools.json</code> 파일이 생성된 것을 확인할 수 있다.</p>
+<p>이렇게 하면 서버측 준비는 끝나게 된다.</p>
+<h2>Front-end(Next.js)</h2>
+<p>이제 front에서 <code>openapi.yaml</code>을 받아서 사용해보자.</p>
+<p>나는 Next.js 프로젝트를 생성해서 사용했다.</p>
+<p>그리고 <code>@openapitools/openapi-generator-cli</code> 패키지를 설치해주자.</p>
+<p><a href="https://www.npmjs.com/package/@openapitools/openapi-generator-cli">📌 @openapitools/openapi-generator-cli npm 페이지 바로가기 📌</a></p>
+<pre><code class="language-bash">yarn add @openapitools/openapi-generator-cli
+</code></pre>
+<p>그리고 package.json에 아래와 같이 추가해주자.</p>
+<blockquote>
+<p>openapi.yaml 파일을 서버에 올리지 않고 테스트만 하는 거라, nest.js에서 생성된 openapi.yaml 파일을 복사해서 프론트 프로젝트의 루트에 붙여넣었다.</p>
+</blockquote>
+<pre><code class="language-json">{
+  "scripts": {
+    "codegen": "npx @openapitools/openapi-generator-cli generate -i openapi.yaml -g typescript-axios --additional-properties apiPackage=apis,modelPackage=models,withoutPrefixEnums=true,withSeparateModelsAndApi=true --global-property models -o ./src/openapi --skip-validate-spec "
+  }
+}
+</code></pre>
+<p>그리고 <code>yarn codegen</code>을 실행시켜주자.</p>
+<p>그러면 터미널에서 아래와 같이 실행이 되는 것을 확인할 수 있다.</p>
+<p>완료가 되면 <code>src/openapi</code> 폴더가 생성되고 그 안에 <code>models</code> 폴더가 생성된 것을 확인할 수 있다.</p>
+<p>그리고 여러 <code>ts</code> 파일들이 생성된 것을 확인할 수 있는데, 파일의 내용을 살펴보면 <code>nest.js</code> 서버에서 작성한 <code>openapi.yaml</code> 파일을 기반으로 <code>type</code>들이 생성되어 있는 것을 확인할 수 있다.</p>
+<p>이제 프론트에서는 이렇게 생성된 <code>type</code>들을 사용하여 개발을 하면 된다!</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="nestjs"/>
+        <category label="openapi"/>
+        <category label="codegen"/>
+        <category label="type"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Nest.js에 Postgres DB를 연결해보자.]]></title>
+        <id>171-nestjs-postgres</id>
+        <link href="https://nostrss.me/blog/171-nestjs-postgres"/>
+        <updated>2023-10-04T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Docker Container에 Postgres를 설치하고 typeorm으로 Nest.js와 연동해보자]]></summary>
+        <content type="html"><![CDATA[<p>이제 <code>Nest.js</code>에서 사용할 DB를 설치 및 연결해보려고 한다.</p>
+<p>DB는 <code>Postgres</code>를 사용할 것이다. 이유는 딱히 정해진 것은 없는데, 왜인지 내가 찾은 블로그나 글들을 보면 <code>postgres</code>를 사용한 경우가 많았다.</p>
+<p><a href="https://www.postgresql.org/">📌 Postgres 홈페이지 바로가기 📌</a></p>
+<p><code>Postgres</code>가 <code>Nest.js</code>와 궁합이 잘 맞는건지 아직은 잘 모르겠다. 일단 <code>postgres</code>를 사용해보고 추후에는 <code>MySQL</code>로도 작업을 한번 해봐야 할 것 같다.</p>
+<h2>Docker Container에 Postgres 설치하기</h2>
+<h3>Docker 설치하기</h3>
+<p>먼저 아래 링크로 이동하여 <code>Docker Desktop</code>을 설치해준다.</p>
+<p><a href="https://www.docker.com/get-started/">📌 Docker 설치 페이지 바로가기📌</a></p>
+<h3>.docker-compose 파일을 작성, Container 생성하기</h3>
+<p>프로젝트 root 경로에 <code>.docker-compose.yml</code> 파일을 생성하고 아래와 같이 작성해주었다.</p>
+<pre><code class="language-text">version: '3.1'
+
+volumes:
+  postgres_data:
+
+services:
+  postgres:
+    image: postgres:14.7
+    container_name: postgres
+    ports:
+      - '5434:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+</code></pre>
+<h3>Container 실행하기(띄우기)</h3>
+<p>터미널에서 아래 명령어를 입력하여 <code>Container</code>를 실행해준다.</p>
+<pre><code class="language-bash">docker-compose up -d
+</code></pre>
+<blockquote>
+<p>이때 docker desktop이 실행되어 있어야 한다.</p>
+</blockquote>
+<p>그러면 <code>docker-compose.yml</code> 파일에 작성한대로 <code>postgres</code>가 <code>pull</code> 되고, <code>Container</code>가 생성된다.</p>
+<p><code>Container</code>를 내리기 위해서는 아래 명령어를 입력해주면 된다.</p>
+<pre><code class="language-bash">docker-compose down
+</code></pre>
+<h3>생성된 Container 확인하기</h3>
+<p>터미널에서 아래 명령어를 입력하여 <code>Container</code>가 잘 생성되었는지 확인해보자.</p>
+<pre><code class="language-bash">docker ps --all
+</code></pre>
+<p>터미널이 아니라 좀 전에 설치한 <code>Docker Desktop</code>에서도 확인할 수 있다.</p>
+<h2>typeorm 설치 및 설정하기</h2>
+<h3>typeorm 설치하기</h3>
+<p>이제 Nest.js에서 postgres를 사용하기 위해 <code>typeorm</code>을 설치하여 설정해주어야 한다.</p>
+<p>아래와 같이 3개의 패키지를 설치해주자.</p>
+<pre><code class="language-bash">yarn add @nestjs/typeorm typeorm pg
+</code></pre>
+<h3>postgres.config.ts 파일 작성하기</h3>
+<p><code>config</code>폴더를 생성하여 <code>postgres.config.ts</code> 파일을 생성해주고 아래와 같이 작성해주었다.</p>
+<pre><code class="language-ts">// src/config/postgres.config.ts
+import { registerAs } from '@nestjs/config';
+
+export default registerAs('postgres', () => ({
+  host: process.env.POSTGRES_HOST || 'localhost',
+  port: process.env.POSTGRES_PORT ? Number(process.env.POSTGRES_PORT) : 5434,
+  database: process.env.POSTGRES_DATABASE || 'postgres',
+  username: process.env.POSTGRES_USERNAME || 'postgres',
+  password: process.env.POSTGRES_PASSWORD || 'postgres',
+}));
+</code></pre>
+<h3>app.module.ts 파일 수정하기</h3>
+<pre><code class="language-ts">import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import postgresConfig from './config/postgres.config';
+
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [postgresConfig],
+    }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
+        const obj: TypeOrmModuleOptions = {
+          type: 'postgres',
+          host: configService.get('postgres.host'),
+          port: configService.get('postgres.port'),
+          database: configService.get('postgres.database'),
+          username: configService.get('postgres.username'),
+          password: configService.get('postgres.password'),
+          autoLoadEntities: true,
+          logging: true,
+          // prod에서는 사용하지 않는 것이 좋다.가급적이면 끄고 사용하길 추천한다.
+          synchronize: false,
+        };
+        return obj;
+      },
+    }),
+  ],
+})
+export class AppModule {}
+</code></pre>
+<p>여기서 <code>TypeOrmModuleOptions</code>의 <code>synchronize</code> 속성은 주의가 필요하다.</p>
+<p>왜냐하면 <code>synchronize</code> 속성을 <code>true</code>로 설정하면 <code>Nest.js</code>가 실행될 때 수정된 <code>entity</code>를 자동으로 DB에 반영해주기 때문이다.</p>
+<p>이로인해 예기치 않은 data의 손실과 에러가 발생할 수 있으므로, prod에서는 사용하지 않는 것이 좋다고 한다.</p>
+<p>몇몇 글을 보면 개발 단계에서도 아예 <code>false</code>로 끄고 개발을 하는 것이 좋다고 한다.</p>
+<blockquote>
+<p>이제 <code>Nest.js</code>에서 <code>postgres</code>를 사용할 준비가 끝났다.</p>
+</blockquote>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="nestjs"/>
+        <category label="docker"/>
+        <category label="postgres"/>
+        <category label="typeorm"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Nest.js에 swagger 적용하기]]></title>
+        <id>170-nestjs-swagger</id>
+        <link href="https://nostrss.me/blog/170-nestjs-swagger"/>
+        <updated>2023-10-03T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[백엔드 문서화의 시작, swagger를 사용해보자]]></summary>
+        <content type="html"><![CDATA[<p>프론트 작업을 할때 api 문서를 <code>postman</code> 또는 <code>swagger</code>로 백엔드와 소통하며 작업을 진행한적이 있었다. 이번에는 내가 그 문서를 설정하는 작업을 해보려고 한다.</p>
+<p><a href="https://docs.nestjs.com/openapi/introduction#document-options">📌 Nest.js 문서 바로가기 📌</a></p>
+<h2>@nestjs/swagger 설치하기</h2>
+<p><code>swagger</code> 문서를 만들기 위해서는 <code>@nestjs/swagger</code> 패키지가 필요하다.</p>
+<pre><code class="language-bash">yarn add @nestjs/swagger
+</code></pre>
+<h2>main.ts에 설정하기</h2>
+<p>그리고 아래와 같이 <code>main.ts</code>에 코드를 추가해주었다.</p>
+<pre><code class="language-ts">import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import {
+  DocumentBuilder,
+  SwaggerCustomOptions,
+  SwaggerModule,
+} from '@nestjs/swagger';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+
+  // swagger 설정 시작
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle('FetchApi') // 문서 제목
+    .setDescription('FetchApi project API description') // 문서 설명
+    .setVersion('1.0') // 문서 버전
+    .addBearerAuth() // Authorization 버튼 활성화
+    .build();
+
+  // Authorization 유지 설정(새로고침해도 토큰이 날아가지 않도록)
+  const swaggerCustomOptions: SwaggerCustomOptions = {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+  };
+
+  const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('docs', app, swaggerDocument, swaggerCustomOptions);
+
+  // swagger 설정 끝
+
+  await app.listen(3000);
+}
+bootstrap();
+</code></pre>
+<p>그리고 http://localhost:3000/docs에 접속하면 swagger 문서를 확인할 수 있다.</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="nestjs"/>
+        <category label="docker"/>
+        <category label="swagger"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Nest.js + docker + AWS + Github Actions를 이용한 배포 자동화]]></title>
+        <id>169-nestjs-deploy-aws-actions</id>
+        <link href="https://nostrss.me/blog/169-nestjs-deploy-aws-actions"/>
+        <updated>2023-10-03T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[이제 백엔드도 배포를 해보자]]></summary>
+        <content type="html"><![CDATA[<p>최근 Nest.js를 공부하면서 AWS에 배포를 하면서 Docker를 다룰 수 있는 기회가 있었고, Github Actions를 이용한 배포 자동화도 해보았다.</p>
+<p>강의를 따라서 진행했었지만, 나혼자 직접 배포를 하는 연습도 해볼겸 정리해보려고 한다.</p>
+<p><a href="https://github.com/nostrss/nestjs-study">📌 깃허브 레파지토리 바로가기 📌</a></p>
+<h2>Nest.js 프로젝트 생성하기</h2>
+<p>배포할 Nest.js 프로젝트를 하나 생성해서 준비하자.</p>
+<p><a href="https://docs.nestjs.com/first-steps">📌 Nest.js 공식문서 바로가기 📌</a></p>
+<pre><code class="language-bash">$ npm i -g @nestjs/cli
+$ nest new project-name
+</code></pre>
+<p>이번엔 배포에 중점을 둘 것이기 때문에 일단 간단히 프로젝트만 생성하고 별도의 추가 코드는 작성하지 않았다.</p>
+<p>프로젝트를 생성하면 github 레파지토리와 연결하여 push 해두자.</p>
+<h2>Dockerfile 작성하기</h2>
+<p>위에서 생성한 프로젝트의 root위치에 아래와 같이 Dockerfile을 작성했다.</p>
+<pre><code class="language-Dockerfile">FROM node:18.14.2 AS builder
+RUN mkdir -p /app
+WORKDIR /app
+ADD . .
+
+RUN npm install
+RUN npm run build
+
+CMD npm run start:prod
+</code></pre>
+<p>각 명령어에 대해서도 설명을 하고 싶지만 오늘은 배포 자동화를 기록으로 남기기 위함이니 간단히만 설명하고 넘어가야 할 것 같다.</p>
+<p>그리고 추가로 .dockerignore 파일도 작성해줬다.</p>
+<pre><code>node_module/
+dist/
+</code></pre>
+<h2>github 토큰 생성하기(Classic)</h2>
+<p>github에 접속해서 Personal access tokens를 생성한다.</p>
+<p><a href="https://github.com/settings/tokens">📌 github token 발행하기 바로가기 📌</a></p>
+<ul>
+<li>
+<p>Note는 개인이 식별할 수 있도록 작성하면 될 듯하고, 하단의 권한은 이미지와 같이 repo, workflow, write:packages, read:packages를 선택해줬다.</p>
+<blockquote>
+<p>그리고 생성된 토큰은 별도로 복사해두자.</p>
+</blockquote>
+</li>
+</ul>
+<h3>github token을 Secrets에 등록하기</h3>
+<p>이제 위에서 생성한 github token을 Nest.js 프로젝트의 Secrets에 등록해줘야 한다.</p>
+<p>Nest.js 깃허브 레파지토리로 이동하자.</p>
+<p>그리고 settings -> Secrets and variables --> Actions로 이동한다.</p>
+<p>그리고 New repository secret을 클릭해서 등록을 진행하자.</p>
+<p>나 같은 경우 Name은 GHCR_TOKEN로 작성했고, Secret에는 위에서 생성한 github token을 넣어줬다.</p>
+<h2>AWS EC2 인스턴스 생성하기</h2>
+<p>비용은 최대한 아끼는 것이 좋으니 무료 free-tier 계정으로 생성하였다.</p>
+<p>인스턴스 생성은 아래와 같이 진행하였다.</p>
+<blockquote>
+<p>키-페어 생성</p>
+</blockquote>
+<p>키-페어를 생성하면 마치 공인인증서와 같이 생긴 .pem 파일이 자동으로 다운로드 된다. 이 파일은 나중에 ssh 접속할 때 필요하니 잘 보관해두자.</p>
+<blockquote>
+<p>네트워크 설정, 스토리지(볼륨)</p>
+</blockquote>
+<p>free-tier 계정으로 생성하면 30GB까지 무료로 사용할 수 있다. 이왕 쓰는거 최대한 다 쓰도록 설정해봤다.</p>
+<p>인스턴스 시작 버튼을 누르고 잠시 기다리면 인스턴스가 생성된다.</p>
+<h3>AWS 인스턴스에 ssh 접속하기</h3>
+<p>이제 내가 만든 인스턴스 우분투 서버에 접속을 해보자.</p>
+<p>터미널을 열고 아래와 같이 명령어를 입력한다.</p>
+<pre><code class="language-bash">$ ssh -i {키-페어 파일 경로.pem} ubuntu@{인스턴스 퍼블릭 IP}
+</code></pre>
+<p>이때 만약 bad permissions 에러가 발생한다면 아래와 같이 명령어를 입력해주고 위의 명령어를 다시 입력해주면 된다.</p>
+<pre><code class="language-bash">$ chmod 400 {키-페어 파일 경로.pem}
+</code></pre>
+<p>아래와 같이 접속이 성공하면 성공이다.</p>
+<h3>AWS 인스턴스에 docker 설치하기</h3>
+<p>이제 Ubuntu 인스턴스에 docker를 설치해줄 차례이다.</p>
+<p><a href="https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository">📌 우분투에 도커 설치하기 공식 문서 바로가기 📌</a></p>
+<p>위 문서를 참고하여 아래와 같이 명령어를 입력해준다.</p>
+<h3>AWS 인스턴스에 github runner 설치하기</h3>
+<p>이제는 인스턴스에 github runner를 설치해줘야 한다.</p>
+<p>이를 위해 잠시 아까 생성한 nest.js 깃허브 레파지토리로 다시 이동하자.</p>
+<blockquote>
+<p>settings -> Actions -> Runners -> New self-hosted runner 버튼 클릭</p>
+</blockquote>
+<p>그러면 아래와 같이 우분투에 github runner를 설치 할 수 있도록 아래와 같이 명령어들을 설명해준다.</p>
+<ul>
+<li>인스턴스에 OS로 우분투를 설치했으니 Linus를 선택해주자.</li>
+<li>그리고 인스턴스 생성시 x64 아키텍쳐로 진행했으니 x64를 선택해주자.</li>
+<li>설치 명령어는 붉은색 박스의 명령어 까지만 복사해서 터미널에 입력해주었다.</li>
+<li>그리고 ./run.sh 명령어 대신 나는 백그라운드에서도 계속 실행되도록 아래와 같은 명령어를 입력해줬다.</li>
+</ul>
+<pre><code class="language-bash"> nohup ./run.sh &#x26;
+</code></pre>
+<h2>github Actions 작성하기</h2>
+<p>이제 github Actions를 작성해보자.</p>
+<p>소스코드에 .github/workflows 폴더를 생성하고 아래와 같이 main.yml 파일을 생성해준다.</p>
+<p>그리고 링크와 같이 yml 파일을 작성해 주었다.</p>
+<p><a href="https://github.com/nostrss/nestjs-study/blob/main/.github/workflows/main.yml">📌 build &#x26; deploy yml 파일 바로가기 📌</a></p>
+<blockquote>
+<p>자 이제 모든 준비가 끝났다!</p>
+</blockquote>
+<h2>배포하기</h2>
+<p>이제 Nest.js 소스코드가 github에 푸쉬 되기만 하면 알아서 빌드, 배포가 되어야 한다. 테스트를 해보자.</p>
+<p>Nest,js 소스코드를 깃허브에 푸쉬를 해보자.</p>
+<p>그리고 프로젝트 레파지토릭에서 Actions 탭으로 이동하면 아래와 같이 빌드가 진행되는 것을 확인 할 수 있다.</p>
+<p>나의 경우 최초에 테스트할 때 실패를 했고 2번째에는 성공을 했다. workflow를 클릭해서 확인해보자.</p>
+<p>단계별로 workflow가 어떻게 실행되고 있는지 확인 할 수 있다.</p>
+<p>약 2분정도 시간이 걸렸다. 이제는 브라우저에서 배포 결과물을 확인해보자.</p>
+<blockquote>
+<p>성공이다!!</p>
+</blockquote>
+<p>좀 전에 인스턴스에 연결해둔 ssh 접속을 통해서도 확인해보자.</p>
+<p>도커가 정상적으로 실행되고 있음을 확인 할 수 있었다. 앞으로는 이제 Nest.js 소스코드를 푸쉬만 하면 자동으로 빌드, 배포가 될 것이다!!.</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="nestjs"/>
+        <category label="docker"/>
+        <category label="aws"/>
+        <category label="github-actions"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[블로그도 구독이 가능하다]]></title>
         <id>168-rss-atom-json</id>
-        <link href="https://nostrss.me/168-rss-atom-json"/>
+        <link href="https://nostrss.me/blog/168-rss-atom-json"/>
         <updated>2023-09-20T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Next.js 블로그에 RSS, Atom, JSON Feed를 추가하기]]></summary>
         <content type="html"><![CDATA[<p>블로그의 컨텐츠를 우리가 검색하거나 직접 방문하여 볼수도 있지만, 구독처럼 새로운 컨텐츠가 발행되면 받아서 볼 수 있는 기능이 존재한다. 이를 가능케 하는게 <code>RSS</code>, <code>Atom</code>, <code>JSON-Feed</code>이다.</p>
@@ -161,7 +3168,7 @@ type JsonPost = {
     <entry>
         <title type="html"><![CDATA[리액트를 벗어나 순수한 프로젝트를 만들어보자]]></title>
         <id>167-webpack-typescript</id>
-        <link href="https://nostrss.me/167-webpack-typescript"/>
+        <link href="https://nostrss.me/blog/167-webpack-typescript"/>
         <updated>2023-09-19T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[바닐라 타입스크립트에 웹팩을 설정한 템플릿 만들기]]></summary>
         <content type="html"><![CDATA[<p>처음 프론트엔드를 배울때 React로 배우고 계속 사용하다보니 리액트 없이는 프론트엔드를 할 수 없는 느낌이 들었다. 그래서 리액트를 벗어나 순수한 프로젝트를 만들어보고 싶었다. 바닐라 자바스크립트에 타입스크립트만 추가한 템플릿을 만들어보았다.</p>
@@ -439,7 +3446,7 @@ module.exports = {
     <entry>
         <title type="html"><![CDATA[들어는 봤니? 커링함수(currying function)]]></title>
         <id>166-curring-function</id>
-        <link href="https://nostrss.me/166-curring-function"/>
+        <link href="https://nostrss.me/blog/166-curring-function"/>
         <updated>2023-09-18T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[근데 React에서 커링함수는 언제 사용해야 할까?]]></summary>
         <content type="html"><![CDATA[<p>커링함수란 여러개의 인자를 받는 함수를 하나의 인자만 받는 함수로 나눠서 순차적으로 호출될 수 있게 체인처럼 연결하는 것을 말한다.</p>
@@ -527,9 +3534,133 @@ const getInformation = (baseUrl) => (path) => (id) =>
         </contributor>
     </entry>
     <entry>
+        <title type="html"><![CDATA[복사 제대로 하고 있니?]]></title>
+        <id>165-copy-shallow-deep</id>
+        <link href="https://nostrss.me/blog/165-copy-shallow-deep"/>
+        <updated>2023-09-17T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[얕은 복사, 깊은 복사 복습하기]]></summary>
+        <content type="html"><![CDATA[<p>처음 자바스크립트를 공부할 때, 참조값을 복사하면 얕은 복사인 것으로 간단히 알고 넘어갔었다. 이에 대해 조금은 심도있게 알아보려고 한다.</p>
+<h2>얕은 복사(shallow copy)</h2>
+<p>MDN에서는 얕은 복사를 다음과 같이 정의하고 있다.</p>
+<blockquote>
+<p>객체의 얕은 복사는 복사본의 속성이 복사본이 만들어진 원본 객체와 같은 참조 (메모리 내의 같은 값을 가리킴)를 공유하는 복사입니다. 따라서 원본이나 복사본을 변경하면, 다른 객체 또한 변경될 수 있습니다. 이러한 동작은 원본과 복사본이 완전히 독립적인 깊은 복사의 동작과 대조적입니다.</p>
+</blockquote>
+<p>이를 코드를 통해 이해해보자.</p>
+<pre><code class="language-js">const user = {
+  name: 'John',
+  url: {
+    twitter: 'https://twitter.com/john',
+    facebook: 'https://facebook.com/john',
+  },
+};
+
+const copyObject = (target) => {
+  let result = {};
+  for (let key in target) {
+    result[key] = target[key];
+  }
+  return result;
+};
+
+const user2 = user;
+const user3 = copyObject(user);
+console.log(user === user2); // 1. ??
+console.log(user === user3); // 2. ??
+</code></pre>
+<ol>
+<li>답은 True이다.</li>
+</ol>
+<ul>
+<li>우리가 가장 흔하게 볼 수 있는 얕은 복사의 형태이다.</li>
+</ul>
+<ol start="2">
+<li>답은 False이다.</li>
+</ol>
+<ul>
+<li><code>copyObject</code> 함수를 통해 새로운 객체를 만들었기 때문에 새로운 참조값을 가지게 된다.</li>
+</ul>
+<blockquote>
+<p>그렇다면 user3의 경우에는 깊은 복사가 이루어진 것인가?</p>
+</blockquote>
+<p>user3의 하위 프로퍼티들의 값을 변경해서 원본 객체의 값이 변경되는지 확인해보자.</p>
+<p>아래와 같이 코드를 작성해서 실행해보았다.</p>
+<pre><code class="language-js">user3.name = 'Pete';
+console.log(user.name); // John
+console.log(user3.name); // Pete
+</code></pre>
+<p>user3의 값을 변경했으나 원본 객체의 값은 변경되지 않았다. 이번엔 하위 url 프로퍼티의 값을 변경해보자.</p>
+<pre><code class="language-js">user3.url.twitter = 'https://twitter.com/pete';
+console.log(user.url.twitter); // https://twitter.com/pete
+console.log(user3.url.twitter); // https://twitter.com/pete
+</code></pre>
+<p>하위 객체인 url의 경우에는 user3 객체의 값을 변경했을 때 원본인 user 객체까지 변경되는 것을 확인할 수 있었다.</p>
+<p>이것은 user 하위의 url객체의 메모리상 주소값만이 복사되었기 때문이다.</p>
+<blockquote>
+<p>즉 위의 케이스는 얕은 복사가 이루어진 것이다.</p>
+</blockquote>
+<h2>깊은 복사를 하는 방법</h2>
+<h3>JSON 객체 메서드 사용</h3>
+<p>객체를 JSON으로 변환하고 다시 객체로 변환하는 방법이다.</p>
+<pre><code class="language-js">const user4 = JSON.parse(JSON.stringify(user));
+user4.url.twitter = 'https://twitter.com/pete';
+console.log(user4 === user); // false
+console.log(user4.url === user.url); // false
+console.log(user4.url.twitter === user.url.twitter); // falses
+</code></pre>
+<h3>재귀함수를 사용하는 방법</h3>
+<pre><code class="language-js">const copyObject = (target) => {
+  let result = {};
+  if (typeof target === 'object' &#x26;&#x26; target !== null) {
+    for (let key in target) {
+      result[key] = copyObject(target[key]);
+    }
+  } else {
+    result = target;
+  }
+  return result;
+};
+
+const user5 = copyObject(user);
+user5.url.twitter = 'https://twitter.com/pete';
+console.log(user5 === user); // false
+console.log(user5.url.twitter === user.url.twitter); // false
+</code></pre>
+<h3>lodash.js cloneDeep 메서드 사용</h3>
+<p>많이 사용하는 라이브러리인 lodash의 cloneDeep 메서드를 사용하는 방법이다.</p>
+<pre><code class="language-js">var objects = [{ a: 1 }, { b: 2 }];
+
+var deep = _.cloneDeep(objects);
+console.log(deep[0] === objects[0]);
+// => false
+</code></pre>
+<h3>immer.js 또는 Immutable.js 라이브러리 사용</h3>
+<pre><code class="language-js">import { produce } from 'immer';
+
+const nextState = produce(baseState, (draft) => {
+  draft[1].done = true;
+  draft.push({ title: 'Tweet about it' });
+});
+</code></pre>
+<p>Immutable.js 는 페이스북에서 만든 패키지인데, 요샌 immer.js를 많이 사용한다고 한다.</p>]]></content>
+        <author>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </author>
+        <category label="javascript"/>
+        <category label="shallow"/>
+        <category label="deep"/>
+        <category label="copy"/>
+        <contributor>
+            <name>Nostrss</name>
+            <email>jintagi@gmail.com</email>
+            <uri>https://github.com/nostrss</uri>
+        </contributor>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Next.js 다크모드 적용하기]]></title>
         <id>164-next-darkmode-toggle</id>
-        <link href="https://nostrss.me/164-next-darkmode-toggle"/>
+        <link href="https://nostrss.me/blog/164-next-darkmode-toggle"/>
         <updated>2023-09-11T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[요새 많이 사용하는 다크모드를 적용해보자.]]></summary>
         <content type="html"><![CDATA[<p>네이버도 그렇고 요새 많은 사이트들이 <code>다크모드</code>를 지원하고 있다.</p>
@@ -634,7 +3765,7 @@ const changeColorScheme = (mode: string) => {
     <entry>
         <title type="html"><![CDATA[Next.js meatadata 적용하기]]></title>
         <id>163-next-metadata</id>
-        <link href="https://nostrss.me/163-next-metadata"/>
+        <link href="https://nostrss.me/blog/163-next-metadata"/>
         <updated>2023-09-10T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[SEO 최적화를 위한 메타데이터 생성하기]]></summary>
         <content type="html"><![CDATA[<p>작성된 블로그를 다른 개발자들이 볼 수 있도록 하려면 SEO 최적화라는 작업을 해야한다.</p>
@@ -908,7 +4039,7 @@ export const defaultMetaData: Metadata = {
     <entry>
         <title type="html"><![CDATA[Next.js 13 react-markdown 적용하기]]></title>
         <id>162-markdown-view</id>
-        <link href="https://nostrss.me/162-markdown-view"/>
+        <link href="https://nostrss.me/blog/162-markdown-view"/>
         <updated>2023-09-09T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[이쁘게 만드는게 이렇게 어려운지 몰랐지...]]></summary>
         <content type="html"><![CDATA[<p>이제 블로그 본문의 상세페이지를 꾸밀 차례다.</p>
@@ -1118,7 +4249,7 @@ export default function MarkDownViewer({ content }: { content: string }) {
     <entry>
         <title type="html"><![CDATA[Next.js 13 App router에 Google Analytics 적용하기]]></title>
         <id>161-next-google-analytics</id>
-        <link href="https://nostrss.me/161-next-google-analytics"/>
+        <link href="https://nostrss.me/blog/161-next-google-analytics"/>
         <updated>2023-09-08T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[아직 Next13에 Google Analytics를 적용한 경우가 없는지 자료가 부실했다. 그래서 직접 정리한 내용]]></summary>
         <content type="html"><![CDATA[<p>개인 블로그 작업이 거의 마무리 단계가 되어가고 있다. 그리고 오늘은 <code>Google Analytics</code>를 적용해보려고 한다.</p>
@@ -1215,7 +4346,7 @@ export default function RootLayout({ children }: IPropsChildren) {
     <entry>
         <title type="html"><![CDATA[[면접리뷰]클로저(Closure)란? (3)]]></title>
         <id>160-interview-review-closure3</id>
-        <link href="https://nostrss.me/160-interview-review-closure3"/>
+        <link href="https://nostrss.me/blog/160-interview-review-closure3"/>
         <updated>2023-09-06T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[클로저는 언제 사용하는가? 자주 사용해서 익숙해지자.]]></summary>
         <content type="html"><![CDATA[<p>이론적인 내용을 정리하고 이제는 실제로 어떻게 쓰이는지 알아보자.<br>
@@ -1360,7 +4491,7 @@ console.log(myCounter.decrease()); // 0
     <entry>
         <title type="html"><![CDATA[[면접리뷰]클로저(Closure)란? (2)]]></title>
         <id>159-interview-review-closure2</id>
-        <link href="https://nostrss.me/159-interview-review-closure2"/>
+        <link href="https://nostrss.me/blog/159-interview-review-closure2"/>
         <updated>2023-09-06T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[다양한 예제를 보고 클로저에 대해 조금 더 이해해보자.]]></summary>
         <content type="html"><![CDATA[<p>이번에는 여러 사이트들의 예제들을 보면서 클로저에 대해 조금 더 이해해보려고 한다.</p>
@@ -1426,7 +4557,7 @@ sayHi(); // what will it show: "John" or "Pete"?
     <entry>
         <title type="html"><![CDATA[[면접리뷰]클로저(Closure)란?]]></title>
         <id>158-interview-review-closure</id>
-        <link href="https://nostrss.me/158-interview-review-closure"/>
+        <link href="https://nostrss.me/blog/158-interview-review-closure"/>
         <updated>2023-09-06T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[어설프게 알고 면접보다 망했다. 다음엔 실수하지 말자!]]></summary>
         <content type="html"><![CDATA[<p>오늘 면접을 보면서 내가 이론 공부에 대해 개념적으로만 간단히 알고있다는 느낌을 받았다.</p>
@@ -1580,7 +4711,7 @@ showName();
     <entry>
         <title type="html"><![CDATA[[React-Query] 무한 스크롤 구현하기]]></title>
         <id>157-react-query-inifinite-scroll</id>
-        <link href="https://nostrss.me/157-react-query-inifinite-scroll"/>
+        <link href="https://nostrss.me/blog/157-react-query-inifinite-scroll"/>
         <updated>2023-09-06T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[별도의 무한스크롤 라이브러리 없이 useInfiniteQuery와 IntersectionObserver를 통해 무한 스크롤을 구현해보자]]></summary>
         <content type="html"><![CDATA[<p>그동안 <code>무한스크롤</code>을 구현하기 위해 몇가지 라이브러리를 사용해봤다.</p>
@@ -1874,7 +5005,7 @@ export default function PostList() {
     <entry>
         <title type="html"><![CDATA[[Error] Storybook, Cannot find module]]></title>
         <id>156-next13-storybook-error</id>
-        <link href="https://nostrss.me/156-next13-storybook-error"/>
+        <link href="https://nostrss.me/blog/156-next13-storybook-error"/>
         <updated>2023-09-06T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[스토리북에서 Cannot find module 에러가 발생했을 때 해결 방법]]></summary>
         <content type="html"><![CDATA[<p>외부에서 <code>상수</code>나 <code>컴포넌트</code>를 import 해왔을때 갑자기 <code>스토리북</code>에서 아래와 같은 에러가 발생했다.</p>
@@ -1939,7 +5070,7 @@ export default function PostList() {
     <entry>
         <title type="html"><![CDATA[Nextjs 13에서 스토리북 사용하기(with tailwindcss)]]></title>
         <id>155-next13-storybook</id>
-        <link href="https://nostrss.me/155-next13-storybook"/>
+        <link href="https://nostrss.me/blog/155-next13-storybook"/>
         <updated>2023-09-05T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[스토리북으로 UI 단위 컴포넌트를 문서화해보자]]></summary>
         <content type="html"><![CDATA[<p>이번에 <code>nextjs 13</code>으로 개인 블로그를 만드려는데 때마침 <code>스토리북</code>이 생각나서 사용해보려고 했다.</p>
@@ -2068,7 +5199,7 @@ export default preview;
     <entry>
         <title type="html"><![CDATA[Next.js 13 프로젝트 yarn berry로 전환하기]]></title>
         <id>154-next-yarnberry</id>
-        <link href="https://nostrss.me/154-next-yarnberry"/>
+        <link href="https://nostrss.me/blog/154-next-yarnberry"/>
         <updated>2023-09-04T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Next 프로젝트 인스톨 없이 클론받아 바로 써보기]]></summary>
         <content type="html"><![CDATA[<h2>설치 환경 버전 정보</h2>
@@ -2166,7 +5297,7 @@ export default preview;
     <entry>
         <title type="html"><![CDATA[[Nest] DTO, 그게 뭐야? 왜쓰는데? 어떻게 쓰는데?]]></title>
         <id>153-nestjs-dto</id>
-        <link href="https://nostrss.me/153-nestjs-dto"/>
+        <link href="https://nostrss.me/blog/153-nestjs-dto"/>
         <updated>2023-09-01T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[이름도 생소한 DTO, 그것이 알고 싶다.]]></summary>
         <content type="html"><![CDATA[<h2>DTO(Data Transfer Object)란?</h2>
@@ -2283,7 +5414,7 @@ bootstrap();
     <entry>
         <title type="html"><![CDATA[[NEXT] Middleware와 Edge Functions]]></title>
         <id>152-nextjs-middleware-edge</id>
-        <link href="https://nostrss.me/152-nextjs-middleware-edge"/>
+        <link href="https://nostrss.me/blog/152-nextjs-middleware-edge"/>
         <updated>2023-08-31T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[새로운 걸 사용하기 전에는 사전학습을 충분히 하자. Next.js Middleware를 사용하면서 발생한 문제점과 해결방법]]></summary>
         <content type="html"><![CDATA[<p>얼마 전 팀프로젝트에 <code>Next.js</code>의 <code>Middleware</code> 파일을 사용하여 github 로그인 관련 기능을 구현하려고 했었다.</p>
@@ -2394,7 +5525,7 @@ export const config = {
     <entry>
         <title type="html"><![CDATA[[Nest] ERROR [ExceptionsHandler] No metadata]]></title>
         <id>151-error-nest-no-metadata</id>
-        <link href="https://nostrss.me/151-error-nest-no-metadata"/>
+        <link href="https://nostrss.me/blog/151-error-nest-no-metadata"/>
         <updated>2023-08-30T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[해결이 됐는데도 이유를 모르는 이 찝찝함이란..]]></summary>
         <content type="html"><![CDATA[<p><code>Nest.js</code>에서 <code>typeorm</code>을 연결하여 사용하려고 하던 중 아래와 같은 에러가 발생했다.</p>
@@ -2493,7 +5624,7 @@ EntityMetadataNotFoundError: No metadata for "Board" was found.
     <entry>
         <title type="html"><![CDATA[[NEXT] TOAST Editor에서 작성한 글정보 불러오기(useRef)]]></title>
         <id>147-toast-next-2</id>
-        <link href="https://nostrss.me/147-toast-next-2"/>
+        <link href="https://nostrss.me/blog/147-toast-next-2"/>
         <updated>2023-08-25T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[에디터에 적어놓은 글을 어떻게 불러올까? useState or useRef?]]></summary>
         <content type="html"><![CDATA[<blockquote>
@@ -2593,7 +5724,7 @@ export default function PostEditor({
     <entry>
         <title type="html"><![CDATA[[NEXT] TOAST Editor에서 이미지 업로드하기(hooks)]]></title>
         <id>148-toast-next-3</id>
-        <link href="https://nostrss.me/148-toast-next-3"/>
+        <link href="https://nostrss.me/blog/148-toast-next-3"/>
         <updated>2023-08-25T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[블로그에 이미지가 없으면 섭섭하니깐, Toast에서 제공하는 hooks에 이미지 업로드 함수를 연결해보자.]]></summary>
         <content type="html"><![CDATA[<blockquote>
@@ -2723,7 +5854,7 @@ type HookCallback = (url: string, text?: string) => void;
     <entry>
         <title type="html"><![CDATA[[NEXT] TOAST Editor 사용하기]]></title>
         <id>146-toast-next-1</id>
-        <link href="https://nostrss.me/146-toast-next-1"/>
+        <link href="https://nostrss.me/blog/146-toast-next-1"/>
         <updated>2023-08-25T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[국산을 애용하자. 한국 에디더 Toast Editor를 사용해보자.]]></summary>
         <content type="html"><![CDATA[<blockquote>
@@ -2925,7 +6056,7 @@ const PostEditor = dynamic(() => import('@/components/newpost/PostEditor'), {
     <entry>
         <title type="html"><![CDATA[[NEXT] TOAST Editor customHTMLSanitizer 사용하기]]></title>
         <id>150-toast-next-5</id>
-        <link href="https://nostrss.me/150-toast-next-5"/>
+        <link href="https://nostrss.me/blog/150-toast-next-5"/>
         <updated>2023-08-25T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[dangeroulySetInnerHTML을 사용하지 않고 dompurify를 Toast Editor에 적용해보자.]]></summary>
         <content type="html"><![CDATA[<blockquote>
@@ -3107,7 +6238,7 @@ export default function EditorViewer({
     <entry>
         <title type="html"><![CDATA[[NEXT] TOAST Editor Viewer 사용하기]]></title>
         <id>149-toast-next-4</id>
-        <link href="https://nostrss.me/149-toast-next-4"/>
+        <link href="https://nostrss.me/blog/149-toast-next-4"/>
         <updated>2023-08-25T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[보여주기만 할 땐 Viewer를 사용하면 된다.]]></summary>
         <content type="html"><![CDATA[<blockquote>
@@ -3167,7 +6298,7 @@ export default function EditorViewer({
     <entry>
         <title type="html"><![CDATA[PostgresSQL 설치 시 "/tmp/.s.PGSQL.5432" 에러]]></title>
         <id>145-postgre-install-error</id>
-        <link href="https://nostrss.me/145-postgre-install-error"/>
+        <link href="https://nostrss.me/blog/145-postgre-install-error"/>
         <updated>2023-08-24T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[설치 에러가 제일 무서운 개발자]]></summary>
         <content type="html"><![CDATA[<p>Nest.js를 공부하면서 Brew로 PostgresSQL을 설치하고 DB를 연결하려고 했는데 아래와 같은 에러가 발생했다.</p>
@@ -3210,7 +6341,7 @@ psql: error: connection to server on socket "/tmp/.s.PGSQL.5432" failed: No such
     <entry>
         <title type="html"><![CDATA[[Nest.js] - 소개]]></title>
         <id>144-nestjs</id>
-        <link href="https://nostrss.me/144-nestjs"/>
+        <link href="https://nostrss.me/blog/144-nestjs"/>
         <updated>2023-08-23T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[올해 안에 Nest.js 서버를 만들어 보자!!]]></summary>
         <content type="html"><![CDATA[<blockquote>
@@ -3286,7 +6417,7 @@ npm run start:dev // 개발 모드
     <entry>
         <title type="html"><![CDATA[reduce 사용법 정리]]></title>
         <id>142-javascript-reduce</id>
-        <link href="https://nostrss.me/142-javascript-reduce"/>
+        <link href="https://nostrss.me/blog/142-javascript-reduce"/>
         <updated>2023-07-11T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[자주 쓰지 않아서 까먹은 reduce 사용법을 정리]]></summary>
         <content type="html"><![CDATA[<p>좀 처럼 프론트엔드 실무를 하면서는 자주 사용할 기회가 없었던 메소드가 바로 reduce였다.</p>
@@ -3345,7 +6476,7 @@ npm run start:dev // 개발 모드
     <entry>
         <title type="html"><![CDATA[[NEXT] page.js (with App Router)]]></title>
         <id>141-next-page-app-router</id>
-        <link href="https://nostrss.me/141-next-page-app-router"/>
+        <link href="https://nostrss.me/blog/141-next-page-app-router"/>
         <updated>2023-07-11T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[NEXT.JS에서 page.js에 기본적으로 제공되는 Props를 알아보자.]]></summary>
         <content type="html"><![CDATA[<h2>Props</h2>
@@ -3406,7 +6537,7 @@ npm run start:dev // 개발 모드
     <entry>
         <title type="html"><![CDATA[React server component와 Next.js]]></title>
         <id>143-react-nextjs-server-component</id>
-        <link href="https://nostrss.me/143-react-nextjs-server-component"/>
+        <link href="https://nostrss.me/blog/143-react-nextjs-server-component"/>
         <updated>2023-07-11T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Server Component 참 신기한 컴포넌트네요]]></summary>
         <content type="html"><![CDATA[<p>React 18 버전에서 새로 추가된 기능 중 하나가 바로 server component이다.</p>
@@ -3484,7 +6615,7 @@ export default function Counter() {
     <entry>
         <title type="html"><![CDATA[[정리] 렌더링의 종류와 용어 정리]]></title>
         <id>140-frontend-of-term</id>
-        <link href="https://nostrss.me/140-frontend-of-term"/>
+        <link href="https://nostrss.me/blog/140-frontend-of-term"/>
         <updated>2023-07-10T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[렌더링 사전이 필요해..]]></summary>
         <content type="html"><![CDATA[<h1>렌더링의 종류와 용어 정리</h1>
@@ -3590,7 +6721,7 @@ FCP : first contentful paint, 유저가 화면에 처음으로 무언가를 볼 
     <entry>
         <title type="html"><![CDATA[[알고리즘]최대공약수와 최소공배수]]></title>
         <id>139-algorithm</id>
-        <link href="https://nostrss.me/139-algorithm"/>
+        <link href="https://nostrss.me/blog/139-algorithm"/>
         <updated>2023-06-23T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[알아두면 쓸모 있을 것 같은 수학]]></summary>
         <content type="html"><![CDATA[<p>최근 알고리즘 문제를 풀다가 최대공약수와 최소공배수를 활용하는 문제가 있었다.</p>
@@ -3639,7 +6770,7 @@ FCP : first contentful paint, 유저가 화면에 처음으로 무언가를 볼 
     <entry>
         <title type="html"><![CDATA[[책읽기]refactoring - 챕터 1]]></title>
         <id>138-refactoring-1</id>
-        <link href="https://nostrss.me/138-refactoring-1"/>
+        <link href="https://nostrss.me/blog/138-refactoring-1"/>
         <updated>2023-05-07T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[사수가 없으니 책이라도 읽어보자.]]></summary>
         <content type="html"><![CDATA[<h2>샘플 코드</h2>
@@ -3765,7 +6896,7 @@ class ComedyCalculator extends PerformanceCalculator {
     <entry>
         <title type="html"><![CDATA[[책읽기]refactoring]]></title>
         <id>137-refactoring-0</id>
-        <link href="https://nostrss.me/137-refactoring-0"/>
+        <link href="https://nostrss.me/blog/137-refactoring-0"/>
         <updated>2023-05-05T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[이 책이 그렇게 유명하다며? 그런데 어려워 보이는데?]]></summary>
         <content type="html"><![CDATA[<h2>좋은 코드란 어떤걸까?</h2>
@@ -3825,7 +6956,7 @@ class ComedyCalculator extends PerformanceCalculator {
     <entry>
         <title type="html"><![CDATA[typedoc으로 프론트엔드 문서 만들기]]></title>
         <id>136-typedoc-gh-pages</id>
-        <link href="https://nostrss.me/136-typedoc-gh-pages"/>
+        <link href="https://nostrss.me/blog/136-typedoc-gh-pages"/>
         <updated>2023-03-13T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[AI가 문서를 만들어주는 세상이 빨리 왔으면 좋겠다.]]></summary>
         <content type="html"><![CDATA[<p>회사에서든, 개인적으로 집에서 코드를 볼 때마다</p>
@@ -3885,7 +7016,7 @@ npm install --save-dev typedoc
     <entry>
         <title type="html"><![CDATA[나만의 Boilerplate를 github template로 만들기]]></title>
         <id>135-github-template</id>
-        <link href="https://nostrss.me/135-github-template"/>
+        <link href="https://nostrss.me/blog/135-github-template"/>
         <updated>2023-03-12T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[한번 잘 만들어두면 계속 사용할 수 있는 boilerplate를 github template로 만들어보자.]]></summary>
         <content type="html"><![CDATA[<p>매번 새로운 프로젝트를 시작할 때 마다 똑같이 반복해서 작업하는 일이 있다.</p>
@@ -3957,7 +7088,7 @@ next.config.js
     <entry>
         <title type="html"><![CDATA[Next.js SSR, SSG를 Vercel에 배포하기(3)]]></title>
         <id>134-nextjs-vercel-3</id>
-        <link href="https://nostrss.me/134-nextjs-vercel-3"/>
+        <link href="https://nostrss.me/blog/134-nextjs-vercel-3"/>
         <updated>2023-03-11T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[배포가 가장 쉬웠어요 라고 할 뻔 했다.]]></summary>
         <content type="html"><![CDATA[<p><a href="https://github.com/nostrss/next-render">전체 소스코드</a></p>
@@ -4004,7 +7135,7 @@ next.config.js
     <entry>
         <title type="html"><![CDATA[Next.js SSR, SSG를 Vercel에 배포하기(2)]]></title>
         <id>133-nextjs-vercel-2</id>
-        <link href="https://nostrss.me/133-nextjs-vercel-2"/>
+        <link href="https://nostrss.me/blog/133-nextjs-vercel-2"/>
         <updated>2023-03-05T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[이래서 Next Next 하는구나..]]></summary>
         <content type="html"><![CDATA[<p><a href="https://github.com/nostrss/next-render">전체 소스코드</a></p>
@@ -4131,7 +7262,7 @@ next.config.js
     <entry>
         <title type="html"><![CDATA[Next.js SSR, SSG를 Vercel에 배포하기(1)]]></title>
         <id>132-nextjs-vercel</id>
-        <link href="https://nostrss.me/132-nextjs-vercel"/>
+        <link href="https://nostrss.me/blog/132-nextjs-vercel"/>
         <updated>2023-03-05T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[오랜만에 사용해 보는 Next.js, 보고 싶었다 Next.js]]></summary>
         <content type="html"><![CDATA[<p><a href="https://github.com/nostrss/next-render">전체 소스코드</a></p>
@@ -4288,7 +7419,7 @@ export default function Home({ dataList }) {
     <entry>
         <title type="html"><![CDATA[React PWA 만들기(2)]]></title>
         <id>131-progressive-web-app-2</id>
-        <link href="https://nostrss.me/131-progressive-web-app-2"/>
+        <link href="https://nostrss.me/blog/131-progressive-web-app-2"/>
         <updated>2023-03-04T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[대표님 한마디에 이렇게까지 준비를 해야해나?]]></summary>
         <content type="html"><![CDATA[<h2>PWA 장점</h2>
@@ -4345,7 +7476,7 @@ export default function Home({ dataList }) {
     <entry>
         <title type="html"><![CDATA[React PWA 만들기(1)]]></title>
         <id>130-progressive-web-app</id>
-        <link href="https://nostrss.me/130-progressive-web-app"/>
+        <link href="https://nostrss.me/blog/130-progressive-web-app"/>
         <updated>2023-03-04T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[대표님은 PWA가 하고 싶다고 하셨어.]]></summary>
         <content type="html"><![CDATA[<h2>PWA란?</h2>

@@ -1,10 +1,10 @@
 {
-  "name": "next13-blog",
+  "name": "next-blog",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && yarn rss",
+    "build": "next build && pnpm run rss",
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
@@ -43,6 +43,8 @@
     "unified": "^11.0.3"
   },
   "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
     "@storybook/addon-essentials": "^7.5.0-alpha.1",
     "@storybook/addon-interactions": "^7.5.0-alpha.1",
     "@storybook/addon-links": "^7.5.0-alpha.1",
@@ -52,6 +54,7 @@
     "@storybook/react": "^7.5.0-alpha.1",
     "@storybook/testing-library": "^0.2.0",
     "@tailwindcss/typography": "^0.5.10",
+    "@types/node-fetch": "^2.6.11",
     "@types/react-syntax-highlighter": "^15.5.7",
     "eslint-plugin-storybook": "^0.6.13",
     "postcss-nesting": "^12.0.1",
