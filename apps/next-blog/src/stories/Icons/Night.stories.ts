@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react'
 
-import NightIcon from '../../components/Icon/NightIcon';
+import NightIcon from '../../components/Icon/NightIcon'
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
@@ -14,10 +14,10 @@ const meta = {
   tags: ['autodocs'],
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {},
-} satisfies Meta<typeof NightIcon>;
+} satisfies Meta<typeof NightIcon>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const DefaultNightIcon: Story = {
@@ -25,4 +25,4 @@ export const DefaultNightIcon: Story = {
     size: 20,
     color: 'black',
   },
-};
+}

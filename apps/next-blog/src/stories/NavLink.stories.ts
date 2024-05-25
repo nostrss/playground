@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import NavLink from '../components/NavLink';
+import type { Meta, StoryObj } from '@storybook/react'
+import NavLink from '../components/NavLink'
 
 const meta = {
   title: 'Example/NavLink',
@@ -16,14 +16,14 @@ const meta = {
     },
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof NavLink>;
+} satisfies Meta<typeof NavLink>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
     children: 'Link',
     href: '#',
   },
-};
+}

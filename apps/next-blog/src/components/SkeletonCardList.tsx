@@ -1,5 +1,5 @@
-import React from 'react';
-import SkeletonCard from './SkeletonCard';
+import React from 'react'
+import SkeletonCard from './SkeletonCard'
 
 export default function SkeletonCardList() {
   return (
@@ -9,5 +9,5 @@ export default function SkeletonCardList() {
       <SkeletonCard />
       <SkeletonCard />
     </>
-  );
+  )
 }

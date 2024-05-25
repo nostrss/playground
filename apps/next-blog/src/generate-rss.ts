@@ -1,5 +1,5 @@
-import { Feed } from 'feed';
-import { writeFileSync } from 'fs';
+import { Feed } from 'feed'
+import { writeFileSync } from 'fs'
 import {
   BASE_URL,
   DEFAULT_META_AUTHOR_EMAIL,
@@ -7,15 +7,15 @@ import {
   DEFAULT_META_AUTHOR_URL,
   DEFAULT_META_DESCRIPTION,
   DEFAULT_META_TITLE,
-} from './constant';
+} from './constant'
 
-import fetch from 'node-fetch';
+import fetch from 'node-fetch'
 
 const master = {
   name: DEFAULT_META_AUTHOR_NAME,
   email: DEFAULT_META_AUTHOR_EMAIL,
   link: DEFAULT_META_AUTHOR_URL,
-};
+}
 
 const feed = new Feed({
   title: DEFAULT_META_TITLE,
@@ -33,14 +33,14 @@ const feed = new Feed({
     rss: `${BASE_URL}/rss.xml`,
   },
   author: master,
-});
+})
 
 const getAllPostData = async () => {
   const data = await fetch(`${BASE_URL}/api/post/all`, {
     method: 'GET',
-  });
+  })
 
-  const jsonData: any = await data.json();
+  const jsonData: any = await data.json()
   jsonData.data.forEach((json: JsonPost) => {
     feed.addItem({
       title: json.title,
@@ -53,27 +53,25 @@ const getAllPostData = async () => {
       date: new Date(json.date),
       // image: post.image,
       category: json.tags.split(' ').map((tag: string) => ({ name: tag })),
-    });
-  });
+    })
+  })
 
   // Output: RSS 2.0
-  writeFileSync('public/rss.xml', feed.rss2(), 'utf-8');
+  writeFileSync('public/rss.xml', feed.rss2(), 'utf-8')
   // Output: Atom 1.0
-  writeFileSync('public/rss-atom.xml', feed.atom1(), 'utf-8');
+  writeFileSync('public/rss-atom.xml', feed.atom1(), 'utf-8')
   // Output: JSON Feed 1.0
-  writeFileSync('public/feed.json', feed.json1(), 'utf-8');
-};
+  writeFileSync('public/feed.json', feed.json1(), 'utf-8')
+}
 
-getAllPostData();
-feed.addCategory('Technologies');
+getAllPostData()
+feed.addCategory('Technologies')
 
 type JsonPost = {
-  currentPostId: string;
-  title: string;
-  description: string;
-  date: string;
-  tags: string;
-  content: string;
-};
-
-type JsonPostList = JsonPost[];
+  currentPostId: string
+  title: string
+  description: string
+  date: string
+  tags: string
+  content: string
+}

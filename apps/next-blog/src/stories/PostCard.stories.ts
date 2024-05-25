@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import PostCard from '../components/PostCard';
+import type { Meta, StoryObj } from '@storybook/react'
+import PostCard from '../components/PostCard'
 
 const meta = {
   title: 'Example/PostCard',
@@ -41,10 +41,10 @@ const meta = {
     },
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof PostCard>;
+} satisfies Meta<typeof PostCard>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
@@ -55,4 +55,4 @@ export const Default: Story = {
     tags: 'tag1 tag2',
     images: [{ url: 'https://picsum.photos/200/300' }],
   },
-};
+}

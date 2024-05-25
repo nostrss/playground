@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import SkeletonCard from '@/components/SkeletonCard';
+import type { Meta, StoryObj } from '@storybook/react'
+import SkeletonCard from '@/components/SkeletonCard'
 
 const meta = {
   title: 'Example/SkeletonCard',
   component: SkeletonCard,
   decorators: [
-    (Story) => (
+    Story => (
       <div
         style={{
           width: '920px',
@@ -24,11 +24,11 @@ const meta = {
 
   argTypes: {},
   tags: ['autodocs'],
-} satisfies Meta<typeof SkeletonCard>;
+} satisfies Meta<typeof SkeletonCard>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {},
-};
+}

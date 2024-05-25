@@ -1,13 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import Header from '../components/Header';
-import { menus } from '@/app/layout';
-import Footer from '../components/Footer';
+import type { Meta, StoryObj } from '@storybook/react'
+import Footer from '../components/Footer'
 
 const meta = {
   title: 'Example/Footer',
   component: Footer,
   decorators: [
-    (Story) => (
+    Story => (
       <div style={{ width: '1192px' }}>
         <Story />
       </div>
@@ -18,11 +16,11 @@ const meta = {
   },
   argTypes: {},
   tags: ['autodocs'],
-} satisfies Meta<typeof Footer>;
+} satisfies Meta<typeof Footer>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {},
-};
+}

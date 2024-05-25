@@ -1,27 +1,21 @@
-import { BASE_URL, DEFAULT_OG_IMAGE_URL } from '@/constant';
-import CommentList from '@/components/CommentList';
-import MarkDownViewer from '@/components/MarkDownViewer';
-import { PostSlug } from '@/type/common';
-import { API } from '@/util/API';
+import { BASE_URL, DEFAULT_OG_IMAGE_URL } from '@/constant'
+import CommentList from '@/components/CommentList'
+import MarkDownViewer from '@/components/MarkDownViewer'
+import { PostSlug } from '@/type/common'
+import { API } from '@/util/API'
 
-export default async function BlogDetail({
-  params: { slug },
-}: {
-  params: { slug: string };
-}) {
-  const { data } = await API.fetchBlogDetail(slug);
+export default async function BlogDetail({ params: { slug } }: { params: { slug: string } }) {
+  const { data } = await API.fetchBlogDetail(slug)
 
   return (
-    <section className='w-full flex flex-row justify-center'>
-      <article className='w-full p-5'>
-        <h1 className='text-[36px] font-bold dark:text-white border-b border-black pb-2 mb-4'>
-          {data.title}
-        </h1>
+    <section className="w-full flex flex-row justify-center">
+      <article className="w-full p-5">
+        <h1 className="text-[36px] font-bold dark:text-white border-b border-black pb-2 mb-4">{data.title}</h1>
         <MarkDownViewer content={data.content} />
         <CommentList />
       </article>
     </section>
-  );
+  )
 }
 
 /**
@@ -29,11 +23,11 @@ export default async function BlogDetail({
  * @returns
  */
 export async function generateStaticParams() {
-  const { data } = await API.fetchPostListAll();
+  const { data } = await API.fetchPostListAll()
 
   return data.map((post: PostSlug) => ({
     slug: post.slug,
-  }));
+  }))
 }
 
 /**
@@ -41,12 +35,8 @@ export async function generateStaticParams() {
  * @param param0
  * @returns
  */
-export async function generateMetadata({
-  params: { slug },
-}: {
-  params: { slug: string };
-}) {
-  const { data } = await API.fetchBlogDetail(slug);
+export async function generateMetadata({ params: { slug } }: { params: { slug: string } }) {
+  const { data } = await API.fetchBlogDetail(slug)
   return {
     title: data.title,
     description: data.description || data.title,
@@ -63,14 +53,12 @@ export async function generateMetadata({
       },
       images: [
         {
-          url:
-            data.images?.length > 0 ? data.images[0].url : DEFAULT_OG_IMAGE_URL,
+          url: data.images?.length > 0 ? data.images[0].url : DEFAULT_OG_IMAGE_URL,
           width: 1550,
           height: 800,
         },
         {
-          url:
-            data.images?.length > 0 ? data.images[0].url : DEFAULT_OG_IMAGE_URL,
+          url: data.images?.length > 0 ? data.images[0].url : DEFAULT_OG_IMAGE_URL,
           width: 1550,
           height: 800,
           alt: data.title,
@@ -82,5 +70,5 @@ export async function generateMetadata({
       title: `${data.title} | twitter_page`,
       description: `${data.description || data.title} | twitter_page`,
     },
-  };
+  }
 }

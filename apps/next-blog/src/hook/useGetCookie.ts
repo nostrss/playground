@@ -1,23 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
 export default function useGetCookie() {
-  const [cookieValue, setCookieValue] = useState('');
+  const [cookieValue, setCookieValue] = useState('')
 
   useEffect(() => {
-    const data = getCookie('mode');
-    setCookieValue(data);
-  }, []);
+    const data = getCookie('mode')
+    setCookieValue(data)
+  }, [])
 
-  return cookieValue;
+  return cookieValue
 }
 
 const getCookie = (cookieName: string): string => {
-  let result = '';
-  document.cookie.split(';').map((item) => {
-    const cookieItem = item.trim();
+  let result = ''
+  document.cookie.split(';').map(item => {
+    const cookieItem = item.trim()
     if (item.includes(cookieName)) {
-      result = cookieItem.split('=')[1];
+      result = cookieItem.split('=')[1]
     }
-  });
-  return result;
-};
+  })
+  return result
+}

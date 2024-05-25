@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
-import React from 'react';
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-import { IPropsChildren } from '@/type/common';
+import React from 'react'
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+import { IPropsChildren } from '@/type/common'
 
 export default function QueryProviders({ children }: IPropsChildren) {
   const [client] = React.useState(
@@ -14,8 +14,8 @@ export default function QueryProviders({ children }: IPropsChildren) {
           retry: false,
         },
       },
-    })
-  );
+    }),
+  )
 
-  return <QueryClientProvider client={client}>{children}</QueryClientProvider>;
+  return <QueryClientProvider client={client}>{children}</QueryClientProvider>
 }

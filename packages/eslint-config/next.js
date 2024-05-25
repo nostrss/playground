@@ -32,5 +32,20 @@ module.exports = {
     'node_modules/',
   ],
   overrides: [{ files: ['*.js?(x)', '*.ts?(x)'] }],
-  rules: {},
+  rules: {
+    'prettier/prettier': [
+      'error',
+      {
+        singleQuote: true,
+        semi: false,
+        useTabs: false,
+        tabWidth: 2,
+        trailingComma: 'all',
+        printWidth: 120,
+        bracketSpacing: true,
+        arrowParens: 'avoid',
+      },
+      { usePrettierrc: false },
+    ],
+  },
 }

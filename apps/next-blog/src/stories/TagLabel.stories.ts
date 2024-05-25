@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import TagLabel from '../components/TagLabel';
+import type { Meta, StoryObj } from '@storybook/react'
+import TagLabel from '../components/TagLabel'
 
 const meta = {
   title: 'Example/Tag',
@@ -25,17 +25,17 @@ const meta = {
     },
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof TagLabel>;
+} satisfies Meta<typeof TagLabel>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
     tagName: 'tag1',
     isActive: false,
   },
-};
+}
 
 export const TagNameWithCounter: Story = {
   args: {
@@ -43,4 +43,4 @@ export const TagNameWithCounter: Story = {
     count: 10,
     isActive: true,
   },
-};
+}

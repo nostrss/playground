@@ -1,10 +1,10 @@
-import { BASE_URL } from '@/constant';
-import { API } from '@/util/API';
-import { MetadataRoute } from 'next';
+import { BASE_URL } from '@/constant'
+import { API } from '@/util/API'
+import { MetadataRoute } from 'next'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const data = await API.fetchPostListAll();
-  const tags = await API.fetchTagsDataAll();
+  const data = await API.fetchPostListAll()
+  const tags = await API.fetchTagsDataAll()
 
   return [
     {
@@ -31,5 +31,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.5,
     })),
-  ];
+  ]
 }

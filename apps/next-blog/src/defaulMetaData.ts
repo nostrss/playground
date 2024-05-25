@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import { Metadata } from 'next'
 import {
   BASE_URL,
   DEFAULT_APP_NAME,
@@ -14,7 +14,7 @@ import {
   RSS_ATOM_URL,
   RSS_JSON_URL,
   RSS_XML_URL,
-} from './constant';
+} from './constant'
 
 export const defaultMetaData: Metadata = {
   title: {
@@ -91,4 +91,4 @@ export const defaultMetaData: Metadata = {
     title: `${DEFAULT_META_TITLE} | twitter`,
     description: `${DEFAULT_META_DESCRIPTION} | twitter`,
   },
-};
+}
