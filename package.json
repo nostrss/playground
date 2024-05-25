@@ -3,7 +3,9 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
+    "build:nuxt3-playground": "turbo build --filter=nuxt3-playground",
     "dev": "turbo dev",
+    "dev:nuxt3-playground": "turbo dev --filter=nuxt3-playground",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
