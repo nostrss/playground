@@ -16,7 +16,7 @@ module.exports = {
     project,
     extraFileExtensions: ['.vue'],
   },
-  ignorePatterns: ['node_modules/**', '.eslintrc.js'],
+  ignorePatterns: ['node_modules/**', '.eslintrc.cjs'],
   extends: [
     '@nuxtjs/eslint-config-typescript',
     'plugin:vue/vue3-recommended',
