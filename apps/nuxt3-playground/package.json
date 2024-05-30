@@ -10,9 +10,12 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@repo/eslint-config": "workspace:*",
     "nuxt": "^3.11.2",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0",
-    "@repo/eslint-config": "workspace:*"
+    "vue-router": "^4.3.0"
+  },
+  "devDependencies": {
+    "sass": "^1.77.3"
   }
 }

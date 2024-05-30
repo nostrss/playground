@@ -3,4 +3,3 @@
     <NuxtWelcome />
   </div>
 </template>
-∏
