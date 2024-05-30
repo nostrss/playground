@@ -174,9 +174,9 @@ importers:
 
   apps/web:
     dependencies:
-      '@repo/ui':
+      '@repo/react-ui':
         specifier: workspace:*
-        version: link:../../packages/ui
+        version: link:../../packages/react-ui
       next:
         specifier: ^14.1.1
         version: 14.1.1(react-dom@18.2.0)(react@18.2.0)
@@ -254,9 +254,7 @@ importers:
         specifier: ^9.4.2
         version: 9.4.2(eslint@8.57.0)
 
-  packages/typescript-config: {}
-
-  packages/ui:
+  packages/react-ui:
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
@@ -288,6 +286,8 @@ importers:
       typescript:
         specifier: ^5.3.3
         version: 5.3.3
+
+  packages/typescript-config: {}
 
 packages:
 
@@ -5878,6 +5878,7 @@ packages:
 
   /@turbo/gen@1.12.4(@types/node@20.11.24)(typescript@5.3.3):
     resolution: {integrity: sha512-3Z8KZ6Vnc2x6rr8sNJ4QNYpkAttLBfb91uPzDlFDY7vgJg+vfXT8YWyZznVL+19ZixF2C/F4Ucp4/YjG2e1drg==}
+    hasBin: true
     dependencies:
       '@turbo/workspaces': 1.12.4
       chalk: 2.4.2
@@ -5900,11 +5901,12 @@ packages:
 
   /@turbo/workspaces@1.12.4:
     resolution: {integrity: sha512-a1hF8Nr6MOeCpvlLR569dGTlzgRLj2Rxo6dTb4jtL+jhHwCb94A9kDPgcRnYGFr45mgulICarVaNZxDjw4/riQ==}
+    hasBin: true
     dependencies:
       chalk: 2.4.2
       commander: 10.0.1
       execa: 5.1.1
-      fast-glob: 3.3.1
+      fast-glob: 3.3.2
       fs-extra: 10.1.0
       gradient-string: 2.0.2
       inquirer: 8.2.6
@@ -7658,6 +7660,7 @@ packages:
       debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   /agent-base@7.1.1:
     resolution: {integrity: sha512-H0TSyFNDMomMNJQBn8wFV5YC/2eJ+VXECwOadZJT554xP6cODZHPX3H9QMQECxvrgiSOP1pHjy1sMWQVYJOUOA==}
@@ -7666,7 +7669,6 @@ packages:
       debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /aggregate-error@3.1.0:
     resolution: {integrity: sha512-4I7Td01quW/RpocfNayFdFVk1qSuoh0E7JrbRJ16nH01HhKFQ88INq9Sd+nd72zqRySlr9BmDA8xlEJ6vJMrYA==}
@@ -11714,7 +11716,7 @@ packages:
       '@types/glob': 7.2.0
       array-union: 2.1.0
       dir-glob: 3.0.1
-      fast-glob: 3.3.1
+      fast-glob: 3.3.2
       glob: 7.2.3
       ignore: 5.3.1
       merge2: 1.4.1
@@ -12173,7 +12175,7 @@ packages:
     resolution: {integrity: sha512-+ZT+iBxVUQ1asugqnD6oWoRiS25AkjNfG085dKJGtGxkdwLQrMKU5wJr2bOOFAXzKcTuqq+7fZlTMgG3SRfIYQ==}
     engines: {node: '>= 14'}
     dependencies:
-      agent-base: 7.1.0
+      agent-base: 7.1.1
       debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
@@ -12211,7 +12213,7 @@ packages:
     resolution: {integrity: sha512-Eun8zV0kcYS1g19r78osiQLEFIRspRUDd9tIfBCTBPBeMieF/EsJNL8VI3xOIdYRDEkjQnqOYPsZ2DsWsVsFwQ==}
     engines: {node: '>= 14'}
     dependencies:
-      agent-base: 7.1.0
+      agent-base: 7.1.1
       debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
@@ -14988,13 +14990,13 @@ packages:
     engines: {node: '>= 14'}
     dependencies:
       '@tootallnate/quickjs-emscripten': 0.23.0
-      agent-base: 7.1.0
+      agent-base: 7.1.1
       debug: 4.3.4
       get-uri: 6.0.1
       http-proxy-agent: 7.0.0
       https-proxy-agent: 7.0.1
       pac-resolver: 7.0.0
-      socks-proxy-agent: 8.0.1
+      socks-proxy-agent: 8.0.3
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -15953,14 +15955,14 @@ packages:
     resolution: {integrity: sha512-0LdR757eTj/JfuU7TL2YCuAZnxWXu3tkJbg4Oq3geW/qFNT/32T0sp2HnZ9O0lMR4q3vwAt0+xCA8SR0WAD0og==}
     engines: {node: '>= 14'}
     dependencies:
-      agent-base: 7.1.0
+      agent-base: 7.1.1
       debug: 4.3.4
       http-proxy-agent: 7.0.0
       https-proxy-agent: 7.0.1
       lru-cache: 7.18.3
       pac-proxy-agent: 7.0.0
       proxy-from-env: 1.1.0
-      socks-proxy-agent: 8.0.1
+      socks-proxy-agent: 8.0.3
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -17144,17 +17146,6 @@ packages:
       no-case: 2.3.2
     dev: true
 
-  /socks-proxy-agent@8.0.1:
-    resolution: {integrity: sha512-59EjPbbgg8U3x62hhKOFVAmySQUcfRQ4C7Q/D5sEHnZTQRrQlNKINks44DMR1gwXp0p4LaVIeccX2KHTTcHVqQ==}
-    engines: {node: '>= 14'}
-    dependencies:
-      agent-base: 7.1.0
-      debug: 4.3.4
-      socks: 2.7.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   /socks-proxy-agent@8.0.3:
     resolution: {integrity: sha512-VNegTZKhuGq5vSD6XNKlbqWhyt/40CgoEw8XxD6dhnm8Jq9IEa3nIa4HwnM8XOqU0CdB0BwWVXusqiFXfHB3+A==}
     engines: {node: '>= 14'}
@@ -17164,7 +17155,6 @@ packages:
       socks: 2.7.1
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /socks@2.7.1:
     resolution: {integrity: sha512-7maUZy1N7uo6+WVEX6psASxtNlKaNVMlGQKkG/63nEDdLOWNbiUMoLK7X4uYoLhQstau72mLgfEWcXcwsaHbYQ==}
