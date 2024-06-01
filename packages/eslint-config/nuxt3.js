@@ -1,5 +1,4 @@
 const { resolve } = require('node:path')
-const { root } = require('./nuxt3')
 
 const project = resolve(process.cwd(), 'tsconfig.json')
 
@@ -39,5 +38,6 @@ module.exports = {
       },
       { usePrettierrc: false },
     ],
+    'vue/multi-word-component-names': 0,
   },
 }
