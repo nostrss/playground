@@ -39,31 +39,5 @@ module.exports = {
       },
       { usePrettierrc: false },
     ],
-    '@typescript-eslint/naming-convention': [
-      'error',
-      {
-        selector: ['objectLiteralProperty'],
-        format: ['snake_case', 'camelCase', 'PascalCase', 'UPPER_CASE'],
-        filter: {
-          regex: '^([a-z][a-z0-9]*)(-[a-z0-9]+)*$',
-          match: false,
-        },
-      },
-    ],
-    'vue/multi-word-component-names': [
-      'error',
-      {
-        ignores: ['error', 'index', 'Index', 'default'],
-      },
-    ],
-    'vue/component-name-in-template-casing': [
-      'error',
-      'kebab-case',
-      {
-        registeredComponentsOnly: true,
-      },
-    ],
-    'vue/attribute-hyphenation': 'error',
-    'vue/no-v-html': 'off',
   },
 }
