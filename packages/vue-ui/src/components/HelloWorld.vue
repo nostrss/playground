@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps<{
-  msg: string;
-}>();
+  msg: string
+}>()
 </script>
 
 <template>
@@ -22,7 +22,6 @@ h1 {
   position: relative;
   top: -10px;
   color: $warn;
-
 }
 
 h3 {
@@ -35,7 +34,6 @@ h3 {
 }
 
 @media (min-width: 1024px) {
-
   .greetings h1,
   .greetings h3 {
     text-align: left;

@@ -8,6 +8,8 @@
     "dev": "turbo dev",
     "dev:next-blog": "turbo dev --filter=next-blog",
     "dev:nuxt3-playground": "turbo dev --filter=nuxt3-playground",
+    "test:nuxt3-playground": "turbo test --filter=nuxt3-playground",
+    "test:vue-ui": "turbo test --filter=@repo/vue-ui",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },

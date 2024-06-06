@@ -17,7 +17,13 @@
     },
     "dev": {
       "cache": false
-    }
+    },
+    "test": {}
   },
-  "globalEnv": ["NODE_ENV","NEXT_PUBLIC_GA_ID", "NEXT_PUBLIC_REPO_ID", "NEXT_PUBLIC_CATEGORY_ID"]
+  "globalEnv": [
+    "NODE_ENV",
+    "NEXT_PUBLIC_GA_ID",
+    "NEXT_PUBLIC_REPO_ID",
+    "NEXT_PUBLIC_CATEGORY_ID"
+  ]
 }
