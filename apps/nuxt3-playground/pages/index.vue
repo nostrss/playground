@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { TheWelcome } from '@repo/vue-ui'
+import { HelloWorld } from '@repo/vue-ui'
 </script>
 <template>
-  <TheWelcome />
+  <HelloWorld :msg="'hi'" />
 </template>
 
 <style scoped></style>
