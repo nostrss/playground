@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DialogModal from '@/components/modals/DialogModal.vue'
 const modalIsOpen = ref(false)
 const handleDialog = () => {
   modalIsOpen.value = !modalIsOpen.value
