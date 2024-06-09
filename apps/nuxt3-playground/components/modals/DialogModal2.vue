@@ -4,10 +4,6 @@ const props = defineProps<{
   open: boolean
 }>()
 
-const modalRef = ref<HTMLDialogElement | null>(null)
-const handleDialog = () => {
-  modalRef.value?.open ? modalRef.value?.close() : modalRef.value?.showModal()
-}
 const clickClose = (event) => {
   console.log(event.target.value)
 }
@@ -17,9 +13,8 @@ const clickConfirm = (event) => {
 }
 </script>
 <template>
-  <button @click="handleDialog">open</button>
   <Teleport to="body">
-    <dialog :open="props.open" ref="modalRef">
+    <dialog :open="props.open">
       <form method="dialog">
         <p>
           dialog contents
