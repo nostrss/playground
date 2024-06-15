@@ -1,31 +1,27 @@
 <script setup lang="ts">
-
 const props = defineProps<{
   open: boolean
+  onClose: () => void
 }>()
 
 const modalRef = ref<HTMLDialogElement | null>(null)
-const handleDialog = () => {
-  modalRef.value?.open ? modalRef.value?.close() : modalRef.value?.showModal()
-}
-const clickClose = (event) => {
-  console.log(event.target.value)
-}
 
-const clickConfirm = (event) => {
-  console.log(event.target.value)
-}
+watch(props, newProps => {
+  if (modalRef.value != null) {
+    if (newProps.open === true) {
+      modalRef.value.showModal()
+    } else {
+      modalRef.value.close()
+      newProps.onClose()
+    }
+  }
+})
 </script>
 <template>
-  <button @click="handleDialog">open</button>
-  <Teleport to="body">
-    <dialog :open="props.open" ref="modalRef">
+  <Teleport to="#teleports">
+    <dialog ref="modalRef" :open="props.open">
       <form method="dialog">
-        <p>
-          dialog contents
-        </p>
-        <button value="close" @click="clickClose">Close</button>
-        <button value="confirm" @click="clickConfirm">Confirm</button>
+        <slot />
       </form>
     </dialog>
   </Teleport>
