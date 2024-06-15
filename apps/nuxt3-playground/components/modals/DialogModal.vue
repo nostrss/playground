@@ -2,10 +2,13 @@
 const props = defineProps<{
   open: boolean
   onClose: () => void
+  teleportTo?: string
 }>()
 
 const modalRef = ref<HTMLDialogElement | null>(null)
-
+const teleportSelector = computed(() => {
+  return props.teleportTo ?? '#teleports'
+})
 watch(props, newProps => {
   if (modalRef.value != null) {
     if (newProps.open === true) {
@@ -18,8 +21,8 @@ watch(props, newProps => {
 })
 </script>
 <template>
-  <Teleport to="#teleports">
-    <dialog ref="modalRef" :open="props.open">
+  <Teleport :to="teleportSelector">
+    <dialog ref="modalRef">
       <form method="dialog">
         <slot />
       </form>

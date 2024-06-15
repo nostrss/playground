@@ -1,8 +1,13 @@
-<script setup lang="ts">
-import { HelloWorld } from '@repo/vue-ui'
-</script>
+<script setup lang="ts"></script>
 <template>
-  <HelloWorld :msg="'hi'" />
+  <ul>
+    <li>
+      <NuxtLink to="/modal">modal playground</NuxtLink>
+    </li>
+    <li>
+      <NuxtLink to="/rxjs">rxjs</NuxtLink>
+    </li>
+  </ul>
 </template>
 
 <style scoped></style>
