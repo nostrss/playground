@@ -1,18 +1,9 @@
 <script setup lang="ts">
 import DialogModal from '@/components/modals/DialogModal.vue'
+import Sample from '@/components/modals/modalSlot/Sample.vue'
 const modalIsOpen = ref(false)
 const handleDialog = () => {
   modalIsOpen.value = !modalIsOpen.value
-}
-
-const clickClose = (event: MouseEvent) => {
-  const target = event.target as HTMLButtonElement
-  console.log(target.value)
-}
-
-const clickConfirm = (event: MouseEvent) => {
-  const target = event.target as HTMLButtonElement
-  console.log(target.value)
 }
 </script>
 
@@ -20,9 +11,7 @@ const clickConfirm = (event: MouseEvent) => {
   <div>
     <button @click="handleDialog">modal</button>
     <DialogModal :open="modalIsOpen" :on-close="handleDialog">
-      <p>dialog contents</p>
-      <button value="close" @click="clickClose">Close</button>
-      <button value="confirm" @click="clickConfirm">Confirm</button>
+      <Sample />
     </DialogModal>
     <p>
       대법원에 대법관을 둔다. 다만, 법률이 정하는 바에 의하여 대법관이 아닌 법관을 둘 수 있다. 대통령은 제4항과 제5항의
