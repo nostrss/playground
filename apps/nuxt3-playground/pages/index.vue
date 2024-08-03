@@ -10,6 +10,9 @@
     <li>
       <NuxtLink to="/render/flex">render-flex</NuxtLink>
     </li>
+    <li>
+      <NuxtLink to="/render/noflex">render-no-flex</NuxtLink>
+    </li>
   </ul>
 </template>
 
