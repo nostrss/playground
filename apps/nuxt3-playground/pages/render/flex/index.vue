@@ -1,12 +1,9 @@
 <script setup lang="ts">
-
 const arr = Array.from({ length: 10000 }, (_, i) => i)
-
-
 </script>
 <template>
   <div class="container">
-    <div v-for="(item) in arr" class="box">
+    <div v-for="(item, index) in arr" :key="index" class="box">
       {{ item }}
     </div>
   </div>
