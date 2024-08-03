@@ -7,6 +7,9 @@
     <li>
       <NuxtLink to="/rxjs">rxjs</NuxtLink>
     </li>
+    <li>
+      <NuxtLink to="/render/flex">render-flex</NuxtLink>
+    </li>
   </ul>
 </template>
 
