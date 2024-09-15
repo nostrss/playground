@@ -29,7 +29,7 @@ server.on('connection', (ws) => {
       ws.ping();
       console.log('Sent ping to client');
     }
-  }, 5000);
+  }, 50000);
 
   // 연결이 닫혔을 때 처리
   ws.on('close', () => {
