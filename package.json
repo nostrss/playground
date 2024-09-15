@@ -6,10 +6,13 @@
     "build:next-blog": "turbo build --filter=next-blog",
     "build:nuxt3-playground": "turbo build --filter=nuxt3-playground",
     "build:nextjs-playground": "turbo build --filter=nextjs-playground",
+    "build:socket-server": "turbo build --filter=socket-server",
+
     "dev": "turbo dev",
     "dev:next-blog": "turbo dev --filter=next-blog",
     "dev:nuxt3-playground": "turbo dev --filter=nuxt3-playground",
     "dev:nextjs-playground": "turbo dev --filter=nextjs-playground",
+    "dev:socket-server": "turbo dev --filter=socket-server",
     "test:nuxt3-playground": "turbo test --filter=nuxt3-playground",
     "test:vue-ui": "turbo test --filter=@repo/vue-ui",
     "lint": "turbo lint",
