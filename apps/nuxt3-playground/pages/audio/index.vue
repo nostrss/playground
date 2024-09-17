@@ -31,9 +31,7 @@ export default {
     let audioContext = null
     let analyser = null
     let dataArray = null
-
-    // Web Worker 변수
-    let volumeWorker = null
+    let animationId = null
 
     onMounted(async () => {
       try {
@@ -72,50 +70,27 @@ export default {
       audioContext = new (window.AudioContext || window.webkitAudioContext)()
       const source = audioContext.createMediaStreamSource(stream)
       analyser = audioContext.createAnalyser()
-      analyser.fftSize = 2048
-      dataArray = new Uint8Array(analyser.fftSize)
+      analyser.fftSize = 256
+      dataArray = new Uint8Array(analyser.frequencyBinCount)
       source.connect(analyser)
-
-      // Web Worker 초기화 및 시작
-      initVolumeWorker()
-    }
-
-    const initVolumeWorker = () => {
-      // Web Worker 생성 - type: 'module' 추가
-      volumeWorker = new Worker(new URL('../../components/volumeWorker.js', import.meta.url), { type: 'module' })
-
-      volumeWorker.onmessage = e => {
-        if (e.data.type === 'update') {
-          updateVolume()
-        }
-      }
-
-      // 50ms마다 업데이트
-      volumeWorker.postMessage({ type: 'start', interval: 50 })
+      updateVolume()
     }
 
     const updateVolume = () => {
-      analyser.getByteTimeDomainData(dataArray)
-
-      // 시간 영역 데이터에서 볼륨 계산
+      analyser.getByteFrequencyData(dataArray)
       let sum = 0
       for (let i = 0; i < dataArray.length; i++) {
-        const sample = dataArray[i] - 128 // 데이터는 0~255 범위이므로, 중앙값 128을 빼줌
-        sum += sample * sample // 제곱하여 에너지 계산
+        sum += dataArray[i]
       }
-      const rms = Math.sqrt(sum / dataArray.length) // RMS 값 계산
-      const normalizedVolume = rms / 128 // RMS 값을 0~1로 정규화
-      volume.value = normalizedVolume
+      const average = sum / dataArray.length
+      volume.value = average / 255 // 0부터 1 사이의 값
+      animationId = requestAnimationFrame(updateVolume)
     }
 
     const stopRecording = () => {
       mediaRecorder.value.stop()
       isRecording.value = false
-      if (volumeWorker) {
-        volumeWorker.postMessage({ type: 'stop' })
-        volumeWorker.terminate()
-        volumeWorker = null
-      }
+      cancelAnimationFrame(animationId)
       if (audioContext) {
         audioContext.close()
       }
@@ -123,7 +98,7 @@ export default {
 
     const volumeFillStyle = computed(() => {
       return {
-        height: `${Math.min(volume.value, 1) * 100}%`,
+        height: `${volume.value * 100}%`,
       }
     })
 
@@ -133,6 +108,7 @@ export default {
       isPreparing,
       audioURL,
       toggleRecording,
+      volume,
       volumeFillStyle,
     }
   },
@@ -161,6 +137,6 @@ button:disabled {
   left: 0;
   width: 100%;
   background-color: blue;
-  transition: height 0.05s linear;
+  transition: height 0.1s linear;
 }
 </style>
