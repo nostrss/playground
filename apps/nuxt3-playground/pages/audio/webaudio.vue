@@ -8,23 +8,28 @@
     <div v-if="isRecording" class="volume-circle">
       <div class="volume-fill" :style="volumeFillStyle"></div>
     </div>
-    <div v-if="audioURL">
-      <h3>녹음된 음성:</h3>
-      <audio :src="audioURL" controls></audio>
+    <div v-if="audioURLs.length">
+      <h3>녹음된 음성들:</h3>
+      <ul>
+        <li v-for="(urlInfo, index) in audioURLs" :key="index">
+          <p>{{ index + 1 }}번째 파일 ({{ urlInfo.duration }}초)</p>
+          <audio :src="urlInfo.url" controls></audio>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 
 export default {
   setup() {
     const hasPermission = ref(false)
     const isRecording = ref(false)
     const isPreparing = ref(true)
-    const audioURL = ref(null)
-    const audioChunks = ref([])
+    const audioURLs = ref([]) // [{ url: '', duration: '' }]
+    const audioChunks = ref([]) // 현재까지 수집된 오디오 데이터 조각들
     const volume = ref(0)
     let stream = null
     let audioContext = null
@@ -32,6 +37,9 @@ export default {
     let dataArray = null
     let audioWorkletNode = null
     let animationId = null
+    let recordingStartTime = null
+    let chunkStartTime = null
+    let chunkTimer = null
 
     onMounted(async () => {
       try {
@@ -45,6 +53,18 @@ export default {
       }
     })
 
+    // 컴포넌트 언마운트 시 Blob URL 해제
+    onUnmounted(() => {
+      if (isRecording.value) {
+        stopRecording()
+      }
+      // 모든 Blob URL 해제
+      audioURLs.value.forEach(urlInfo => {
+        URL.revokeObjectURL(urlInfo.url)
+      })
+      audioURLs.value = []
+    })
+
     const toggleRecording = () => {
       if (!isRecording.value) {
         startRecording()
@@ -54,7 +74,15 @@ export default {
     }
 
     const startRecording = async () => {
+      // 이전 Blob URL 해제
+      audioURLs.value.forEach(urlInfo => {
+        URL.revokeObjectURL(urlInfo.url)
+      })
+      audioURLs.value = []
+
       audioChunks.value = []
+      recordingStartTime = Date.now()
+      chunkStartTime = recordingStartTime
 
       audioContext = new (window.AudioContext || window.webkitAudioContext)()
 
@@ -87,6 +115,31 @@ export default {
 
       isRecording.value = true
       updateVolume()
+      startChunkTimer()
+    }
+
+    const startChunkTimer = () => {
+      chunkTimer = setInterval(() => {
+        saveChunk()
+      }, 5000) // 5000 밀리초 = 5초
+    }
+
+    const saveChunk = () => {
+      const currentTime = Date.now()
+      const elapsedTime = (currentTime - chunkStartTime) / 1000 // 초 단위
+      if (audioChunks.value.length > 0) {
+        const audioBlob = exportWAV(audioChunks.value, 44100)
+        const url = URL.createObjectURL(audioBlob)
+        audioURLs.value.push({ url, duration: elapsedTime.toFixed(2) })
+        audioChunks.value = []
+        chunkStartTime = currentTime
+
+        // 메모리 관리를 위해 오래된 Blob URL 해제 (예: 최대 100개 유지)
+        if (audioURLs.value.length > 100) {
+          const oldUrlInfo = audioURLs.value.shift()
+          URL.revokeObjectURL(oldUrlInfo.url)
+        }
+      }
     }
 
     const updateVolume = () => {
@@ -103,10 +156,14 @@ export default {
     const stopRecording = async () => {
       isRecording.value = false
       cancelAnimationFrame(animationId)
+      clearInterval(chunkTimer)
 
       if (audioWorkletNode) {
         audioWorkletNode.port.postMessage({ command: 'stop' })
       }
+
+      // 남은 오디오 데이터 저장
+      saveChunk()
 
       // 오디오 컨텍스트 및 노드 정리
       if (analyser) {
@@ -121,10 +178,6 @@ export default {
         await audioContext.close()
         audioContext = null
       }
-
-      // 오디오 데이터 병합 및 WAV 파일 생성
-      const audioBlob = exportWAV(audioChunks.value, 44100)
-      audioURL.value = URL.createObjectURL(audioBlob)
     }
 
     const exportWAV = (buffers, sampleRate) => {
@@ -168,9 +221,9 @@ export default {
       view.setUint16(22, 1, true)
       /* sample rate */
       view.setUint32(24, sampleRate, true)
-      /* byte rate (sample rate * block align) */
+      /* byte rate */
       view.setUint32(28, sampleRate * 2, true)
-      /* block align (channel count * bytes per sample) */
+      /* block align */
       view.setUint16(32, 2, true)
       /* bits per sample */
       view.setUint16(34, 16, true)
@@ -209,7 +262,7 @@ export default {
       hasPermission,
       isRecording,
       isPreparing,
-      audioURL,
+      audioURLs,
       toggleRecording,
       volume,
       volumeFillStyle,
