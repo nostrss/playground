@@ -40,6 +40,7 @@ export default {
     let recordingStartTime = null
     let chunkStartTime = null
     let chunkTimer = null
+    let wavWorker = null
 
     onMounted(async () => {
       try {
@@ -63,6 +64,11 @@ export default {
         URL.revokeObjectURL(urlInfo.url)
       })
       audioURLs.value = []
+
+      if (wavWorker) {
+        wavWorker.terminate()
+        wavWorker = null
+      }
     })
 
     const toggleRecording = () => {
@@ -88,7 +94,7 @@ export default {
 
       // AudioWorkletProcessor 등록
       try {
-        await audioContext.audioWorklet.addModule('/recorderWorkletProcessor.js')
+        await audioContext.audioWorklet.addModule(new URL('./recorderWorkletProcessor.js', import.meta.url))
       } catch (error) {
         console.error('AudioWorklet 모듈 로드 실패:', error)
         return
@@ -113,32 +119,78 @@ export default {
       analyser.connect(audioWorkletNode)
       audioWorkletNode.connect(audioContext.destination)
 
+      // 여기서 wavWorker를 초기화합니다.
+      if (window.Worker) {
+        if (wavWorker) {
+          wavWorker.terminate()
+        }
+        wavWorker = new Worker(new URL('./wavWorker.js', import.meta.url))
+
+        // wavWorker로부터 결과 수신
+        wavWorker.onmessage = e => {
+          const { audioBlob, elapsedTime } = e.data
+          const url = URL.createObjectURL(audioBlob)
+          audioURLs.value.push({ url, duration: elapsedTime })
+          // audioChunks.value = [] // 이미 saveChunk에서 초기화되었으므로 필요 없음
+
+          // 메모리 관리 코드
+          if (audioURLs.value.length > 100) {
+            const oldUrlInfo = audioURLs.value.shift()
+            URL.revokeObjectURL(oldUrlInfo.url)
+          }
+        }
+      } else {
+        console.error('이 브라우저에서는 Web Worker를 지원하지 않습니다.')
+      }
+
       isRecording.value = true
       updateVolume()
       startChunkTimer()
     }
 
     const startChunkTimer = () => {
-      chunkTimer = setInterval(() => {
+      const scheduleNextChunk = () => {
         saveChunk()
-      }, 5000) // 5000 밀리초 = 5초
+        chunkTimer = setTimeout(scheduleNextChunk, 5000)
+      }
+      scheduleNextChunk()
+    }
+
+    const stopChunkTimer = () => {
+      if (chunkTimer) {
+        clearTimeout(chunkTimer)
+        chunkTimer = null
+      }
     }
 
     const saveChunk = () => {
       const currentTime = Date.now()
       const elapsedTime = (currentTime - chunkStartTime) / 1000 // 초 단위
-      if (audioChunks.value.length > 0) {
-        const audioBlob = exportWAV(audioChunks.value, 44100)
-        const url = URL.createObjectURL(audioBlob)
-        audioURLs.value.push({ url, duration: elapsedTime.toFixed(2) })
-        audioChunks.value = []
-        chunkStartTime = currentTime
 
-        // 메모리 관리를 위해 오래된 Blob URL 해제 (예: 최대 100개 유지)
-        if (audioURLs.value.length > 100) {
-          const oldUrlInfo = audioURLs.value.shift()
-          URL.revokeObjectURL(oldUrlInfo.url)
+      if (audioChunks.value.length > 0) {
+        if (wavWorker) {
+          const buffers = audioChunks.value.map(buffer => buffer.buffer)
+          wavWorker.postMessage(
+            {
+              buffers,
+              sampleRate: audioContext.sampleRate,
+              elapsedTime: elapsedTime.toFixed(2),
+            },
+            buffers,
+          )
+        } else {
+          const audioBlob = exportWAV(audioChunks.value, audioContext.sampleRate)
+          const url = URL.createObjectURL(audioBlob)
+          audioURLs.value.push({ url, duration: elapsedTime.toFixed(2) })
+          audioChunks.value = []
+          // 메모리 관리 코드
+          if (audioURLs.value.length > 100) {
+            const oldUrlInfo = audioURLs.value.shift()
+            URL.revokeObjectURL(oldUrlInfo.url)
+          }
         }
+        audioChunks.value = [] // audioChunks를 여기서 초기화
+        chunkStartTime = currentTime // 여기에서 chunkStartTime을 갱신
       }
     }
 
@@ -156,7 +208,7 @@ export default {
     const stopRecording = async () => {
       isRecording.value = false
       cancelAnimationFrame(animationId)
-      clearInterval(chunkTimer)
+      stopChunkTimer()
 
       if (audioWorkletNode) {
         audioWorkletNode.port.postMessage({ command: 'stop' })
