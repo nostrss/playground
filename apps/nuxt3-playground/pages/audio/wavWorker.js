@@ -1,3 +1,4 @@
+// wavWorker.js
 self.onmessage = function (e) {
   const { buffers, sampleRate, elapsedTime } = e.data
   // ArrayBuffer 배열을 Float32Array 배열로 변환
