@@ -13,6 +13,9 @@
     <li>
       <NuxtLink to="/speechapi/example2">speechapi page 2</NuxtLink>
     </li>
+    <li>
+      <NuxtLink to="/wave-worklet">wave-worklet</NuxtLink>
+    </li>
   </ul>
 </template>
 
