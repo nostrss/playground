@@ -20,7 +20,7 @@
     "rxjs": "^7.8.1",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
-    "wave-worklet": "^0.0.1"
+    "wave-worklet": "^0.0.4"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.5.0",
