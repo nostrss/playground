@@ -16,6 +16,9 @@
     <li>
       <NuxtLink to="/wave-worklet">wave-worklet</NuxtLink>
     </li>
+    <li>
+      <NuxtLink to="/nlp">nlp</NuxtLink>
+    </li>
   </ul>
 </template>
 
