@@ -7,7 +7,7 @@
     "build:nuxt3-playground": "turbo build --filter=nuxt3-playground",
     "build:nextjs-playground": "turbo build --filter=nextjs-playground",
     "build:socket-server": "turbo build --filter=socket-server",
-    "build:nextjs-v-15": "turbo build --filter=nextjs-v15",
+    "build:nextjs-v15": "turbo build --filter=nextjs-v15",
 
     "dev": "turbo dev",
     "dev:next-blog": "turbo dev --filter=next-blog",
