@@ -19,6 +19,9 @@
     <li>
       <NuxtLink to="/nlp">nlp</NuxtLink>
     </li>
+    <li>
+      <NuxtLink to="/device">device</NuxtLink>
+    </li>
   </ul>
 </template>
 
