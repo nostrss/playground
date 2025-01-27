@@ -22,6 +22,9 @@
     <li>
       <NuxtLink to="/device">device</NuxtLink>
     </li>
+    <li>
+      <NuxtLink to="/web-worker">web-worker</NuxtLink>
+    </li>
   </ul>
 </template>
 
