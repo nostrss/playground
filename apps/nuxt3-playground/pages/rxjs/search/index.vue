@@ -1,88 +1,73 @@
 <template>
   <div>
-    <input id="keyword" ref="inputRef" v-model="keyword" type="text" placeholder="Search..." />
-    <br />
-    <div id="result">
-      <div v-if="loading" class="searching">Searching...</div>
-      <article v-for="(name, index) in results" :key="index" @click="handleClick(name)">
-        {{ name }}
-      </article>
-    </div>
+    <input
+      v-model="keywordRef"
+      type="text"
+      placeholder="Search..."
+    />
+    <div v-if="loading">Loading...</div>
+    <article
+      v-for="(name, index) in resultsRef"
+      :key="index"
+      @click="handleClick(name)"
+      id="result"
+    >
+      {{ name }}
+    </article>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { fromEvent, Subscription, debounceTime, distinctUntilChanged, filter, map, switchMap, retry } from 'rxjs'
+import { ref } from 'vue'
+import { Subject, of } from 'rxjs'
 import { ajax } from 'rxjs/ajax'
+import { debounceTime, distinctUntilChanged, filter, switchMap, retry, map, catchError, tap } from 'rxjs'
+import { useSubject, useObservable } from '@vueuse/rxjs'
 
-// 반응형 상태
-const keyword = ref('')
-const results = ref<string[]>([])
 const loading = ref(false)
 
-// 입력 요소를 참조하기 위한 ref 선언
-const inputRef = ref<HTMLInputElement | null>(null)
+// 1) 검색어를 담을 Subject를 하나 만듭니다
+const keyword$ = new Subject<string>()
 
-// 클릭 핸들러
-const handleClick = (name: string) => {
-  console.log(`Clicked on: ${name}`)
-}
+// 2) `useSubject`로부터 Ref를 가져와서
+//    v-model="keywordRef" 로 연결합니다.
+const keywordRef = useSubject(keyword$)
 
-// AJAX 요청을 위한 URL
-const url = 'http://127.0.0.1:3000/people/quarter-error'
-
-// 구독을 저장할 변수
-let subscription: Subscription
-
-onMounted(() => {
-  if (inputRef.value) {
-    // 'keyup' 이벤트를 관찰하는 Observable 생성
-    const keyup$ = fromEvent<KeyboardEvent>(inputRef.value, 'keyup').pipe(
-      // 'Backspace' 키 이벤트 필터링
-      filter(event => event.code !== 'Backspace'),
-      // 입력 값 추출
-      map(event => inputRef.value?.value || ''),
-      // 입력 길이가 1보다 큰 경우에만 진행
-      filter(typed => typed.length > 1),
-      // 500ms 동안 입력이 없을 때만 진행
+// 3) 검색 결과를 담을 Observable Ref 생성
+const resultsRef = useObservable(
+  
+    keyword$.pipe(
+      filter(str => str.length > 1),  // 2글자 이상일 때만
       debounceTime(500),
-      // 이전 값과 다른 경우에만 진행
       distinctUntilChanged(),
-      // 새로운 검색어가 입력되면 이전 요청을 취소하고 새로운 요청 시작
-      switchMap(searchTerm => {
-        loading.value = true
-        return ajax
-          .getJSON<{ first_name: string; last_name: string }[]>(`${url}?name=${encodeURIComponent(searchTerm)}`)
-          .pipe(
-            retry(3), // 실패 시 최대 3번 재시도
-          )
-      }),
-    )
+      tap(() => { loading.value = true }),
+      switchMap(text =>
+        ajax.getJSON<{ first_name: string; last_name: string }[]>(
+          `http://127.0.0.1:3000/people/quarter-error?name=${encodeURIComponent(text)}`
+        ).pipe(
+          retry(3), // 에러 시 3번 재시도
+          catchError(err => {
+            console.error('Search error:', err)
+            return of([])
+          })
+        )
+      ),
+      map(res => res.map(person => `${person.first_name} ${person.last_name}`)),
+      tap(() => { loading.value = false }),
+    ),
+  // 초기값
+  {
+    initialValue: [] as string[],
+    onError: (err) => console.error(err),
+  },
+)
 
-    // Observable 구독
-    subscription = keyup$.subscribe({
-      next: response => {
-        // 응답 데이터를 가공하여 결과에 저장
-        results.value = response.map(person => `${person.first_name} ${person.last_name}`)
-        loading.value = false
-      },
-      error: err => {
-        console.error('Search error:', err)
-        results.value = []
-        loading.value = false
-      },
-    })
-  }
-})
-
-onBeforeUnmount(() => {
-  // 컴포넌트 언마운트 시 구독 해제
-  if (subscription) {
-    subscription.unsubscribe()
-  }
-})
+// 클릭 이벤트
+const handleClick = (name: string) => {
+  console.log('Clicked on: ', name)
+}
 </script>
+
 
 <style scoped lang="scss">
 body {
