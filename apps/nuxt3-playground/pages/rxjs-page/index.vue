@@ -2,7 +2,7 @@
 <template>
   <ul>
     <li>
-      <NuxtLink to="/rxjs/search">Search</NuxtLink>
+      <NuxtLink to="/rxjs-page/search">Search</NuxtLink>
     </li>
   </ul>
 </template>

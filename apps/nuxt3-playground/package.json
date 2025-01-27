@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@repo/eslint-config": "workspace:*",
-    "@repo/vue-ui": "workspace:*",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vueuse/core": "^10.11.0",
     "@vueuse/rxjs": "^12.5.0",

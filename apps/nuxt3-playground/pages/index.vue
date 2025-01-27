@@ -26,7 +26,7 @@
       <NuxtLink to="/web-worker">web-worker</NuxtLink>
     </li>
     <li>
-      <NuxtLink to="/rxjs">rxjs</NuxtLink>
+      <NuxtLink to="/rxjs-page">rxjs-page</NuxtLink>
     </li>
   </ul>
 </template>
