@@ -1,7 +1,7 @@
 import { POSTS_FILE_PATH } from '@/constant'
 import { UTIL } from '@/util'
 import { readFile, readdir } from 'fs/promises'
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server";
 import path from 'path'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'

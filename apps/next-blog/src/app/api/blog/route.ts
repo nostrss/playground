@@ -1,7 +1,7 @@
 import { ImgesArrayItem } from '@/type/common'
 import { UTIL } from '@/util'
 import { readFile } from 'fs/promises'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from "next/server";
 import parse from 'node-html-parser'
 import path from 'path'
 

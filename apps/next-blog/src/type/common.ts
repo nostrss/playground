@@ -35,7 +35,7 @@ export type Tags = Tag[]
 export type TagCounts = Record<string, any>
 
 export type HeaderMenu = {
-  menu: React.ReactElement
+  menu: React.ReactElement<any>
 }
 
 export type HeaderMenus = HeaderMenu[]
