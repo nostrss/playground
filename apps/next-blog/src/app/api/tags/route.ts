@@ -1,7 +1,7 @@
 import { TagCounts, Tags } from '@/type/common'
 import { UTIL } from '@/util'
 import { readFile, readdir } from 'fs/promises'
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server";
 import path from 'path'
 
 export async function GET() {

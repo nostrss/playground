@@ -4,7 +4,13 @@ import MarkDownViewer from '@/components/MarkDownViewer'
 import { PostSlug } from '@/type/common'
 import { API } from '@/util/API'
 
-export default async function BlogDetail({ params: { slug } }: { params: { slug: string } }) {
+export default async function BlogDetail(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
+
+  const {
+    slug
+  } = params;
+
   const { data } = await API.fetchBlogDetail(slug)
 
   return (
@@ -35,7 +41,13 @@ export async function generateStaticParams() {
  * @param param0
  * @returns
  */
-export async function generateMetadata({ params: { slug } }: { params: { slug: string } }) {
+export async function generateMetadata(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
+
+  const {
+    slug
+  } = params;
+
   const { data } = await API.fetchBlogDetail(slug)
   return {
     title: data.title,

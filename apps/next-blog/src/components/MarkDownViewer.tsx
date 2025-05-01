@@ -28,19 +28,21 @@ export default function MarkDownViewer({ content }: { content: string }) {
             <code {...props} className={className}>
               {children}
             </code>
-          )
+          );
         },
-        img: image => (
+        img: image => { 
+          const imageSrc = image.src instanceof Blob ? URL.createObjectURL(image.src) : (image.src as string)  
+          return (
           <Image
             className="w-full h-auto object-cover shadow-md rounded-md"
-            src={image.src || ''}
+            src={imageSrc}
             alt={image.alt || ''}
             width={500}
             height={500}
             placeholder="blur"
             blurDataURL={blurDataUrl}
           />
-        ),
+        )},
         h1: ({ children, ...props }) => (
           <h1 className="prose text-2xl dark:text-white w-full max-w-[880px]" {...props}>
             {children}
@@ -83,5 +85,5 @@ export default function MarkDownViewer({ content }: { content: string }) {
     >
       {content}
     </ReactMarkdown>
-  )
+  );
 }
